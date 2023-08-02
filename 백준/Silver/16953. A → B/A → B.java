@@ -1,42 +1,35 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
-class Main {
-	public static void main(String[] args) throws NumberFormatException, IOException {
+public class Main {
+	static long A;	//A를 B로
+	static long B;
+	static int minDepth = -1;
+
+	public static void recur(int depth, long a) {
+		if(a >= B) {
+			if(a == B && (minDepth == -1 || minDepth > depth)) {
+				minDepth = depth;
+			}
+
+			return;
+		}
+
+		//2를 곱했을 때, 1을 수의 가장 오른쪽에 더했을 때 전부 탐색한다.
+		recur(depth + 1, a * 2);
+		recur(depth + 1, a * 10 + 1);
+	}
+
+	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		int a = Integer.parseInt(st.nextToken());
-		int b = Integer.parseInt(st.nextToken());
-		
-		System.out.println(bfs(a, b));
-	}
-	
-	public static class Node{
-		long a;
-		long cnt;
-		public Node(long a, long cnt) {
-			super();
-			this.a = a;
-			this.cnt = cnt;
-		}
-	}
 
-	private static long bfs(long a, long b) {
-		Queue<Node> q = new LinkedList<>();
-		q.add(new Node(a, 1));
-		while(!q.isEmpty()) {
-			Node c = q.poll();
-			if(c.a * 10 + 1 == b || c.a * 2 == b)
-				return c.cnt + 1;
-			if(c.a * 10 + 1 < b)
-				q.add(new Node(c.a * 10 + 1, c.cnt + 1));
-			if(c.a * 2 < b)
-				q.add(new Node(c.a * 2, c.cnt + 1));
-		}
-		return -1;
+		A = Long.parseLong(st.nextToken());
+		B = Long.parseLong(st.nextToken());
+
+		recur(1, A);
+
+
+		System.out.println(minDepth);
 	}
 }
