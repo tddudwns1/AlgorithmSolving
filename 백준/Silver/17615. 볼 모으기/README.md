@@ -4,7 +4,7 @@
 
 ### 성능 요약
 
-메모리: 18796 KB, 시간: 152 ms
+메모리: 18596 KB, 시간: 148 ms
 
 ### 분류
 
@@ -21,21 +21,21 @@
 
 <p>예를 들어, 처음에 볼이 <그림 1>에서 보인 것처럼 있을 때, 빨간 볼을 <그림 2>에서 보인 것처럼 옮긴 후, <그림 3>에서 보인 것처럼 옮긴다면 두 번 만에 같은 색끼리 모을 수 있다.</p>
 
-<p style="text-align: center;"><img alt="" src="" style="width: 447px; height: 67px;"></p>
+<p style="text-align: center;"><img alt="" src="https://upload.acmicpc.net/347db7e2-5704-4a28-ab85-682bf30f3816/-/crop/894x133/0,0/-/preview/" style="width: 447px; height: 67px;"></p>
 
 <p style="text-align: center;"><그림 1></p>
 
-<p style="text-align: center;"><img alt="" src="" style="width: 447px; height: 81px;"></p>
+<p style="text-align: center;"><img alt="" src="https://upload.acmicpc.net/347db7e2-5704-4a28-ab85-682bf30f3816/-/crop/894x162/0,228/-/preview/" style="width: 447px; height: 81px;"></p>
 
 <p style="text-align: center;"><그림 2></p>
 
-<p style="text-align: center;"><img alt="" src="" style="width: 447px; height: 83px;"></p>
+<p style="text-align: center;"><img alt="" src="https://upload.acmicpc.net/347db7e2-5704-4a28-ab85-682bf30f3816/-/crop/894x166/0,480/-/preview/" style="width: 447px; height: 83px;"></p>
 
 <p style="text-align: center;"><그림 3></p>
 
 <p>반면에 파란색 볼을 선택하여 에서 보인 것처럼 옮기면(화살표에 있는 수는 옮기는 순서를 나타낸다) 네 번을 옮겨야 같은 색의 볼끼리 모을 수 있다.</p>
 
-<p style="text-align: center;"><img alt="" src="" style="width: 445px; height: 146px;"></p>
+<p style="text-align: center;"><img alt="" src="https://upload.acmicpc.net/cf727ec0-1542-4ca1-bdb8-cfc695a5bdfa/-/preview/" style="width: 445px; height: 146px;"></p>
 
 <p style="text-align: center;"><그림 4></p>
 
