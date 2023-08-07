@@ -13,7 +13,6 @@ public class Main {
 		Queue<Integer> q = new LinkedList<>();
 		int n = Integer.parseInt(st.nextToken());
 		int k = Integer.parseInt(st.nextToken()) - 1;
-		Queue<Integer> ans = new LinkedList<>();
 
 		for (int i = 1; i <= n; i++)
 			q.add(i);
