@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
 class Main {
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		Set<String> papers = new HashSet<>();
+		Set<Integer> papers = new HashSet<>();
 		int n = Integer.parseInt(br.readLine());
 		for (int tc = 0; tc < n; tc++) {
 			StringTokenizer st = new StringTokenizer(br.readLine());
@@ -16,7 +16,7 @@ class Main {
 			int x = Integer.parseInt(st.nextToken());
 			for(int i = 0; i < 10; i++)
 				for(int j = 0; j < 10; j++)
-					papers.add(String.valueOf(y+i)+" "+String.valueOf(x+j));
+					papers.add((y+i)*1000+x+j);
 		}
 		System.out.println(papers.size());
 	}
