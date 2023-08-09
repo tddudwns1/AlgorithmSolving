@@ -3,13 +3,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.StringTokenizer;
 
 class Main {
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int n = Integer.parseInt(br.readLine());
-		String[] arr = br.readLine().split(" ");
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		String[] arr = new String[n];
+		for(int i = 0; i < n; i++)
+			arr[i] = st.nextToken();
 		Arrays.sort(arr, new Comparator<String>() {
 			@Override
 			public int compare(String o2, String o1) {
