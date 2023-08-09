@@ -1,70 +1,58 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.PriorityQueue;
-import java.util.StringTokenizer;
+import java.util.Arrays;
+import java.util.Comparator;
 
 class Main {
-	public static void main(String[] args) throws NumberFormatException, IOException {
+
+	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
 		int n = Integer.parseInt(br.readLine());
-
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		PriorityQueue<String> nums = new PriorityQueue<>((o1, o2) -> {
-			int len1 = o1.length();
-			int len2 = o2.length();
-			int shortL = Math.min(len1, len2);
-			int difL = Math.abs(len1 - len2);
-
-			if (len1 == len2)
-				return o2.compareTo(o1);
-
-			for (int i = 0; i < shortL; i++) {
-				if (o1.charAt(i) > o2.charAt(i))
-					return -1;
-				else if (o1.charAt(i) < o2.charAt(i))
-					return 1;
-			}
-
-			if (len1 > len2) {
-				for (int i = 0; i < difL; i++) {
-					if (o1.charAt(i + len2) < o1.charAt(i))
-						return 1;
-					else if (o1.charAt(i + len2) > o1.charAt(i))
-						return -1;
-				}
-				for (int i = 0; i < shortL; i++) {
-					if (o1.charAt(i + difL) > o2.charAt(i))
-						return 1;
-					else if (o1.charAt(i + difL) < o2.charAt(i))
-						return -1;
-				}
-			} else {
-				for (int i = 0; i < difL; i++) {
-					if (o2.charAt(i + len1) < o2.charAt(i))
-						return -1;
-					else if (o2.charAt(i + len1) > o2.charAt(i))
-						return 1;
-				}
-				for (int i = 0; i < shortL; i++) {
-					if (o2.charAt(i + difL) > o1.charAt(i))
-						return -1;
-					else if (o2.charAt(i + difL) < o1.charAt(i))
-						return 1;
+		String[] arr = br.readLine().split(" ");
+		Arrays.sort(arr, new Comparator<String>() {
+			@Override
+			public int compare(String o2, String o1) {
+				int i2 = -1;
+				int i1 = -1;
+				while (true) {
+					i1++;
+					i2++;
+					if (i1 < o1.length() && i2 < o2.length()) {
+						if (o1.charAt(i1) == o2.charAt(i2)) {
+							continue;
+						}
+						return (o1.charAt(i1) - o2.charAt(i2));
+					} else {
+						int flag = 1;
+						if (o1.length() > o2.length()) {
+							String tmp = o1;
+							o1 = o2;
+							o2 = tmp;
+							flag = -1;
+						}
+						i1 %= o1.length();
+						while (i2 < o2.length() && o1.charAt(i1) == o2.charAt(i2)) {
+							i2++;
+							i1++;
+							i1 %= o1.length();
+						}
+						if (i2 >= o2.length()) {
+							return (o1.charAt(i1) - o2.charAt(i2 - 1)) * flag;
+						}
+						return (o1.charAt(i1) - o2.charAt(i2)) * flag;
+					}
 				}
 			}
-			return 0;
 		});
-		for (int i = 0; i < n; i++) {
-			nums.add(st.nextToken());
-		}
-		if (nums.peek().equals("0"))
+
+		StringBuilder sBuilder = new StringBuilder();
+		if (arr[0].equals("0")) {
 			System.out.println(0);
-		else {
-			for (int i = 0; i < n; i++)
-				sb.append(nums.poll());
-			System.out.println(sb);
+		} else {
+			for (String x : arr)
+				sBuilder.append(x);
+			System.out.println(sBuilder);
 		}
 	}
 }
