@@ -20,7 +20,6 @@ class Main {
 			if (len1 == len2)
 				return o2.compareTo(o1);
 
-//			같은 자리수까지 비교
 			for (int i = 0; i < shortL; i++) {
 				if (o1.charAt(i) > o2.charAt(i))
 					return -1;
@@ -29,14 +28,12 @@ class Main {
 			}
 
 			if (len1 > len2) {
-//				남는 자리수까지 비교
 				for (int i = 0; i < difL; i++) {
 					if (o1.charAt(i + len2) < o1.charAt(i))
 						return 1;
 					else if (o1.charAt(i + len2) > o1.charAt(i))
 						return -1;
 				}
-//				맨 뒷자리 비교
 				for (int i = 0; i < shortL; i++) {
 					if (o1.charAt(i + difL) > o2.charAt(i))
 						return 1;
@@ -44,14 +41,12 @@ class Main {
 						return -1;
 				}
 			} else {
-//			남는 자리수까지 비교
 				for (int i = 0; i < difL; i++) {
 					if (o2.charAt(i + len1) < o2.charAt(i))
 						return -1;
 					else if (o2.charAt(i + len1) > o2.charAt(i))
 						return 1;
 				}
-//			맨 뒷자리 비교
 				for (int i = 0; i < shortL; i++) {
 					if (o2.charAt(i + difL) > o1.charAt(i))
 						return -1;
@@ -66,9 +61,10 @@ class Main {
 		}
 		if (nums.peek().equals("0"))
 			System.out.println(0);
-		else
+		else {
 			for (int i = 0; i < n; i++)
-				System.out.print(nums.poll());
-//			System.out.print("!" + nums.poll());
+				sb.append(nums.poll());
+			System.out.println(sb);
+		}
 	}
 }
