@@ -6,27 +6,17 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 class Main {
-	static List<House> houses;
-	static List<Joint> joints;
+	static List<Position> houses;
+	static List<Position> joints;
 	static int m, jointCnt, houseCnt;
 	static int[] comb;
 	static int[][] distances;
 	
-	static class House {
+	static class Position {
 		int y;
 		int x;
 
-		public House(int y, int x) {
-			this.y = y;
-			this.x = x;
-		}
-	}
-
-	static class Joint {
-		int y;
-		int x;
-
-		public Joint(int y, int x) {
+		public Position(int y, int x) {
 			this.y = y;
 			this.x = x;
 		}
@@ -50,9 +40,9 @@ class Main {
 			char[] line = br.readLine().toCharArray(); // why toCharArray
 			for (int j = 0; j < n; j++)
 				if (line[j * 2] == '1')
-					houses.add(new House(j, i));
+					houses.add(new Position(j, i));
 				else if (line[j * 2] == '2')
-					joints.add(new Joint(j, i));
+					joints.add(new Position(j, i));
 		}
 	}
 
