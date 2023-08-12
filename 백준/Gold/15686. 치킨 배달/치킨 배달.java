@@ -8,10 +8,11 @@ import java.util.StringTokenizer;
 class Main {
 	static List<Position> houses;
 	static List<Position> joints;
-	static int m, jointCnt, houseCnt;
+	static int n, m, jointCnt, houseCnt, minDIstance;
 	static int[] comb;
 	static int[][] distances;
-	
+	static boolean[] visited;
+
 	static class Position {
 		int y;
 		int x;
@@ -27,14 +28,15 @@ class Main {
 		calcDistances();
 		System.out.println(getMinDistance());
 	}
-	
+
 	private static void saveAddress() throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		int n = Integer.parseInt(st.nextToken());
+		n = Integer.parseInt(st.nextToken());
 		m = Integer.parseInt(st.nextToken());
 		houses = new ArrayList<>();
 		joints = new ArrayList<>();
+		minDIstance = Integer.MAX_VALUE;
 
 		for (int i = 0; i < n; i++) {
 			char[] line = br.readLine().toCharArray(); // why toCharArray
@@ -46,14 +48,16 @@ class Main {
 		}
 	}
 
-	//치킨집마다 집 거리 저장
+	// 치킨집마다 집 거리 저장
 	private static void calcDistances() {
 		jointCnt = joints.size();
 		houseCnt = houses.size();
+		visited = new boolean[jointCnt];
 		distances = new int[jointCnt][houseCnt];
 		for (int i = 0; i < joints.size(); i++)
 			for (int j = 0; j < houses.size(); j++)
-				distances[i][j] = Math.abs(joints.get(i).x - houses.get(j).x) + Math.abs(joints.get(i).y - houses.get(j).y);
+				distances[i][j] = Math.abs(joints.get(i).x - houses.get(j).x)
+						+ Math.abs(joints.get(i).y - houses.get(j).y);
 	}
 	
 	private static int getMinDistance() {
