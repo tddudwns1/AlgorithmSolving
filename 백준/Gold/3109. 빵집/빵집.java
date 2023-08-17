@@ -33,14 +33,13 @@ public class Main {
 			return 1;
 		}
 		int nextX = x + 1;
-		portal: for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 3; i++) {
 			int nextY = y + dy[i];
 			if (space[nextY][nextX] == 1) {
 				space[nextY][nextX] = 2;
 				flag = putPipeLine(nextY, x + 1, space);
 				if (flag == 1)
-					break portal;
-//				space[nextY][nextX] = 1;
+					break;
 			}
 		}
 		return flag;
