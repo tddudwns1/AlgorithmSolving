@@ -29,8 +29,10 @@ public class Main {
 	private static void dfs(int y, int x, int len) {
 		for (int i = 0; i < 4; i++) {
 			int dy = y + moveY[i];
+			if (dy < 0 | dy >= r)
+				continue;
 			int dx = x + moveX[i];
-			if (dy < 0 || dx < 0 || dy >= r || dx >= c)
+			if (dx < 0 || dx >= c)
 				continue;
 
 			char ch = board[dy][dx];
