@@ -17,12 +17,8 @@ public class Main {
 		c = Integer.parseInt(st.nextToken());
 
 		board = new char[r][c];
-		for (int i = 0; i < r; i++) {
-			char[] line = br.readLine().toCharArray();
-			for (int j = 0; j < c; j++) {
-				board[i][j] = line[j];
-			}
-		}
+		for (int i = 0; i < r; i++) 
+			board[i] = br.readLine().toCharArray();
 
 		visited[board[0][0] - 'A'] = true;
 		dfs(0, 0, 1);
@@ -34,9 +30,9 @@ public class Main {
 		for (int i = 0; i < 4; i++) {
 			int dy = y + moveY[i];
 			int dx = x + moveX[i];
-			if(dy < 0 || dx < 0 || dy >= r || dx >= c)
+			if (dy < 0 || dx < 0 || dy >= r || dx >= c)
 				continue;
-			
+
 			char ch = board[dy][dx];
 			if (!visited[ch - 'A']) {
 				visited[ch - 'A'] = true;
@@ -44,7 +40,6 @@ public class Main {
 				visited[ch - 'A'] = false;
 			}
 		}
-		if(max < len)
-			max = len;
+		max = Math.max(max, len);
 	}
 }
