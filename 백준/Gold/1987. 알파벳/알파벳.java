@@ -10,17 +10,18 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int max = 0;
+	static int max = 0, r, c;
 	static int[] moveY = new int[] { 1, 0, -1, 0 };
 	static int[] moveX = new int[] { 0, 1, 0, -1 };
 	static Character[][] board;
 	static Set<Character> set = new HashSet<>();
+	static boolean[] visited = new boolean[26];
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		int r = Integer.parseInt(st.nextToken());
-		int c = Integer.parseInt(st.nextToken());
+		r = Integer.parseInt(st.nextToken());
+		c = Integer.parseInt(st.nextToken());
 
 		board = new Character[r + 2][c + 2];
 		for (int i = 1; i <= r; i++) {
@@ -30,24 +31,24 @@ public class Main {
 			}
 		}
 
-		set.add(board[1][1]);
-		set.add(null);
+		visited[board[1][1] - 'A'] = true;
 		dfs(1, 1, 1);
 
 		System.out.println(max);
 	}
 
 	private static void dfs(int y, int x, int len) {
-		int cnt = 0;
 		for (int i = 0; i < 4; i++) {
 			int dy = y + moveY[i];
 			int dx = x + moveX[i];
+			if(dy < 1 || dx < 1 || dy > r || dx > c)
+				continue;
+			
 			Character ch = board[dy][dx];
-			if (!set.contains(ch)) {
-				cnt++;
-				set.add(ch);
+			if (!visited[ch - 'A']) {
+				visited[ch - 'A'] = true;
 				dfs(dy, dx, len + 1);
-				set.remove(ch);
+				visited[ch - 'A'] = false;
 			}
 		}
 		max = Math.max(max, len);
