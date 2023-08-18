@@ -31,8 +31,9 @@ public class Main {
 		}
 
 		set.add(board[1][1]);
+		set.add(null);
 		dfs(1, 1, 1);
-		
+
 		System.out.println(max);
 	}
 
@@ -42,17 +43,13 @@ public class Main {
 			int dy = y + moveY[i];
 			int dx = x + moveX[i];
 			Character ch = board[dy][dx];
-			if (ch != null && !set.contains(ch)) {
+			if (!set.contains(ch)) {
 				cnt++;
 				set.add(ch);
 				dfs(dy, dx, len + 1);
 				set.remove(ch);
 			}
 		}
-		if(cnt == 0) {
-			max = Math.max(max, len);
-			return;
-		}
-
+		max = Math.max(max, len);
 	}
 }
