@@ -44,6 +44,7 @@ public class Main {
 				visited[ch - 'A'] = false;
 			}
 		}
-		max = Math.max(max, len);
+		if(max < len)
+			max = len;
 	}
 }
