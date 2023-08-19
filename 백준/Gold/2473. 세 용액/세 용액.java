@@ -17,8 +17,6 @@ class Main {
 		int c = 0;
 		int a = 0;
 		int b = 0;
-		int min = Integer.MAX_VALUE;
-		int standard = -1;
 
 		if (solution[0] >= 0) {
 			c = 0;
@@ -28,8 +26,10 @@ class Main {
 			c = n - 3;
 			a = n - 2;
 			b = n - 1;
-		} else
-			portal : while (standard++ < n - 2) {
+		} else {
+			int min = Integer.MAX_VALUE;
+			int standard = -1;
+			portal: while (++standard < n - 2) {
 				int left = standard + 1;
 				int right = n - 1;
 				while (left < right) {
@@ -49,6 +49,7 @@ class Main {
 						break portal;
 				}
 			}
+		}
 		System.out.println(solution[c] + " " + solution[a] + " " + solution[b]);
 	}
 }
