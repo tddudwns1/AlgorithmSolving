@@ -3,6 +3,7 @@ import java.util.*;
 
 public class Main {
 	static char[] array;
+	static StringBuilder sb = new StringBuilder();
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
@@ -22,7 +23,7 @@ public class Main {
 		Arrays.sort(array);
 		
 		subSet(0, 0, 0, l, c, 0, "");
-
+		System.out.println(sb);
 		
 		
 	}
@@ -31,7 +32,7 @@ public class Main {
 		if(count == l) { //기저 조건
 			
 			if(vowels > 0 && consonant > 1)
-				System.out.println(pwd);
+				sb.append(pwd).append("\n");
 			return;
 		}
 		
