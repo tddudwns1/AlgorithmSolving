@@ -13,7 +13,6 @@ public class Main {
 		int c = Integer.parseInt(st.nextToken());
 		
 		st = new StringTokenizer(br.readLine());
-	
 		array = new char[c];
 		for(int i = 0; i<c; i++) {
 			char alphabet = st.nextToken().charAt(0);
@@ -22,20 +21,14 @@ public class Main {
 		
 		Arrays.sort(array);
 		
-		subSet(0, l, c, 0, "");
+		subSet(0, 0, 0, l, c, 0, "");
+
+		
+		
 	}
 	
-	public static void subSet(int count, int l, int c, int start, String pwd) {
+	public static void subSet(int count, int vowels, int consonant, int l, int c, int start, String pwd) {
 		if(count == l) { //기저 조건
-			int consonant = 0;
-			int vowels = 0;
-			for(int i = 0; i<l; i++) {
-				char alphabet = pwd.charAt(i);
-				if(alphabet == 'a' || alphabet == 'e' || alphabet == 'i' || alphabet == 'o' || alphabet == 'u')
-					vowels++;
-				else
-					consonant++;
-			}
 			
 			if(vowels > 0 && consonant > 1)
 				System.out.println(pwd);
@@ -43,7 +36,13 @@ public class Main {
 		}
 		
 		for(int i = start; i<c; i++) {
-			subSet(count+1, l, c, i+1, pwd+array[i]);
+			if(array[i] == 'a' || array[i] == 'e' || array[i] == 'i' || array[i] == 'o' || array[i] == 'u')
+			{
+				subSet(count+1, vowels+1, consonant, l, c, i+1, pwd+array[i]);
+			}
+			else 
+				subSet(count+1, vowels, consonant+1, l, c, i+1, pwd+array[i]);
+	
 		}
 	}
 }
