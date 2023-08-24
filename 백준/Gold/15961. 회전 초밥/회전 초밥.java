@@ -16,12 +16,16 @@ public class Main {
 		int k = Integer.parseInt(st.nextToken());
 		int c = Integer.parseInt(st.nextToken());
 
-		int cnt = 1, ans = 0, max = Integer.MIN_VALUE;
+		int cnt = 1, max = Integer.MIN_VALUE;
 		int[] chk = new int[d + 1];
-		int[] belt = new int[n];
+		int[] belt = new int[n + k];
 	    chk[c]++;// 쿠폰 초밥 미리 추가
-
-		for (int i = 0; i < n; i++) {
+	    
+	    for(int i = 0; i < k; i++) {
+			belt[i] = Integer.parseInt(br.readLine());// 값 받아오기
+			belt[n + i] = belt[i];// 값 받아오기
+	    }
+		for (int i = k; i < n; i++) {
 			belt[i] = Integer.parseInt(br.readLine());// 값 받아오기
 		}
 
@@ -29,14 +33,12 @@ public class Main {
 			if (chk[belt[j]]++ == 0)
 				cnt++;
 
+		int next_idx = k;
 		for (int i = 1; i < n; i++) {
 			int last = belt[i - 1];
 			if (chk[last]-- == 1)
 				cnt--;
-			int next_idx = i + k - 1;
-			if (next_idx >= n)
-				next_idx -= n;
-			if (chk[belt[next_idx]]++ == 0)
+			if (chk[belt[next_idx++]]++ == 0)
 				cnt++;
 
 			max = Math.max(max, cnt);
