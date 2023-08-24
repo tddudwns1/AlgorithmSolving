@@ -1,60 +1,55 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
-	public static void main(String[] args) throws NumberFormatException, IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
-		StringTokenizer st = new StringTokenizer(br.readLine());
 
-		int n = Integer.parseInt(st.nextToken()); // 접시 수
-		int d = Integer.parseInt(st.nextToken()); // 초밥 종류
-		int k = Integer.parseInt(st.nextToken()); // 연속
-		int c = Integer.parseInt(st.nextToken()); // 쿠폰
+public static void main(String[] args) throws IOException {
 
-		int cnt = 1;
-		int[] counts = new int[d + 1];
-		Queue<Integer> q = new LinkedList<>();
-		Queue<Integer> q2 = new LinkedList<>();
-		
-		counts[c] = 1;
-		for (int i = 0; i < k; i++) {
-			int input = Integer.parseInt(br.readLine());
-			if (counts[input] == 0)
-				cnt++;
-			q.add(input);
-			q2.add(input);
-			counts[input]++;
-		}
-		int max = cnt;
-		
-		for(int i = k; i < n; i++) {
-			int input = Integer.parseInt(br.readLine());
-			if (counts[input] == 0)
-				cnt++;
-			q.add(input);
-			counts[input]++;
-			if(--counts[q.poll()] == 0)
-				cnt--;
-			max = Math.max(max, cnt);
-		}
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
 
-		for (int i = 0; i < k - 1; i++) {
-			int input = q2.poll();
-			if (counts[input] == 0)
-				cnt++;
-			q.add(input);
-			counts[input]++;
-			if(--counts[q.poll()] == 0)
-				cnt--;
-			max = Math.max(max, cnt);
-		}
-		
-		System.out.println(max);
-	}
+    // 입력 받기
+    int n = Integer.parseInt(st.nextToken());
+    int d = Integer.parseInt(st.nextToken());
+    int k = Integer.parseInt(st.nextToken());
+    int c = Integer.parseInt(st.nextToken());
+
+    int cnt = 0, ans = 0, max = Integer.MIN_VALUE;
+    int[] chk = new int[d + 1];
+    int[] belt = new int[n];
+    chk[c]++;// 쿠폰 초밥 미리 추가
+    cnt++;
+
+    for (int i = 0; i < n; i++) {
+        belt[i] = Integer.parseInt(br.readLine());// 값 받아오기
+    }
+
+    for (int i = 0; i < n; i++) {
+        if (i == 0) {//첫 초밥
+            for (int j = 0; j < k; j++) {
+                if (chk[belt[j]] == 0) 
+                    cnt++;
+                chk[belt[j]]++;
+                
+            }
+        } else {
+            int last = belt[i - 1];
+            if (chk[last] == 1) {
+                cnt--;
+            }
+            chk[last]--;
+            int next_idx = i + k - 1;
+            if (next_idx >= n)
+                next_idx -= n;
+            if (chk[belt[next_idx]] == 0) {
+                cnt++;
+            }
+            chk[belt[next_idx]]++;
+        }
+        max = Math.max(max, cnt);
+    }
+    System.out.println(max);
+}
 }
