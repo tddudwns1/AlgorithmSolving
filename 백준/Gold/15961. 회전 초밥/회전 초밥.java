@@ -4,45 +4,46 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-
-	public static void main(String[] args) throws IOException {
-
+	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 
-		// 입력 받기
-		int n = Integer.parseInt(st.nextToken());
-		int d = Integer.parseInt(st.nextToken());
-		int k = Integer.parseInt(st.nextToken());
-		int c = Integer.parseInt(st.nextToken());
+		int n = Integer.parseInt(st.nextToken()); // 접시 수
+		int d = Integer.parseInt(st.nextToken()); // 초밥 종류
+		int k = Integer.parseInt(st.nextToken()); // 연속
+		int c = Integer.parseInt(st.nextToken()); // 쿠폰
 
-		int cnt = 1, max = Integer.MIN_VALUE;
-		int[] chk = new int[d + 1];
-		int[] belt = new int[n + k];
-	    chk[c]++;// 쿠폰 초밥 미리 추가
-	    
-	    for(int i = 0; i < k; i++) {
-			belt[i] = Integer.parseInt(br.readLine());// 값 받아오기
-			belt[n + i] = belt[i];// 값 받아오기
-	    }
-		for (int i = k; i < n; i++) {
-			belt[i] = Integer.parseInt(br.readLine());// 값 받아오기
-		}
+		int cnt = 1;
+		int[] counts = new int[d + 1];
+		int[] set = new int[k];
+		int[] setFirst = new int[k];
 
-		for (int j = 0; j < k; j++)
-			if (chk[belt[j]]++ == 0)
+		counts[c] = 1;
+		int i = 0;
+		for (; i < k; i++) {
+			int input = Integer.parseInt(br.readLine());
+			if (counts[input]++ == 0)
 				cnt++;
-
-		int next_idx = k;
-		for (int i = 1; i < n; i++) {
-			int last = belt[i - 1];
-			if (chk[last]-- == 1)
+			set[i] = setFirst[i] = input;
+		}
+		int max = cnt;
+		for (; i < n; i++) {
+			int input = Integer.parseInt(br.readLine());
+			if (--counts[set[i % k]] == 0)
 				cnt--;
-			if (chk[belt[next_idx++]]++ == 0)
-				cnt++;
-
-			max = Math.max(max, cnt);
+			set[i % k] = input;
+			if (counts[input]++ == 0)
+				max = Math.max(max, ++cnt);
 		}
+		for (int j = 0; j < k - 1; j++) {
+			int input = setFirst[j];
+			if (--counts[set[i % k]] == 0)
+				cnt--;
+			set[i++ % k] = input;
+			if (counts[input]++ == 0)
+				max = Math.max(max, ++cnt);
+		}
+
 		System.out.println(max);
 	}
 }
