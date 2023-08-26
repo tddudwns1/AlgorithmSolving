@@ -20,9 +20,11 @@ public class Main {
 			int right = Integer.parseInt(st.nextToken());
 			for (int j = 0; j < 3; j++) {
 				int line = j * 3;
-				house[i + 1][line] = Math.min(house[i][line + 1], house[i][line + 2]) + left;
-				house[i + 1][line + 1] = Math.min(house[i][line], house[i][line + 2]) + center;
-				house[i + 1][line + 2] = Math.min(house[i][line], house[i][line + 1]) + right;
+				int line2 = line + 1;
+				int line3 = line + 2;
+				house[i + 1][line] = Math.min(house[i][line2], house[i][line3]) + left;
+				house[i + 1][line2] = Math.min(house[i][line], house[i][line3]) + center;
+				house[i + 1][line3] = Math.min(house[i][line], house[i][line2]) + right;
 			}
 		}
 		for (int i = 0; i < 3; i++)
