@@ -1,22 +1,30 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.util.*;
+public class Main {
 
-class Main {
-	public static void main(String[] args) throws NumberFormatException, IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int n = Integer.parseInt(br.readLine());
-		int[][] cost = new int[n + 1][3];
-		for (int i = 1; i <= n; i++) {
-			String[] str = br.readLine().split(" ");
-			int left = Integer.parseInt(str[0]);
-			int mid = Integer.parseInt(str[1]);
-			int right = Integer.parseInt(str[2]);
-			cost[i][0] = Math.min(cost[i - 1][1], cost[i - 1][2]) + left;
-			cost[i][1] = Math.min(cost[i - 1][0], cost[i - 1][2]) + mid;
-			cost[i][2] = Math.min(cost[i - 1][0], cost[i - 1][1]) + right;
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner scan = new Scanner(System.in);
+		
+		int cnt = scan.nextInt();
+		int[][] a = new int[cnt+1][3];
+		int[][] d = new int[cnt+1][3];
+		
+		for(int i = 1; i<=cnt; i++)
+		{
+			for(int j = 0; j<3; j++)
+			{
+				a[i][j] = scan.nextInt();
+			}
 		}
-		System.out.println(Math.min(Math.min(cost[n][0], cost[n][1]), cost[n][2]));
+		
+		for(int i = 1; i<=cnt; i++)
+		{
+			d[i][0] = Math.min(d[i-1][1], d[i-1][2]) + a[i][0];
+			d[i][1] = Math.min(d[i-1][0], d[i-1][2]) + a[i][1];
+			d[i][2] = Math.min(d[i-1][0], d[i-1][1]) + a[i][2];
+		}
+			
+		System.out.println(Math.min(Math.min(d[cnt][0], d[cnt][1]), d[cnt][2]));
 	}
+
 }
