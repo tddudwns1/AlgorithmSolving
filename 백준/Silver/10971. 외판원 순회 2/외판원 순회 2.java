@@ -1,51 +1,45 @@
-
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
-	
-	static int[][] map;
-	static int[] dp;
-	static int n;
-	static int min;
+	static int min = Integer.MAX_VALUE, n;
+	static int[][] costs;
 	static boolean[] visited;
-	
-	public static void main(String[] args) throws IOException {
+
+	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
-
 		n = Integer.parseInt(br.readLine());
+		costs = new int[n][n];
 
-		map = new int[n][n];
-		for (int i = 0; i < n; i++) {
-			st = new StringTokenizer(br.readLine());
-			for (int j = 0; j < n; j++) {
-				map[i][j] = Integer.parseInt(st.nextToken());
-			}
-		}
-		
 		visited = new boolean[n];
-		min = Integer.MAX_VALUE;
-		
-		visited[0] =true;
-		dfs(0, 0, 1, 0);
+		for (int i = 0; i < n; i++) {
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			for (int j = 0; j < n; j++)
+				costs[i][j] = Integer.parseInt(st.nextToken());
+		}
+//		for (int i = 0; i < n; i++) {
+			visited[0] = true;
+			dfs(0, 0, 0, n - 1);
+//			visited[i] = false;
+//		}
 		System.out.println(min);
 	}
-	
-	public static void dfs(int pre, int start, int depth, int value) {
-		//기저 조건
-		// 정점을 모두 돌았다면?
-		if(depth == n) {
-			if(map[pre][start] == 0) return; // 길이 없음
-			value += map[pre][start];
-			min = Math.min(min, value);
+
+	private static void dfs(int startCity, int nowCity, int nowCosts, int dep) {
+		if (dep == 0) {
+			if (costs[nowCity][startCity] != 0)
+				min = Math.min(min, nowCosts + costs[nowCity][startCity]);
+			return;
 		}
-		
-		for(int i = 0; i<n; i++) {
-			if(visited[i] || map[pre][i] == 0) continue;
-			visited[i] = true;
-			dfs(i , start, depth+1, value+map[pre][i]);
-			visited[i] = false;
+
+		for (int i = 0; i < n; i++) {
+			if (!visited[i] && costs[nowCity][i] != 0 && nowCosts + costs[nowCity][i] < min) {
+				visited[i] = true;
+				dfs(startCity, i, nowCosts + costs[nowCity][i], dep - 1);
+				visited[i] = false;
+			}
 		}
 	}
 }
