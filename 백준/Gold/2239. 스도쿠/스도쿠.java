@@ -50,13 +50,14 @@ public class Main {
 		else {
 			int y = cnt / 9;
 			int x = cnt % 9;
+			int yx = (y / 3) * 3 + x / 3;
 			for (int i = 0; i < 9; i++) {
 				int n = 1 << i;
-				if ((row[y] & n) != 0 || (col[x] & n) != 0 || (sec[(y / 3) * 3 + x / 3] & n) != 0)
+				if ((row[y] & n) != 0 || (col[x] & n) != 0 || (sec[yx] & n) != 0)
 					continue;
 				row[y] |= n;
 				col[x] |= n;
-				sec[(y / 3) * 3 + x / 3] |= n;
+				sec[yx] |= n;
 				puzzle[y * 9 + x] = (char) (i + 1 + '0');
 				bt(cnt + 1);
 				if (flag)
