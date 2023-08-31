@@ -10,9 +10,7 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
 		puzzle = new char[81];
-		// 0 가로 1 세로 2 네모
 		row = new int[9];
 		col = new int[9];
 		sec = new int[9];
@@ -64,7 +62,7 @@ public class Main {
 					return;
 				row[y] &= ~n;
 				col[x] &= ~n;
-				sec[(y / 3) * 3 + x / 3] &= ~n;
+				sec[yx] &= ~n;
 				puzzle[y * 9 + x] = '0';
 			}
 		}
