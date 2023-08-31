@@ -3,14 +3,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Main {
-	static char[] puzzle;
+	static int[] puzzle;
 	static int[] row, col, sec;
-	static int check = 1 << 9 - 1;
 	static boolean flag = false;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		puzzle = new char[81];
+		puzzle = new int[81];
 		row = new int[9];
 		col = new int[9];
 		sec = new int[9];
@@ -18,10 +17,10 @@ public class Main {
 		for (int i = 0; i < 9; i++) {
 			char[] line = br.readLine().toCharArray();
 			for (int j = 0; j < 9; j++) {
-				puzzle[i * 9 + j] = line[j];
 				if (line[j] == '0')
 					continue;
-				int n = 1 << (line[j] - '0' - 1);
+				puzzle[i * 9 + j] = line[j] - '0';
+				int n = 1 << line[j] - '0';
 				row[i] |= n;
 				col[j] |= n;
 				sec[(i / 3) * 3 + j / 3] |= n;
@@ -40,37 +39,33 @@ public class Main {
 	}
 
 	private static void bt(int cnt) {
-//		if (cnt == 81) {
-//			flag = true;
-//			return;
-//		}
 		try {
-			if (puzzle[cnt] != '0')
+			if (puzzle[cnt] != 0)
 				bt(cnt + 1);
 			else {
 				int y = cnt / 9;
 				int x = cnt % 9;
-				int yx = (y / 3) * 3 + x / 3;
-				for (int i = 0; i < 9; i++) {
+				int z = (y / 3) * 3 + x / 3;
+				int idx = y * 9 + x;
+				for (int i = 1; i <= 9; i++) {
 					int n = 1 << i;
-					if ((row[y] & n) != 0 || (col[x] & n) != 0 || (sec[yx] & n) != 0)
+					if ((row[y] & n) != 0 || (col[x] & n) != 0 || (sec[z] & n) != 0)
 						continue;
 					row[y] |= n;
 					col[x] |= n;
-					sec[yx] |= n;
-					puzzle[y * 9 + x] = (char) (i + 1 + '0');
+					sec[z] |= n;
+					puzzle[idx] = i;
 					bt(cnt + 1);
 					if (flag)
 						return;
 					row[y] &= ~n;
 					col[x] &= ~n;
-					sec[yx] &= ~n;
-					puzzle[y * 9 + x] = '0';
+					sec[z] &= ~n;
+					puzzle[idx] = 0;
 				}
 			}
 		} catch (Exception e) {
 			flag = true;
-			return;
 		}
 	}
 }
