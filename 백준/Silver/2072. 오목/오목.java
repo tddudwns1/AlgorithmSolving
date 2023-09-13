@@ -26,8 +26,7 @@ public class Main {
 			int y = Integer.parseInt(st.nextToken());
 			int x = Integer.parseInt(st.nextToken());
 
-			board[y][x] = color;
-			if (check(y, x, color)) {
+			if (check(y, x, board[y][x] = color)) {
 				ans = i + 1;
 				break;
 			}
