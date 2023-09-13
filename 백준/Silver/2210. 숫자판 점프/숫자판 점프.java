@@ -6,9 +6,9 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 public class Main {
-	static Set<Integer> set;
+	static Set<Double> set;
 	static int[][] board, move;
-	static int[] num;
+//	static int[] num;
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -20,30 +20,26 @@ public class Main {
 				board[i][j] = Integer.parseInt(st.nextToken());
 		}
 		move = new int[][] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
-		num = new int[6];
+//		num = new int[6];
 
 		for (int i = 0; i < 5; i++)
 			for (int j = 0; j < 5; j++)
-				dfs(0, i, j);
+				dfs(0, 0, i, j);
 		System.out.println(set.size());
 	}
 
-	private static void dfs(int def, int y, int x) {
+	private static void dfs(double num, int def, int y, int x) {
 		if (def == 6) {
-			int ans = 0;
-			for (int i = 0; i < 6; i++)
-				ans += num[i] * Math.pow(10, i);
-
-			set.add(ans);
+			set.add(num);
 			return;
 		}
-		num[def] = board[y][x];
+		num += board[y][x] * Math.pow(10, def);;
 		for(int i = 0; i < 4; i++) {
 			int dy = y + move[i][0];
 			if(dy < 0 || dy >= 5) continue;
 			int dx = x + move[i][1];
 			if(dx < 0 || dx >= 5) continue;
-			dfs(def + 1, dy, dx);
+			dfs(num, def + 1, dy, dx);
 		}
 	}
 }
