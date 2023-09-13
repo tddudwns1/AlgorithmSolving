@@ -17,9 +17,9 @@ public class Main {
 			move[i] = Integer.parseInt(st.nextToken());
 
 		dp = new int[5][5][len + 1];
-		for (int i = 0; i < 5; i++)
-			for (int j = 0; j < 5; j++)
-				Arrays.fill(dp[i][j], -1);
+//		for (int i = 0; i < 5; i++)
+//			for (int j = 0; j < 5; j++)
+//				Arrays.fill(dp[i][j], -1);
 		
 		System.out.println(solve(0, 0, 0));
 	}
@@ -28,7 +28,7 @@ public class Main {
 		if (cnt == move.length)
 			return 0;
 
-		if (dp[left][right][cnt] != -1)
+		if (dp[left][right][cnt] != 0)
 			return dp[left][right][cnt];
 
 		return dp[left][right][cnt] = Math.min(solve(move[cnt], right, cnt + 1) + energy(left, move[cnt]),
