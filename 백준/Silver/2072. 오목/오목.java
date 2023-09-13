@@ -9,20 +9,20 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int n = Integer.parseInt(br.readLine());
-
+		StringTokenizer st;
 		int ans = -1;
 		int color = 0;
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < 17; i++) {
 			color = color != 1 ? 1 : 2;
-			StringTokenizer st = new StringTokenizer(br.readLine());
+			st = new StringTokenizer(br.readLine());
 			int y = Integer.parseInt(st.nextToken());
 			int x = Integer.parseInt(st.nextToken());
 
 			board[y][x] = color;
 		}
-		for (int i = 9; i < n; i++) {
+		for (int i = 17; i < n; i++) {
 			color = color != 1 ? 1 : 2;
-			StringTokenizer st = new StringTokenizer(br.readLine());
+			st = new StringTokenizer(br.readLine());
 			int y = Integer.parseInt(st.nextToken());
 			int x = Integer.parseInt(st.nextToken());
 
