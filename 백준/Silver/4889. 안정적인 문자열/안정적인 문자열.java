@@ -9,13 +9,16 @@ public class Main {
 		int tc = 1;
 
 		while (true) {
-			char[] str = br.readLine().toCharArray();
-			if(str[0] == '-')
+			String str = br.readLine();
+//			char[] str = br.readLine().toCharArray();
+//			if(str[0] == '-')
+			if(str.charAt(0) == '-')
 				break;
 			int r = 0;
 			int l = 0;
-			for (int i = 0; i < str.length; i++) {
-				if (str[i] == '{')
+			int len = str.length();
+			for (int i = 0; i < len; i++) {
+				if (str.charAt(i) == '{')
 					r++;
 				else {
 					if (r > 0)
@@ -25,10 +28,11 @@ public class Main {
 				}
 			}
 			sb.append(tc++).append(". ");
+			int ans = (r + l) / 2;
 			if (r % 2 == 0)
-				sb.append((r + l) / 2);
+				sb.append(ans);
 			else
-				sb.append((r + l) / 2 + 1);
+				sb.append(ans + 1);
 			sb.append("\n");
 		}
 		System.out.println(sb);
