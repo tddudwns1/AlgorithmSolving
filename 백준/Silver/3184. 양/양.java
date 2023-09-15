@@ -20,12 +20,10 @@ public class Main {
 		for (int i = 0; i < r; i++)
 			backyard[i] = br.readLine().toCharArray();
 		
-		for(int i = 0; i < r; i++) {
-			for(int j = 0; j < c; j++) {
-				if(include(backyard[i][j]))
+		for(int i = 0; i < r; i++)
+			for(int j = 0; j < c; j++)
+				if(backyard[i][j] != '#')
 					bfs(i, j);
-			}
-		}
 		
 		System.out.println(sheep + " " + wolf);
 	}
@@ -48,7 +46,7 @@ public class Main {
 				int dx = now[1] + mx[m];
 				if(dx < 0 || dx >= c)
 					continue;
-				if(!include(backyard[dy][dx]))
+				if(backyard[dy][dx] == '#')
 					continue;
 				dq.add(new int[] {dy, dx});
 				if(backyard[dy][dx] == 'o')
@@ -63,10 +61,5 @@ public class Main {
 			sheep += o;
 		else
 			wolf += v;
-	}
-	private static boolean include(char c) {
-		if(c == '.' || c == 'o' || c == 'v')
-			return true;
-		return false;
 	}
 }
