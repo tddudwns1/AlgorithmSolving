@@ -17,16 +17,18 @@ public class Main {
 			sequence[i] = Integer.parseInt(st.nextToken());
 
 		int[] cnt = new int[100001];
-		int left = 0;
+		int left = -1;
 		int right = -1;
 		int max = 0;
-		while (++right < n) {
-			if (++cnt[sequence[right]] <= k)
-				max = Math.max(max, right - left);
-			else 
-				while (cnt[sequence[right]] > k)
-					--cnt[sequence[left++]];
+		while (true) {
+			while (++right < n && ++cnt[sequence[right]] <= k)
+				;
+			max = Math.max(max, right - left);
+			if(right == n)
+				break;
+			while (cnt[sequence[right]] > k)
+				--cnt[sequence[++left]];
 		}
-		System.out.println(max + 1);
+		System.out.println(max - 1);
 	}
 }
