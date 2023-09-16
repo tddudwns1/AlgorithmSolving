@@ -8,9 +8,11 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 public class Main {
+	static int ans;
 	static char[][] map;
 	static int[][] visited;
 	static Map<Character, int[]> move;
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
@@ -26,24 +28,25 @@ public class Main {
 		visited = new int[n][m];
 		for (int i = 0; i < n; i++)
 			map[i] = br.readLine().toCharArray();
-
-		int ans = 0;
+		ans = 0;
 		int mask = 0;
 		for (int i = 0; i < n; i++)
 			for (int j = 0; j < m; j++)
 				if (visited[i][j] == 0)
-					ans += search(i, j, ++mask);
+					search(i, j, ++mask);
 		System.out.println(ans);
 	}
 
-	private static int search(int y, int x, int mask) {
-		if(visited[y][x] == mask)
-			return 1;
-		if(visited[y][x] != 0)
-			return 0;
+	private static void search(int y, int x, int mask) {
+		if (visited[y][x] == mask) {
+			ans++;
+			return;
+		}
+		if (visited[y][x] != 0)
+			return;
 		visited[y][x] = mask;
 		int dy = y + move.get(map[y][x])[0];
 		int dx = x + move.get(map[y][x])[1];
-		return search(dy, dx, mask);
+		search(dy, dx, mask);
 	}
 }
