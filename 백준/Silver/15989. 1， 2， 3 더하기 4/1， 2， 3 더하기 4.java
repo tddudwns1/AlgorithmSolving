@@ -16,11 +16,11 @@ public class Main {
 		solution[3][0] = 1;
 		solution[3][1] = 1;
 
-		for (int i = 4; i <= 10000; i++) {
+		for (int i = 4; i <= 10000; i++)
 			solution[i][0] = solution[i - 2][0] + 1;
-			solution[i][1] = solution[i - 3][0] + solution[i - 3][1] + 1;
-		}
 
+		for (int i = 1; i <= 9997; i++)
+			solution[i + 3][1] = solution[i][0] + solution[i][1] + 1;
 		for (int tc = 0; tc < T; tc++) {
 			int n = Integer.parseInt(br.readLine());
 			sb.append(solution[n][0] + solution[n][1] + 1).append("\n");
