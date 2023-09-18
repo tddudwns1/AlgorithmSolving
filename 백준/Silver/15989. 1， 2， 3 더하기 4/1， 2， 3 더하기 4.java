@@ -1,30 +1,38 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
 
 public class Main {
-	public static void main(String[] args) throws NumberFormatException, IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
-		int T = Integer.parseInt(br.readLine());
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
 
-		int[][] solution = new int[10001][2];
-		solution[2][0] = 1;
-		solution[3][0] = 1;
-		solution[3][1] = 1;
+        int t = Integer.parseInt(br.readLine());
 
-		for (int i = 4; i <= 10000; i++)
-			solution[i][0] = solution[i - 2][0] + 1;
+        for(int tc = 1; tc<=t; tc++){
 
-		for (int i = 1; i <= 9997; i++)
-			solution[i + 3][1] = solution[i][0] + solution[i][1] + 1;
-		for (int tc = 0; tc < T; tc++) {
-			int n = Integer.parseInt(br.readLine());
-			sb.append(solution[n][0] + solution[n][1] + 1).append("\n");
-		}
-		System.out.println(sb);
-	}
+            int n = Integer.parseInt(br.readLine());
+
+            int[][] dp = new int[10001][4];
+
+            dp[1][1] = 1;
+            dp[2][1] = 1;
+            dp[2][2] = 1;
+            dp[3][1] = 1;
+            dp[3][2] = 1;
+            dp[3][3] = 1;
+
+
+            for(int i = 4; i<=n; i++){
+                dp[i][1] = dp[i-1][1];
+                dp[i][2] = dp[i-2][1] + dp[i-2][2];
+                dp[i][3] = dp[i-3][1] + dp[i-3][2] + dp[i-3][3];
+            }
+
+
+            sb.append(dp[n][1] + dp[n][2] + dp[n][3] + "\n");
+
+        }
+        System.out.println(sb);
+    }
 }
