@@ -8,20 +8,38 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
-	static class Node implements Comparable<Node> {
-		int to;
+	static class Edge implements Comparable<Edge> {
+		int a;
+		int b;
 		int cost;
 
-		public Node(int to, int cost) {
-			this.to = to;
+		public Edge(int a, int b, int cost) {
+			this.a = a;
+			this.b = b;
 			this.cost = cost;
 		}
 
 		@Override
-		public int compareTo(Node o) {
+		public int compareTo(Edge o) {
 			return this.cost - o.cost;
 		}
 
+	}
+
+	public static void union(int a, int b, int[] parent) {
+		a = find(a, parent);
+		b = find(b, parent);
+
+		if (a > b)
+			parent[a] = b;
+		else
+			parent[b] = a;
+	}
+
+	public static int find(int n, int[] parent) {
+		if (parent[n] == n)
+			return n;
+		return parent[n] = find(parent[n], parent);
 	}
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
@@ -30,46 +48,34 @@ public class Main {
 		int n = Integer.parseInt(br.readLine());
 		int m = Integer.parseInt(br.readLine());
 
-		Deque<Node>[] dq = new ArrayDeque[n + 1];
-
+		int[] parent = new int[n + 1];
 		for (int i = 1; i <= n; i++)
-			dq[i] = new ArrayDeque<>();
-		
+			parent[i] = i;
+
+		Queue<Edge> pq = new PriorityQueue<>();
 		for (int i = 0; i < m; i++) {
 			StringTokenizer st = new StringTokenizer(br.readLine());
-			int from = Integer.parseInt(st.nextToken());
-			int to = Integer.parseInt(st.nextToken());
+			int a = Integer.parseInt(st.nextToken());
+			int b = Integer.parseInt(st.nextToken());
 			int cost = Integer.parseInt(st.nextToken());
 
-			if (from == to)
+			if (a == b)
 				continue;
 
-			dq[from].add(new Node(to, cost));
-			dq[to].add(new Node(from, cost));
+			pq.add(new Edge(a, b, cost));
 		}
-
-		System.out.println(prim(n, dq));
-	}
-
-	private static int prim(int n, Deque<Node>[] dq) {
-		Queue<Node> pq = new PriorityQueue<>();
-		boolean[] visited = new boolean[n + 1];
 		int cost = 0;
 
-		while (!dq[1].isEmpty())
-			pq.add(dq[1].poll());
-		visited[1] = true;
-
 		while (!pq.isEmpty()) {
-			Node now = pq.poll();
-			if (visited[now.to])
+			Edge e = pq.poll();
+
+			if (find(e.a, parent) == find(e.b, parent))
 				continue;
-			visited[now.to] = true;
-			cost += now.cost;
-			while (!dq[now.to].isEmpty())
-				pq.add(dq[now.to].poll());
+
+			union(e.a, e.b, parent);
+			cost += e.cost;
 		}
 
-		return cost;
+		System.out.println(cost);
 	}
 }
