@@ -52,9 +52,9 @@ public class Main {
 						.add(new Edge(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
 			}
 
-			dijkstra(dp, dis, root, visited, s, d);
+			dijkstraForList(dp, dis, root, visited, s);
 			exceptRoot(s, d, root, visited);
-			dijkstra(dp, dis, root, visited, s, d);
+			dijkstra(dp, dis, visited, s);
 
 			if (dp[d] == Integer.MAX_VALUE)
 				sb.append(-1);
@@ -69,8 +69,8 @@ public class Main {
 		System.out.println(sb);
 	}
 
-	private static void dijkstra(int[] dp, Queue<Edge>[] dis, Queue<Integer>[] root, boolean[][] visited, int s,
-			int d) {
+	private static void dijkstraForList(int[] dp, Queue<Edge>[] dis, Queue<Integer>[] root, boolean[][] visited,
+			int s) {
 		Queue<Edge> q = new PriorityQueue<>();
 		Arrays.fill(dp, Integer.MAX_VALUE);
 		dp[s] = 0;
@@ -94,10 +94,33 @@ public class Main {
 					q.add(new Edge(next.node, dp[next.node]));
 				}
 				root[next.node].add(now.node);
-				if (next.node == d)
-					continue;
 			}
+		}
+	}
 
+	private static void dijkstra(int[] dp, Queue<Edge>[] dis, boolean[][] visited, int s) {
+		Queue<Edge> q = new PriorityQueue<>();
+		Arrays.fill(dp, Integer.MAX_VALUE);
+		dp[s] = 0;
+		q.add(new Edge(s, 0));
+
+		while (!q.isEmpty()) {
+			Edge now = q.poll();
+
+			if (now.cost > dp[now.node])
+				continue;
+
+			for (Edge next : dis[now.node]) {
+				if (visited[now.node][next.node])
+					continue;
+				int newCost = dp[now.node] + next.cost;
+				if (dp[next.node] < newCost)
+					continue;
+				if (dp[next.node] > newCost) {
+					dp[next.node] = newCost;
+					q.add(new Edge(next.node, dp[next.node]));
+				}
+			}
 		}
 	}
 
