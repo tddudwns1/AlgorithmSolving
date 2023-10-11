@@ -11,14 +11,12 @@ public class Main {
 		n = Integer.parseInt(br.readLine());
 		map = new int[n][n];
 		dp = new int[n][1 << n];
-		end = (1 << n) - 1;
 		for (int i = 0; i < n; i++) {
 			StringTokenizer st = new StringTokenizer(br.readLine());
 			for (int j = 0; j < n; j++)
 				map[i][j] = Integer.parseInt(st.nextToken());
 		}
-		
-		n--;
+		end = (1 << n--) - 1;
 
 		System.out.println(dfs(0, 1));
 	}
