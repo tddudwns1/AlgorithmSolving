@@ -6,27 +6,24 @@ public class Main {
 	static StringBuilder sb = new StringBuilder();
 
 	static class TrieNode {
-		private TrieNode[] children;
-		private boolean isEndOfWord;
+		TrieNode[] children;
+		boolean isEndOfWord;
 
 		public TrieNode() {
-			children = new TrieNode[27]; // 영문 알파벳 개수에 따라 조정
+			children = new TrieNode[27];
 			isEndOfWord = false;
 		}
 	}
 
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
 		int n = Integer.parseInt(br.readLine());
-
 		TrieNode root = new TrieNode();
-		for (int i = 0; i < n; i++) {
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			insert(root, st);
-		}
+		for (int i = 0; i < n; i++)
+			insert(root, new StringTokenizer(br.readLine()));
+
 		print("", 0, root);
-		System.out.println(sb); // true
+		System.out.println(sb);
 	}
 
 	public static void insert(TrieNode root, StringTokenizer st) {
@@ -38,9 +35,8 @@ public class Main {
 			for (int j = 0; j < str.length(); j++) {
 				char c = str.charAt(j);
 				int index = c - 'A'; // 영문 알파벳에 맞게 인덱스 계산
-				if (node.children[index] == null) {
+				if (node.children[index] == null)
 					node.children[index] = new TrieNode();
-				}
 				node = node.children[index];
 			}
 			node.isEndOfWord = true;
