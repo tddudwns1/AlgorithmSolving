@@ -12,13 +12,15 @@ public class Main {
 		int bx;
 		int by;
 		int cnt;
+		int dir;
 
-		Marble(int rx, int ry, int bx, int by, int cnt) {
+		Marble(int rx, int ry, int bx, int by, int cnt, int dir) {
 			this.rx = rx;
 			this.ry = ry;
 			this.bx = bx;
 			this.by = by;
 			this.cnt = cnt;
+			this.dir = dir;
 		}
 	}
 
@@ -49,9 +51,9 @@ public class Main {
 					holeX = i;
 					holeY = j;
 				} else if (map[i][j] == 'B') {
-					blue = new Marble(0, 0, i, j, 0);
+					blue = new Marble(0, 0, i, j, 0, 0);
 				} else if (map[i][j] == 'R') {
-					red = new Marble(i, j, 0, 0, 0);
+					red = new Marble(i, j, 0, 0, 0, 0);
 				}
 			}
 		}
@@ -60,7 +62,8 @@ public class Main {
 
 	public static int bfs() {
 		Queue<Marble> queue = new LinkedList<>();
-		queue.add(new Marble(red.rx, red.ry, blue.bx, blue.by, 1));
+		queue.add(new Marble(red.rx, red.ry, blue.bx, blue.by, 1, 0));
+		queue.add(new Marble(red.rx, red.ry, blue.bx, blue.by, 1, 1));
 		visited[red.rx][red.ry][blue.rx][blue.ry] = true;
 
 		while (!queue.isEmpty()) {
@@ -71,6 +74,7 @@ public class Main {
 			int curBx = marble.bx;
 			int curBy = marble.by;
 			int curCnt = marble.cnt;
+			int curDir = marble.dir;
 
 			if (curCnt > 10) // 이동 횟수가 10 초과시 실패
 				return -1;
@@ -80,6 +84,10 @@ public class Main {
 				int newRy = curRy;
 				int newBx = curBx;
 				int newBy = curBy;
+				int newDir = curDir;
+
+				if (newDir == i % 2)
+					continue;
 
 				boolean isRedHole = false;
 				boolean isBlueHole = false;
@@ -146,7 +154,7 @@ public class Main {
 				// 두 구슬이 이동할 위치가 처음 방문하는 곳인 경우만 이동 -> 큐에 추가
 				if (!visited[newRx][newRy][newBx][newBy]) {
 					visited[newRx][newRy][newBx][newBy] = true;
-					queue.add(new Marble(newRx, newRy, newBx, newBy, curCnt + 1));
+					queue.add(new Marble(newRx, newRy, newBx, newBy, curCnt + 1, i % 2));
 				}
 			}
 		}
