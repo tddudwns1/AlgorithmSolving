@@ -82,11 +82,10 @@ public class Main {
 			int nowD = now.d; // 방향
 
 			if (nowD > 2) { // 가로
-				while (nowS > 0) {
+				while (true) {
 					if (nowD == 3) {
 						if (c - nowC >= nowS) {
 							nowC += nowS;
-							nowS = 0;
 							break;
 						}
 						nowS -= c - nowC;
@@ -95,7 +94,6 @@ public class Main {
 					} else {
 						if (nowC > nowS) {
 							nowC -= nowS;
-							nowS = 0;
 							break;
 						}
 						nowS -= nowC - 1;
@@ -104,11 +102,10 @@ public class Main {
 					}
 				}
 			} else {
-				while (nowS > 0) {
+				while (true) {
 					if (nowD == 2) {
 						if (r - nowR >= nowS) {
 							nowR += nowS;
-							nowS = 0;
 							break;
 						}
 						nowS -= r - nowR;
@@ -117,7 +114,6 @@ public class Main {
 					} else {
 						if (nowR > nowS) {
 							nowR -= nowS;
-							nowS = 0;
 							break;
 						}
 						nowS -= nowR - 1;
