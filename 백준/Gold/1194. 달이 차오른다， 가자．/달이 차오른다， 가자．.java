@@ -7,10 +7,10 @@ import java.util.StringTokenizer;
 
 public class Main {
 	static class Minsik {
-		int y; // minsik pos y
-		int x; // minsik pos x
-		int move; // count of move
-		int keys; // get keys
+		int y;
+		int x;
+		int move;
+		int keys;
 
 		public Minsik(int y, int x, int move, int keys) {
 			this.y = y;
@@ -35,10 +35,10 @@ public class Main {
 				if ('0' == (maze[i][j] = line[j - 1]))
 					now = new Minsik(i, j, 0, 0);
 		}
-		System.out.println(bfs(visited, maze, now));
+		bfs(visited, maze, now);
 	}
 
-	private static int bfs(boolean[][][] visited, char[][] maze, Minsik now) {
+	private static void bfs(boolean[][][] visited, char[][] maze, Minsik now) {
 		int[][] move = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
 		Queue<Minsik> q = new ArrayDeque<>();
 		q.add(now);
@@ -68,12 +68,13 @@ public class Main {
 						continue;
 					q.add(new Minsik(dy, dx, now.move + 1, now.keys));
 					visited[dy][dx][now.keys] = true;
-				} else if (maze[dy][dx] == '1') {
-					return now.move + 1;
+				} else {
+					System.out.println(now.move + 1);
+					return;
 				}
 			}
 		}
 
-		return -1;
+		System.out.println(-1);
 	}
 }
