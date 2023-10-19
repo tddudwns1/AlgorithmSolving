@@ -23,7 +23,7 @@ public class Main {
 		int[][] move = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
 		Queue<int[]> q = new ArrayDeque<>();
 		q.add(new int[] { 0, 0, 0 });
-		boolean[][][] visited = new boolean[n--][m--][k + 1];
+		boolean[][][] visited = new boolean[n--][m--][k + 2];
 		visited[0][0][0] = true;
 
 		int size, cnt = 0;
@@ -60,6 +60,7 @@ public class Main {
 						continue;
 					q.add(new int[] { dy, dx, broken });
 					visited[dy][dx][broken] = true;
+					visited[dy][dx][broken + 1] = true;
 				}
 			}
 		}
