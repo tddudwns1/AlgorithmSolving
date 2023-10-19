@@ -4,13 +4,13 @@ import java.util.StringTokenizer;
 
 public class Main {
 	static class SegmentTree {
-		long[] tree;
+		int[] tree;
 
 		public SegmentTree(int n) {
-			tree = new long[4 * n];
+			tree = new int[4 * n];
 		}
 
-		public long init(int node, int start, int end, long[] arr) {
+		public int init(int node, int start, int end, int[] arr) {
 			if (start == end)
 				return tree[node] = arr[start];
 
@@ -18,7 +18,7 @@ public class Main {
 			return tree[node] = Math.min(init(node * 2, start, mid, arr), init(node * 2 + 1, mid + 1, end, arr));
 		}
 
-		public long update(int node, int start, int end, int target, long val) {
+		public int update(int node, int start, int end, int target, int val) {
 			if (target < start || end < target)
 				return tree[node];
 
@@ -35,9 +35,9 @@ public class Main {
 					update(node * 2 + 1, mid + 1, end, target, val));
 		}
 
-		public long getMin(int node, int start, int end, int left, int right) {
+		public int getMin(int node, int start, int end, int left, int right) {
 			if (right < start || end < left)
-				return Long.MAX_VALUE;
+				return Integer.MAX_VALUE;
 
 			if (left <= start && end <= right)
 				return tree[node];
@@ -54,9 +54,9 @@ public class Main {
 		int n = Integer.parseInt(br.readLine());
 
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		long[] arr = new long[n + 1];
+		int[] arr = new int[n + 1];
 		for (int i = 1; i <= n; i++)
-			arr[i] = Long.parseLong(st.nextToken());
+			arr[i] = Integer.parseInt(st.nextToken());
 
 		SegmentTree tree = new SegmentTree(n);
 		tree.init(1, 1, n, arr);
@@ -66,7 +66,7 @@ public class Main {
 			st = new StringTokenizer(br.readLine());
 			int command = Integer.parseInt(st.nextToken());
 			int a = Integer.parseInt(st.nextToken());
-			long b = Long.parseLong(st.nextToken());
+			int b = Integer.parseInt(st.nextToken());
 
 			if (command == 1) {
 				tree.update(1, 1, n, a, b);
