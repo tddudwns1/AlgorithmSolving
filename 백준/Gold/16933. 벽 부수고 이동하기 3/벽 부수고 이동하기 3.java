@@ -35,12 +35,8 @@ public class Main {
 			while (size-- > 0) {
 				int[] now = q.poll();
 
-				if (now[0] == n && now[1] == m) {
-					if (map[now[0]][now[1]] == '1')
-						if (night)
-							return cnt + 1;
+				if (now[0] == n && now[1] == m)
 					return cnt;
-				}
 
 				for (int i = 0; i < 4; i++) {
 					int dy = move[i][0] + now[0];
