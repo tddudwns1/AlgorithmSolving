@@ -29,10 +29,12 @@ public class Main {
 				type = "Java";
 			break;
 		}
-
+		
+		index--;
+		
 		if (type.equals("C++")) {
-			while (input.length() > index) {
-				now = input.charAt(index++);
+			while (input.length() > ++index) {
+				now = input.charAt(index);
 				if (now >= 97) {
 					sb.append(now);
 					continue;
@@ -40,20 +42,19 @@ public class Main {
 				if (now != '_')
 					return "Error!";
 
-				if(input.length() <= index)
+				if(input.length() <= ++index)
 					return "Error!";
 				
 				if(input.charAt(index) < 97)
 					return "Error!";
 
-				sb.append((char) (input.charAt(index++) - 32));
+				sb.append((char) (input.charAt(index) - 32));
 			}
 		} else if (type.equals("Java")) {
-			while (input.length() > index) {
+			while (input.length() > ++index) {
 				now = input.charAt(index);
 				if (now >= 97) {
 					sb.append(now);
-					index++;
 					continue;
 				}
 				
@@ -62,7 +63,6 @@ public class Main {
 
 				sb.append('_');
 				sb.append((char) (input.charAt(index) + 32));
-				index++;
 			}
 		}
 
