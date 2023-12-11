@@ -15,6 +15,8 @@ public class Main {
 
 		if (now < 97)
 			return "Error!";
+		if (input.charAt(input.length() - 1) == '_')
+			return "Error!";
 		sb.append(now);
 
 		while (input.length() > ++index) {
@@ -27,11 +29,10 @@ public class Main {
 				type = "C++";
 			else
 				type = "Java";
+			index--;
 			break;
 		}
-		
-		index--;
-		
+
 		if (type.equals("C++")) {
 			while (input.length() > ++index) {
 				now = input.charAt(index);
@@ -42,10 +43,7 @@ public class Main {
 				if (now != '_')
 					return "Error!";
 
-				if(input.length() <= ++index)
-					return "Error!";
-				
-				if(input.charAt(index) < 97)
+				if (input.charAt(++index) < 97)
 					return "Error!";
 
 				sb.append((char) (input.charAt(index) - 32));
@@ -57,7 +55,7 @@ public class Main {
 					sb.append(now);
 					continue;
 				}
-				
+
 				if (now == '_')
 					return "Error!";
 
