@@ -19,22 +19,22 @@ public class Main {
 		st = new StringTokenizer(br.readLine());
 		int add = Integer.parseInt(st.nextToken()), sub = Integer.parseInt(st.nextToken()),
 				mul = Integer.parseInt(st.nextToken()), div = Integer.parseInt(st.nextToken());
-		
-		n--;
+
 		calc(add, sub, mul, div, 0, nums[0]);
 		
-		System.out.println(max);
-		System.out.println(min);
+        StringBuilder sb = new StringBuilder();
+        sb.append(max).append("\n").append(min);
+		System.out.println(sb);
 	}
 
 	private static void calc(int add, int sub, int mul, int div, int index, int now) {
-		if (index == n) {
+		if (++index == n) {
 			max = Integer.max(max, now);
 			min = Integer.min(min, now);
 			return;
 		}
 		
-        int target = nums[++index];
+        int target = nums[index];
 
 		if (add > 0)
 			calc(add - 1, sub, mul, div, index, now + target);
