@@ -19,8 +19,9 @@ public class Main {
 		st = new StringTokenizer(br.readLine());
 		int add = Integer.parseInt(st.nextToken()), sub = Integer.parseInt(st.nextToken()),
 				mul = Integer.parseInt(st.nextToken()), div = Integer.parseInt(st.nextToken());
-
-		calc(add, sub, mul, div, 1, nums[0]);
+		
+		n--;
+		calc(add, sub, mul, div, 0, nums[0]);
 		
 		System.out.println(max);
 		System.out.println(min);
@@ -32,14 +33,16 @@ public class Main {
 			min = Integer.min(min, now);
 			return;
 		}
+		
+        int target = nums[++index];
 
 		if (add > 0)
-			calc(add - 1, sub, mul, div, index + 1, now + nums[index]);
+			calc(add - 1, sub, mul, div, index, now + target);
 		if (sub > 0)
-			calc(add, sub - 1, mul, div, index + 1, now - nums[index]);
+			calc(add, sub - 1, mul, div, index, now - target);
 		if (mul > 0)
-			calc(add, sub, mul - 1, div, index + 1, now * nums[index]);
+			calc(add, sub, mul - 1, div, index, now * target);
 		if (div > 0)
-			calc(add, sub, mul, div - 1, index + 1, now / nums[index]);
+			calc(add, sub, mul, div - 1, index, now / target);
 	}
 }
