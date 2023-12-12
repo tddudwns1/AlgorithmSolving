@@ -8,7 +8,7 @@ public class Main {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 
-		int h = Integer.parseInt(st.nextToken());
+		st.nextToken();
 		int w = Integer.parseInt(st.nextToken());
 
 		int[] blocks = new int[w];
@@ -23,12 +23,12 @@ public class Main {
 		int puddle = 0;
 
 		for (int i = 1; i <= max; i++) {
-			int j = 0;
-			for (; j < w; j++)
+			int j = -1;
+			while (++j < w)
 				if (blocks[j] >= i)
 					break;
 			int cnt = 0;
-			for (; j < w; j++) {
+			while (++j < w) {
 				if (blocks[j] >= i) {
 					puddle += cnt;
 					cnt = 0;
