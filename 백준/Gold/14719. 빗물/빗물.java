@@ -23,21 +23,21 @@ public class Main {
 		int puddle = 0;
 
 		for (int i = 1; i <= max; i++) {
-			boolean isNotFirst = false;
+			int j = 0;
+			for (; j < w; j++)
+				if (blocks[j] >= i)
+					break;
 			int cnt = 0;
-			for (int j = 0; j < w; j++) {
-				if (blocks[j] < i) {
-					cnt++;
+			for (; j < w; j++) {
+				if (blocks[j] >= i) {
+					puddle += cnt;
+					cnt = 0;
 					continue;
 				}
-
-				if (isNotFirst)
-					puddle += cnt;
-				isNotFirst = true;
-				cnt = 0;
+				cnt++;
 			}
 		}
-		
+
 		System.out.println(puddle);
 	}
 }
