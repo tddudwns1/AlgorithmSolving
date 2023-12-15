@@ -32,13 +32,11 @@ public class Main {
     }
 
     private static int bfs(String[][] box, int numberOf0, Queue<int[]> positionOfTomatos) {
-        if (positionOfTomatos.isEmpty())
-            return -1;
-
         int[][] move = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
-        int turn = 0;
+        int turn = -1;
 
         while (!positionOfTomatos.isEmpty()) {
+            turn++;
             if (numberOf0 == 0)
                 break;
 
@@ -65,7 +63,6 @@ public class Main {
                 return -1;
 
             positionOfTomatos = newPositionOfTomatos;
-            turn++;
         }
 
         return turn;
