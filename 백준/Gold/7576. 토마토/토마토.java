@@ -33,15 +33,14 @@ public class Main {
 
     private static int bfs(String[][] box, int numberOf0, Queue<int[]> positionOfTomatos) {
         int[][] move = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
-        int turn = -1;
+        int turn = 0;
 
         while (!positionOfTomatos.isEmpty()) {
-            turn++;
             if (numberOf0 == 0)
-                break;
+                return turn;
 
-            Queue<int[]> newPositionOfTomatos = new ArrayDeque<>();
-            while (!positionOfTomatos.isEmpty()) {
+            int size = positionOfTomatos.size();
+            while (size-- > 0) {
                 int[] now = positionOfTomatos.poll();
                 for (int i = 0; i < 4; i++) {
                     int dy = now[0] + move[i][0];
@@ -53,18 +52,13 @@ public class Main {
                     if (!box[dy][dx].equals("0"))
                         continue;
 
-                    box[dy][dx] = "1";
                     numberOf0--;
-                    newPositionOfTomatos.add(new int[]{dy, dx});
+                    box[dy][dx] = "1";
+                    positionOfTomatos.add(new int[]{dy, dx});
                 }
             }
-
-            if (newPositionOfTomatos.isEmpty())
-                return -1;
-
-            positionOfTomatos = newPositionOfTomatos;
+            turn++;
         }
-
-        return turn;
+            return -1;
     }
 }
