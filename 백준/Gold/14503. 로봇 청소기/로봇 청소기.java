@@ -28,42 +28,39 @@ public class Main {
             for (int j = 0; j < m; j++)
                 room[i][j] = st.nextToken();
         }
-        clean();
+        clear();
         System.out.println(clearArea);
     }
 
-    private static int clean() {
-
+    private static void clear() {
+        if (room[r][c].equals("0")) {
+            room[r][c] = "2";
+            clearArea++;
+        }
         while (true) {
-            if (room[r][c].equals("0")) {
-                room[r][c] = "2";
-                clearArea++;
-            }
-
             int turn = checkAround();
-
             if (turn == -1) {
                 r -= move[d][0];
                 c -= move[d][1];
                 if (room[r][c].equals("1"))
                     break;
             } else {
-                d = turn;
                 r += move[turn][0];
                 c += move[turn][1];
+                if (room[r][c].equals("0")) {
+                    room[r][c] = "2";
+                    clearArea++;
+                }
             }
         }
-
-        return 0;
     }
 
     private static int checkAround() {
         for (int i = 1; i <= 4; i++) {
             int now = d - i >= 0 ? d - i : d - i + 4;
             if (room[r + move[now][0]][c + move[now][1]].equals("0"))
-                return now;
+                return d = now;
         }
-
         return -1;
     }
 }
