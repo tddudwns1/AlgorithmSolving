@@ -11,11 +11,10 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        String init = "antic";
+        char[] basic = {'a', 'c', 'i', 'n', 't'};
         int alpha = 0;
-        for (int i = 0; i < 5; i++) {
-            alpha |= (1 << (init.charAt(i) - '`'));
-        }
+        for (int i = 0; i < 5; i++)
+            alpha |= 1 << (basic[i] - '`');
 
         n = Integer.parseInt(st.nextToken());
         k = Integer.parseInt(st.nextToken());
@@ -29,16 +28,16 @@ public class Main {
                 words[i] |= 1 << (word.charAt(j) - '`');
         }
 
+        System.out.println(checkCanTeach(alpha));
+    }
 
-        if (k < 5) {
-            System.out.println(0);
-            return;
-        } else if (k == 26) {
-            System.out.println(n);
-            return;
-        }
+    private static int checkCanTeach(int alpha) {
+        if(k < 5)
+            return 0;
+        if(k == 26)
+            return n;
         countCanTeach(2, 5, alpha);
-        System.out.println(max);
+        return max;
     }
 
     private static void countCanTeach(int index, int count, int key) {
