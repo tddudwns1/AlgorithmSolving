@@ -16,12 +16,12 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        Deque<Integer>[] waiting = new ArrayDeque[101];
-        for (int i = 1; i <= 100; i++)
-            waiting[i] = new ArrayDeque<>();
-
         int n = Integer.parseInt(st.nextToken());
         int k = Integer.parseInt(st.nextToken());
+
+        Deque<Integer>[] waiting = new ArrayDeque[k + 1];
+        for (int i = 1; i <= k; i++)
+            waiting[i] = new ArrayDeque<>();
 
         int[] multitap = new int[n];
         int[] order = new int[k];
@@ -37,30 +37,23 @@ public class Main {
                 break;
 
             int now = order[i];
-            if (isUse(now, use, multitap)) {
-                waiting[now].removeFirst();
+            waiting[now].removeFirst();
+            if (isUse(now, use, multitap))
                 continue;
-            }
 
             multitap[use++] = now;
-            waiting[now].removeFirst();
         }
 
         int out = 0;
         for (; i < k; i++) {
             int now = order[i];
-            if (isUse(now, use, multitap)) {
-                waiting[now].removeFirst();
-                continue;
-            }
-
-            int position = findTarget(n, multitap, waiting);
-
             waiting[now].removeFirst();
-            multitap[position] = now;
+            if (isUse(now, use, multitap))
+                continue;
+
+            multitap[findTarget(n, multitap, waiting)] = now;
             out++;
         }
-
         System.out.println(out);
     }
 
