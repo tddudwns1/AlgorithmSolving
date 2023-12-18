@@ -1,72 +1,93 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.Queue;
+import java.util.Deque;
 import java.util.StringTokenizer;
 
+// 1. 꽃혀 있는 칸까지 보면서 있는지 확인 (함수화)
+// 2. 없다면 남은 칸에 연결
+// 3. 남은 칸이 없다면
+//    콘센트에 있는 숫자를 돌면서
+//    가장 멀리 있거나, 없는 콘센트 사용 하면서 정답에 +1
 public class Main {
-	public static void main(String[] args) throws Exception {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int n = Integer.parseInt(st.nextToken());
-		int k = Integer.parseInt(st.nextToken());
 
-		Queue<Integer>[] q = new ArrayDeque[k + 1];
-		Queue<Integer> order = new ArrayDeque<>();
-		for (int i = 1; i <= k; i++)
-			q[i] = new ArrayDeque<>();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-		st = new StringTokenizer(br.readLine());
-		for (int i = 1; i <= k; i++) {
-			int input = Integer.parseInt(st.nextToken());
-			q[input].add(i);
-			order.add(input);
-		}
+        Deque<Integer>[] waiting = new ArrayDeque[101];
+        for (int i = 1; i <= 100; i++)
+            waiting[i] = new ArrayDeque<>();
 
-		for (int i = 1; i <= k; i++)
-			q[i].add(Integer.MAX_VALUE);
+        int n = Integer.parseInt(st.nextToken());
+        int k = Integer.parseInt(st.nextToken());
 
-		int[] powerbar = new int[n];
-		int idx = 0, m = 0, now;
+        int[] multitap = new int[n];
+        int[] order = new int[k];
 
-		while (idx < n) {
-			if (order.isEmpty())
-				break;
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < k; i++)
+            waiting[order[i] = Integer.parseInt(st.nextToken())].addLast(i);
 
-			q[(now = order.poll())].poll();
-			m++;
+        int i = 0;
+        int use = 0;
+        for (; i < k; i++) {
+            if (use == n)
+                break;
 
-			if (check(powerbar, now, idx))
-				continue;
+            int now = order[i];
+            if (isUse(now, use, multitap)) {
+                waiting[now].removeFirst();
+                continue;
+            }
 
-			powerbar[idx++] = now;
-		}
+            multitap[use++] = now;
+            waiting[now].removeFirst();
+        }
 
-		int cnt = 0;
+        int out = 0;
+        for (; i < k; i++) {
+            int now = order[i];
+            if (isUse(now, use, multitap)) {
+                waiting[now].removeFirst();
+                continue;
+            }
 
-		for (int i = m; i < k; i++) {
-			q[(now = order.poll())].poll();
-			cnt += find(now, n, q, powerbar);
-		}
+            int position = findTarget(n, multitap, waiting);
 
-		System.out.println(cnt);
-	}
+            waiting[now].removeFirst();
+            multitap[position] = now;
+            out++;
+        }
 
-	private static boolean check(int[] powerbar, int now, int i) {
-		for (int j = 0; j < i; j++)
-			if (powerbar[j] == now)
-				return true;
-		return false;
-	}
+        System.out.println(out);
+    }
 
-	private static int find(int now, int n, Queue<Integer>[] q, int[] powerbar) {
-		int max = 0, target = 0;
-		for (int i = 0; i < n; i++)
-			if (powerbar[i] == now)
-				return 0;
-			else if (max < q[powerbar[i]].peek())
-				max = q[powerbar[(target = i)]].peek();
-		powerbar[target] = now;
-		return 1;
-	}
+    private static int findTarget(int n, int[] multitap, Deque<Integer>[] waiting) {
+        int target = 0;
+        int far = 0;
+        for (int i = 0; i < n; i++) {
+            int now = multitap[i];
+            if (waiting[now].isEmpty())
+                return i;
+
+            int wait = waiting[now].peek();
+
+            if (wait <= far)
+                continue;
+
+            target = i;
+            far = wait;
+        }
+
+        return target;
+    }
+
+    private static boolean isUse(int target, int use, int[] multitap) {
+        for (int i = 0; i < use; i++)
+            if (multitap[i] == target)
+                return true;
+        return false;
+    }
 }
