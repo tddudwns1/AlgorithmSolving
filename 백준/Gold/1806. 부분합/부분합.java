@@ -1,34 +1,40 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-	public static void main(String[] args) throws NumberFormatException, IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int n = Integer.parseInt(st.nextToken());
-		int s = Integer.parseInt(st.nextToken());
-		int[] sequence = new int[n + 1];
-		st = new StringTokenizer(br.readLine());
-		for (int i = 1; i <= n; i++) {
-			sequence[i] += sequence[i - 1] + Integer.parseInt(st.nextToken());
-		}
-		int left = 0;
-		int right = 1;
-		int minLen = Integer.MAX_VALUE;
-		while (right <= n) {
-			int sum = sequence[right] - sequence[left];
-			if (sum >= s) {
-				minLen = Math.min(minLen, right - left);
-				left++;
-			} else {
-				right++;
-			}
-		}
-		if (minLen == Integer.MAX_VALUE)
-			System.out.println(0);
-		else
-			System.out.println(minLen);
-	}
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        int n = Integer.parseInt(st.nextToken());
+        int s = Integer.parseInt(st.nextToken());
+
+        int[] sequence = new int[n];
+
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < n; i++)
+            sequence[i] = Integer.parseInt(st.nextToken());
+
+        int answer = 0;
+        int shortest = Integer.MAX_VALUE;
+        int len = 0;
+        int sum = 0;
+
+        int left = 0;
+        int right = 0;
+        while(true){
+            if(sum < s){
+                if(right == n)
+                    break;
+                sum += sequence[right++];
+                len++;
+            }else{
+                answer = shortest = Integer.min(shortest, len);
+                sum -= sequence[left++];
+                len--;
+            }
+        }
+
+        System.out.println(answer);
+    }
 }
