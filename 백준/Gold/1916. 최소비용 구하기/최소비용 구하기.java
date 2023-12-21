@@ -56,7 +56,7 @@ public class Main {
         while (!pq.isEmpty()) {
             Bus now = pq.poll();
 
-            if (visited[now.station])
+            if(visited[now.station])
                 continue;
             visited[now.station] = true;
 
@@ -71,7 +71,6 @@ public class Main {
                     continue;
 
                 costs[i] = costs[now.station] + cities[now.station][i];
-
                 pq.add(new Bus(i, costs[i]));
             }
         }
