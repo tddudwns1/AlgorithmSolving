@@ -50,28 +50,30 @@ public class Main {
         int[] costs = new int[n + 1];
         Arrays.fill(costs, Integer.MAX_VALUE);
 
-        pq.add(new Bus(start, 0));
         costs[start] = 0;
+        pq.add(new Bus(start, 0));
 
         while (!pq.isEmpty()) {
-            Bus now = pq.poll();
+            int now = pq.poll().station;
 
-            if (visited[now.station])
+            if(now == end)
+                break;
+            if(visited[now])
                 continue;
-            visited[now.station] = true;
+            visited[now] = true;
 
             for (int i = 1; i <= n; i++) {
-                if(cities[now.station][i] == Integer.MAX_VALUE)
+                if(cities[now][i] == Integer.MAX_VALUE)
                     continue;
 
                 if(visited[i])
                     continue;
 
-                if(costs[i] <= costs[now.station] + cities[now.station][i])
+                int newCost = costs[now] + cities[now][i];
+                if(costs[i] <= newCost)
                     continue;
 
-                costs[i] = costs[now.station] + cities[now.station][i];
-
+                costs[i] = newCost;
                 pq.add(new Bus(i, costs[i]));
             }
         }
