@@ -1,5 +1,3 @@
-import org.w3c.dom.Node;
-
 import java.io.*;
 import java.util.*;
 
@@ -73,7 +71,7 @@ public class Main {
                     continue;
 
                 costs[i] = costs[now.station] + cities[now.station][i];
-                
+
                 pq.add(new Bus(i, costs[i]));
             }
         }
