@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -8,9 +6,22 @@ public class Main {
         String s = br.readLine();
         String p = br.readLine();
 
-        int[] pi = getPi(p);
+        System.out.println(kmp(s, p, getPi(p)));
+    }
 
-        System.out.println(kmp(s, p, pi));
+    private static int[] getPi(String p) {
+        int[] pi = new int[p.length()];
+        int j = 0;
+        for (int i = 1; i < p.length(); i++) {
+            while (true) {
+                if (j == 0) break;
+                if (p.charAt(i) == p.charAt(j)) break;
+                j = pi[--j];
+            }
+            if (p.charAt(i) == p.charAt(j)) pi[i] = ++j;
+        }
+
+        return pi;
     }
 
     private static int kmp(String s, String p, int[] pi) {
@@ -29,20 +40,5 @@ public class Main {
         }
 
         return 0;
-    }
-
-    private static int[] getPi(String p) {
-        int[] pi = new int[p.length()];
-        int j = 0;
-        for (int i = 1; i < p.length(); i++) {
-            while (true) {
-                if (j == 0) break;
-                if (p.charAt(i) == p.charAt(j)) break;
-                j = pi[--j];
-            }
-            if (p.charAt(i) == p.charAt(j)) pi[i] = ++j;
-        }
-
-        return pi;
     }
 }
