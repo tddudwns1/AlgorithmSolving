@@ -45,15 +45,13 @@ public class Main {
     private static void lineUp(int now) {
         while (!students[now].taller.isEmpty()) {
             int taller = students[now].taller.poll();
+            if(checked[taller])
+                continue;
             lineUp(taller);
         }
         if(checked[now])
             return;
         checked[now] = true;
         sb.append(now).append(" ");
-//        while (!students[now].shorter.isEmpty()) {
-//            int shorter = students[now].shorter.poll();
-//            lineUp(shorter);
-//        }
     }
 }
