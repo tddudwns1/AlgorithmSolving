@@ -36,8 +36,11 @@ public class Main {
 
         checked = new boolean[n + 1];
 
-        for (int i = 1; i <= n; i++)
+        for (int i = 1; i <= n; i++) {
+            if (checked[i])
+                continue;
             lineUp(i);
+        }
 
         System.out.println(sb);
     }
@@ -45,11 +48,11 @@ public class Main {
     private static void lineUp(int now) {
         while (!students[now].taller.isEmpty()) {
             int taller = students[now].taller.poll();
-            if(checked[taller])
+            if (checked[taller])
                 continue;
             lineUp(taller);
         }
-        if(checked[now])
+        if (checked[now])
             return;
         checked[now] = true;
         sb.append(now).append(" ");
