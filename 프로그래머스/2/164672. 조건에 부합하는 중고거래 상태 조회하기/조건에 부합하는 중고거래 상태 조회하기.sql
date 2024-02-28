@@ -6,5 +6,5 @@ SELECT BOARD_ID, WRITER_ID, TITLE, PRICE,
         when STATUS = 'DONE' then '거래완료'
     end as status
 from USED_GOODS_BOARD
-where '2022-10-05' = CREATED_DATE
+WHERE DATE_FORMAT(CREATED_DATE, '%Y-%m-%d') = '2022-10-05'
 order by BOARD_ID desc
