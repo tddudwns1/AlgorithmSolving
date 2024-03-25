@@ -1,14 +1,16 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class Main {
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
         int n = Integer.parseInt(br.readLine());
-        StringBuilder sb=new StringBuilder();
 
         char[][] map = new char[n][n];
 
@@ -17,7 +19,7 @@ public class Main {
             map[i] = br.readLine().toCharArray();
         }
 
-        List<Integer> list=new ArrayList<>();
+        Queue<Integer> pq = new PriorityQueue<>();
 
         for (int i = 0; i < n; i++) {
 
@@ -25,18 +27,17 @@ public class Main {
 
                 if (map[i][j] == '1') {
 
-                    list.add(bfs(map, i, j, n));
+                    pq.add(bfs(map, i, j, n));
                 }
             }
         }
 
-        Collections.sort(list);
-        sb.append(list.size()).append("\n");
-        for(int i = 0; i < list.size(); i++){
-            
-            sb.append(list.get(i)).append("\n");
+        sb.append(pq.size()).append("\n");
+        while (!pq.isEmpty()) {
+
+            sb.append(pq.poll()).append("\n");
         }
-        System.out.print(sb);
+        System.out.println(sb);
     }
 
     private static int bfs(char[][] map, int y, int x, int n) {
