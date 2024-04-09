@@ -65,6 +65,10 @@ public class Main {
             for (int j = 0; j < 4; j++) {
                 int dy = record[i][0] + move[j][0];
                 int dx = record[i][1] + move[j][1];
+                
+                if(paper[dy][dx] == 0)
+                    continue;
+                
                 max = Math.max(max, paper[dy][dx]);
             }
         }
