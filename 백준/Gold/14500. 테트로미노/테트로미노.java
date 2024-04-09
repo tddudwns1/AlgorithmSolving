@@ -5,7 +5,7 @@ import java.util.StringTokenizer;
 
 public class Main {
     static int[][] move = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}}, paper;
-    static int max_num = 0, n, m;
+    static int max_sum = 0, max_num = 0, n, m;
     static int[][] record = new int[3][2];
 
 
@@ -22,7 +22,7 @@ public class Main {
             st = new StringTokenizer(br.readLine());
 
             for (int j = 1; j <= m; j++)
-                paper[i][j] = Integer.parseInt(st.nextToken());
+                max_num = Math.max(paper[i][j] = Integer.parseInt(st.nextToken()), max_num);
         }
 
         for (int i = 1; i <= n; i++) {
@@ -33,10 +33,13 @@ public class Main {
             }
         }
 
-        System.out.println(max_num);
+        System.out.println(max_sum);
     }
 
     private static void dfs(int depth, int sum, int y, int x) {
+        if(sum + max_num * (4 - depth) < max_sum)
+            return;
+
         record[depth] = new int[]{y, x};
 
         if (depth == 2) {
@@ -66,6 +69,6 @@ public class Main {
             }
         }
 
-        max_num = Math.max(max_num, sum + max);
+        max_sum = Math.max(max_sum, sum + max);
     }
 }
