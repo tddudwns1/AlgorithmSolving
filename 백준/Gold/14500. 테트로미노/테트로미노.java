@@ -37,7 +37,7 @@ public class Main {
     }
 
     private static void dfs(int depth, int sum, int y, int x) {
-        if(sum + max_num * (4 - depth) < max_sum)
+        if(sum + max_num * (3 - depth) < max_sum)
             return;
 
         record[depth] = new int[]{y, x};
@@ -52,9 +52,15 @@ public class Main {
             int dx = x + move[i][1];
             if (paper[dy][dx] == 0)
                 continue;
+
             int now = paper[dy][dx];
+            int next = sum + now;
+
+            //if(next + max_num * (4 - depth) < max_sum)
+            //    continue;
+
             paper[dy][dx] = 0;
-            dfs(depth + 1, sum + now, dy, dx);
+            dfs(depth + 1, next, dy, dx);
             paper[dy][dx] = now;
         }
     }
@@ -65,10 +71,10 @@ public class Main {
             for (int j = 0; j < 4; j++) {
                 int dy = record[i][0] + move[j][0];
                 int dx = record[i][1] + move[j][1];
-                
+
                 if(paper[dy][dx] == 0)
                     continue;
-                
+
                 max = Math.max(max, paper[dy][dx]);
             }
         }
