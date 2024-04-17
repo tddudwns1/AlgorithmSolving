@@ -4,7 +4,6 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -26,10 +25,12 @@ public class Main {
                 map.put(key, map.getOrDefault(key, 0) + 1);
             }
 
-            AtomicInteger total = new AtomicInteger(1);
-            map.forEach((o, v) -> total.updateAndGet(v1 -> v1 * (v + 1)));
+            int total = 1;
+            for (int now : map.values()) {
+                total *= now + 1;
+            }
 
-            sb.append(total.get() - 1).append("\n"); // 마지막에 1을 빼줌
+            sb.append(total - 1).append("\n");
         }
 
         System.out.println(sb);
