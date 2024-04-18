@@ -18,8 +18,8 @@ public class Main {
             int now = Integer.parseInt(br.readLine());
 
             if (last < now)
-                for (int i = last + 1; i <= now; i++)
-                    s[i] = s[i - 1] + s[i - 5];
+                for (int i = last; i < now; i++)
+                    s[i + 1] = s[i] + s[i - 4];
 
             sb.append(s[now]).append("\n");
         }
