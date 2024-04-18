@@ -17,9 +17,11 @@ public class Main {
         for (int tc = 1; tc <= T; tc++) {
             int now = Integer.parseInt(br.readLine());
 
-            if (last < now)
+            if (last < now) {
                 for (int i = last; i < now; i++)
                     s[i + 1] = s[i] + s[i - 4];
+                last = now;
+            }
 
             sb.append(s[now]).append("\n");
         }
