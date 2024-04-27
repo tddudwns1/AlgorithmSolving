@@ -68,17 +68,17 @@ public class Main {
 
                     // 만약 내가 지금 보는 사람이 낮은 사람이라면
                     // 그 사람은 더 탐색 안 하고 그 사람의 친구 관계만큼 +
-                    //if (i < now) {
-                    //    //int diff = count - counts[i][start];
-                    //
-                    //    for (int j = 1; j < i; j++)
-                    //        counts[start][j] = Math.min(counts[start][j], counts[i][j] + count);
-                    //
-                    //    for (int j = i + 1; j <= n; j++)
-                    //        counts[start][j] = Math.min(counts[start][j], counts[i][j] + count);
-                    //
-                    //    continue;
-                    //}
+                    if (i < start) {
+                        //int diff = count - counts[i][start];
+
+                        //for (int j = 1; j < i; j++)
+                        //    counts[start][j] = Math.min(counts[start][j], counts[i][j] + count);
+
+                        for (int j = 1; j <= n; j++)
+                            counts[start][j] = Math.min(counts[start][j], counts[i][j] + count);
+
+                        continue;
+                    }
 
                     if (counts[start][i] <= count)
                         continue;
