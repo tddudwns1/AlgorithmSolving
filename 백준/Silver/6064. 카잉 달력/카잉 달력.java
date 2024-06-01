@@ -47,27 +47,13 @@ public class Main {
     }
     
     public static int getLimit(int m, int n) {
-        Stack<Integer> stack = new Stack();
-        
-        int standard = Math.min(Math.min(m, n), (int)Math.sqrt(Math.max(m, n)));
-        
-        for (int i = standard; i > 1; i--) {
-            if (m % i != 0)
-                continue;
-            
-            if (n % i != 0)
-                continue;
-            
-            m /= i;
-            n /= i;
-            stack.add(i);
+        return (m * n) / gcd(m, n);
+    }
+    
+    public static int gcd(int m, int n) {
+        if (n == 0) {
+            return m;
         }
-                                
-        int limit = m * n;
-        
-        for (int now : stack)
-            limit *= now;
-            
-        return limit;
+        return gcd(n, m % n);
     }
 }
