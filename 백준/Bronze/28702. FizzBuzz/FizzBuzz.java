@@ -3,7 +3,7 @@ import java.io.*;
 class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String answer = "";
+        StringBuilder sb = new StringBuilder();
         
         for (int i = 3; i > 0; i--) {
             String now = br.readLine();
@@ -14,14 +14,14 @@ class Main {
             int candidate = Integer.parseInt(now) + i;
             
             if (candidate % 3 == 0)
-                answer += "Fizz";
+                sb.append("Fizz");
             if (candidate % 5 == 0)
-                answer += "Buzz";
-            if (answer.isEmpty())
-                answer = String.valueOf(candidate);
+                sb.append("Buzz");
+            if (sb.length() == 0)
+                sb.append(candidate);
             break;
         }
         
-        System.out.println(answer);
+        System.out.println(sb);
     }
 }
