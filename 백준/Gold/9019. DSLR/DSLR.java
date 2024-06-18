@@ -26,81 +26,45 @@ class Main {
         
         System.out.println(sb);
     }
-    
+
     private static String process(int start, int target) {
-        Queue<Register> q = new ArrayDeque<>();
-        q.add(new Register(start, ""));
-        boolean[] checked = new boolean[10000];
-        
-        while(true) {
-            Register now = q.poll();
-            
-            if(now.value == target)
-                return now.command;
-            
-            Register afterD = d(now);
-            if(!checked[afterD.value]){
-                q.add(afterD);
-                checked[afterD.value] = true;
+        Queue<Register> queue = new ArrayDeque<>();
+        boolean[] visited = new boolean[10000];
+        queue.add(new Register(start, ""));
+        visited[start] = true;
+
+        while (!queue.isEmpty()) {
+            Register current = queue.poll();
+
+            if (current.value == target) {
+                return current.command;
             }
-            
-            Register afterS = s(now);
-            if(!checked[afterS.value]){
-                q.add(afterS);
-                checked[afterS.value] = true;
+
+            int D = (current.value * 2) % 10000;
+            if (!visited[D]) {
+                queue.add(new Register(D, current.command + "D"));
+                visited[D] = true;
             }
-            
-            Register afterL = l(now);
-            if(!checked[afterL.value]){
-                q.add(afterL);
-                checked[afterL.value] = true;
+
+            int S = current.value == 0 ? 9999 : current.value - 1;
+            if (!visited[S]) {
+                queue.add(new Register(S, current.command + "S"));
+                visited[S] = true;
             }
-            
-            Register afterR = r(now);
-            if(!checked[afterR.value]){
-                q.add(afterR);
-                checked[afterR.value] = true;
+
+            int L = (current.value % 1000) * 10 + current.value / 1000;
+            if (!visited[L]) {
+                queue.add(new Register(L, current.command + "L"));
+                visited[L] = true;
+            }
+
+            int R = (current.value % 10) * 1000 + current.value / 10;
+            if (!visited[R]) {
+                queue.add(new Register(R, current.command + "R"));
+                visited[R] = true;
             }
         }
-    }
-    
-    private static Register d(Register now) {
-        int value = now.value;
-        String command = now.command;
-        
-        value = 2 * value % 10000;
-        command += "D";
-        
-        return new Register(value, command);
-    }
-    
-    private static Register s(Register now) {
-        int value = now.value;
-        String command = now.command;
-        
-        if(--value == -1) value = 9999;
-        command += "S";
-        
-        return new Register(value, command);
-    }
-    
-    private static Register l(Register now) {
-        int value = now.value;
-        String command = now.command;
-        
-        value = value % 1000 * 10 + value / 1000;
-        command += "L";
-        
-        return new Register(value, command);
-    }
-    
-    private static Register r(Register now) {
-        int value = now.value;
-        String command = now.command;
-        
-        value = value % 10 * 1000 + value / 10;
-        command += "R";
-        
-        return new Register(value, command);
+
+        return "";
     }
 }
