@@ -16,7 +16,7 @@ public class Main {
         for (int i = 1; i <= n; i++)
             yeonByeonJang[i] = Integer.parseInt(st.nextToken());
 
-        int[] jiSi = new int[n + 1];
+        int[] jiSi = new int[n + 2];
         for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
             int a = Integer.parseInt(st.nextToken());
@@ -24,8 +24,7 @@ public class Main {
             int k = Integer.parseInt(st.nextToken());
 
             jiSi[a] += k;
-            if (b < n)
-                jiSi[b + 1] -= k;
+            jiSi[b + 1] -= k;
         }
 
         StringBuilder sb = new StringBuilder();
