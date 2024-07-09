@@ -27,9 +27,13 @@ public class Main {
         int m = Integer.parseInt(st.nextToken());
         int x = Integer.parseInt(st.nextToken());
 
-        List<Info>[] infos = new List[n + 1];
+        List<Info>[] goInfos = new List[n + 1];
         for (int i = 1; i <= n; i++)
-            infos[i] = new ArrayList<>();
+            goInfos[i] = new ArrayList<>();
+
+        List<Info>[] backInfos = new List[n + 1];
+        for (int i = 1; i <= n; i++)
+            backInfos[i] = new ArrayList<>();
 
         for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
@@ -38,49 +42,47 @@ public class Main {
             int e = Integer.parseInt(st.nextToken());
             int d = Integer.parseInt(st.nextToken());
 
-            infos[s].add(new Info(e, d));
+            goInfos[s].add(new Info(e, d));
+            backInfos[e].add(new Info(s, d));
         }
 
-        int[][] dist = new int[n + 1][n + 1];
+        int[] goDist = new int[n + 1];
         for (int i = 1; i <= n; i++)
-            Arrays.fill(dist[i], Integer.MAX_VALUE);
+            Arrays.fill(goDist, Integer.MAX_VALUE);
+        dijkstra(x, goDist, n, goInfos);
 
+        int[] backDist = new int[n + 1];
         for (int i = 1; i <= n; i++)
-            dijkstra(i, x, dist, n, infos);
+            Arrays.fill(backDist, Integer.MAX_VALUE);
+        dijkstra(x, backDist, n, backInfos);
 
         int answer = 0;
         for (int i = 1; i <= n; i++)
-            answer = Math.max(answer, dist[i][x] + dist[x][i]);
+            answer = Math.max(answer, goDist[i] + backDist[i]);
 
         System.out.println(answer);
     }
 
-    public static void dijkstra(int start, int destination, int[][] dist, int n, List<Info>[] infos) {
+    public static void dijkstra(int destination, int[] dist, int n, List<Info>[] infos) {
         PriorityQueue<Info> pq = new PriorityQueue<>();
-        boolean[] visited = new boolean[n + 1];
 
-        dist[start][start] = 0;
-        pq.add(new Info(start, 0));
+        dist[destination] = 0;
+        pq.add(new Info(destination, 0));
 
         while (n > 0) {
             Info now = pq.poll();
             int index = now.destination;
 
-            if (visited[index])
+            if (dist[index] < now.distance)
                 continue;
-            visited[index] = true;
 
             for (Info next : infos[index])
-                if (dist[start][next.destination] > dist[start][index] + next.distance) {
-                    dist[start][next.destination] = dist[start][index] + next.distance;
-                    pq.add(new Info(next.destination, dist[start][next.destination]));
+                if (dist[next.destination] > dist[index] + next.distance) {
+                    dist[next.destination] = dist[index] + next.distance;
+                    pq.add(new Info(next.destination, dist[next.destination]));
                 }
 
             n--;
-
-            if (index == destination)
-                if (start != destination)
-                    return;
         }
     }
 }
