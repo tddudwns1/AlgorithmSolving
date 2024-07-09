@@ -76,8 +76,9 @@ public class Main {
                 if (dist[start][now.destination] > dist[start][index] + now.distance)
                     dist[start][now.destination] = dist[start][index] + now.distance;
 
-//            if (index == destination)
-//                return;
+            if (index == destination)
+                if (start != destination)
+                    return;
         }
     }
 }
