@@ -62,7 +62,7 @@ public class Main {
         dist[start][start] = 0;
         pq.add(new Info(start, 0));
 
-        while (!pq.isEmpty()) {
+        while (n > 0) {
             Info now = pq.poll();
             int index = now.destination;
 
@@ -75,6 +75,8 @@ public class Main {
                     dist[start][next.destination] = dist[start][index] + next.distance;
                     pq.add(new Info(next.destination, dist[start][next.destination]));
                 }
+
+            n--;
 
             if (index == destination)
                 if (start != destination)
