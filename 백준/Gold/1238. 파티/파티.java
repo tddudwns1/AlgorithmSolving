@@ -1,19 +1,21 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
-    public static class Info {
+    public static class Info implements Comparable<Info> {
         int destination;
         int distance;
 
         public Info(int destination, int distance) {
             this.destination = destination;
             this.distance = distance;
+        }
+
+        @Override
+        public int compareTo(Info o) {
+            return distance - o.distance;
         }
     }
 
@@ -44,7 +46,7 @@ public class Main {
             Arrays.fill(dist[i], Integer.MAX_VALUE);
 
         for (int i = 1; i <= n; i++)
-            dijkstra(i, x, dist, new boolean[n + 1], n, infos);
+            dijkstra(i, x, dist, n, infos);
 
         int answer = 0;
         for (int i = 1; i <= n; i++)
@@ -53,28 +55,26 @@ public class Main {
         System.out.println(answer);
     }
 
-    public static void dijkstra(int start, int destination, int[][] dist, boolean[] visited, int n, List<Info>[] infos) {
+    public static void dijkstra(int start, int destination, int[][] dist, int n, List<Info>[] infos) {
+        PriorityQueue<Info> pq = new PriorityQueue<>();
+        boolean[] visited = new boolean[n + 1];
+
         dist[start][start] = 0;
+        pq.add(new Info(start, 0));
 
-        for (int v = 0; v < n; v++) {
-            int temp = Integer.MAX_VALUE;
-            int index = 0;
+        while (!pq.isEmpty()) {
+            Info now = pq.poll();
+            int index = now.destination;
 
-            for (int i = 1; i <= n; i++) {
-                if (visited[i])
-                    continue;
-
-                if (dist[start][i] >= temp)
-                    continue;
-
-                temp = dist[start][index = i];
-            }
-
+            if (visited[index])
+                continue;
             visited[index] = true;
 
-            for (Info now : infos[index])
-                if (dist[start][now.destination] > dist[start][index] + now.distance)
-                    dist[start][now.destination] = dist[start][index] + now.distance;
+            for (Info next : infos[index])
+                if (dist[start][next.destination] > dist[start][index] + next.distance) {
+                    dist[start][next.destination] = dist[start][index] + next.distance;
+                    pq.add(new Info(next.destination, dist[start][next.destination]));
+                }
 
             if (index == destination)
                 if (start != destination)
