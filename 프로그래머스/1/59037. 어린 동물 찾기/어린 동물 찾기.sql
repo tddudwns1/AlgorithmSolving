@@ -1,0 +1,4 @@
+SELECT a.ANIMAL_ID as ANIMAL_ID, a.NAME as NAME
+from ANIMAL_INS a
+where a.INTAKE_CONDITION != "Aged"
+order by a.ANIMAL_ID;
