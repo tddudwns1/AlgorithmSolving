@@ -1,0 +1,4 @@
+SELECT a.DATETIME as DATETIME
+from ANIMAL_INS a
+order by DATETIME
+limit 1;
