@@ -1,29 +1,26 @@
 import java.io.*;
+import java.util.*;
 
 class Main {
-    static boolean[] checked = new boolean[9*9*9*9*9*9*9*9*9+1];
-    static int answer = 0;
+    static HashSet<Integer> checked = new HashSet<>();
     
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
         
-        dfs(1, 0, n);
+        dfs(1, 1, 0, n);
         
-        System.out.println(answer);
+        System.out.println(checked.size());
     }
     
-    public static void dfs(int now, int depth, int n) {
+    public static void dfs(int index, int now, int depth, int n) {
         if (depth == n) {
-            if (checked[now])
-                return;
-            checked[now] = true;
-            answer++;
+            checked.add(now);
             return;
         }
         
-        for (int i = 1; i <= 9; i++) {
-            dfs(now * i, depth + 1, n);
+        for (int i = index; i <= 9; i++) {
+            dfs(i, now * i, depth + 1, n);
         }
     }
 }
