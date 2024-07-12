@@ -4,7 +4,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Queue;
-import java.util.Stack;
 
 public class Main {
     static class Point {
@@ -26,13 +25,9 @@ public class Main {
 
         int answer = 0;
 
-        while (true) {
-            if (!remove(field))
-                break;
-
-            answer++;
-
+        while (remove(field)) {
             replace(field);
+            answer++;
         }
 
         System.out.println(answer);
@@ -83,7 +78,13 @@ public class Main {
             if (now == 0)
                 break;
 
-            while (y - now >= 0 && field[y - now][x] != '.') {
+            while (true) {
+                if (y < now)
+                    break;
+
+                if (field[y - now][x] == '.')
+                    break;
+
                 field[y][x] = field[y-- - now][x];
             }
         }
@@ -112,11 +113,7 @@ public class Main {
     }
 
     private static boolean bfs(char[][] field, int y, int x, boolean[][] checked) {
-        Point[] move = {
-                new Point(-1, 0),
-                new Point(0, 1),
-                new Point(1, 0),
-                new Point(0, -1)};
+        int[][] move = {{-1, 0},{0, 1},{1, 0},{0, -1}};
 
         Queue<Point> q = new ArrayDeque<>();
         Queue<Point> candidate = new ArrayDeque<>();
@@ -131,11 +128,11 @@ public class Main {
             Point now = q.poll();
 
             for (int i = 0; i < 4; i++) {
-                int dy = now.y + move[i].y;
+                int dy = now.y + move[i][0];
                 if (dy < 0 || dy >= 12)
                     continue;
 
-                int dx = now.x + move[i].x;
+                int dx = now.x + move[i][1];
                 if (dx < 0 || dx >= 6)
                     continue;
 
