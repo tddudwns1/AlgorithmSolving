@@ -5,16 +5,17 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Queue;
 
-public class Main {
-    static class Point {
-        int x;
-        int y;
+class Point {
+    int x;
+    int y;
 
-        public Point(int y, int x) {
-            this.x = x;
-            this.y = y;
-        }
+    public Point(int y, int x) {
+        this.x = x;
+        this.y = y;
     }
+}
+
+public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -113,7 +114,7 @@ public class Main {
     }
 
     private static boolean bfs(char[][] field, int y, int x, boolean[][] checked) {
-        int[][] move = {{-1, 0},{0, 1},{1, 0},{0, -1}};
+        int[][] move = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
 
         Queue<Point> q = new ArrayDeque<>();
         Queue<Point> candidate = new ArrayDeque<>();
