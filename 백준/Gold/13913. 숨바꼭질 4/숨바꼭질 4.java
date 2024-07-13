@@ -2,9 +2,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.Arrays;
 import java.util.Queue;
 import java.util.StringTokenizer;
+
+// 
+class Memory {
+    int before;
+
+    public Memory(int before) {
+        this.before = before;
+    }
+}
 
 public class Main {
     static int answer = 0;
@@ -18,10 +26,10 @@ public class Main {
 
         StringBuilder sb = new StringBuilder();
 
-        // 동생이 임수빈보다 낮은 위치에 숨어있다면 한 칸 씩 뒤로 걷는게 답이다
+        // 동생이 임수빈보다 낮은 위치에 숨어있다면 한 칸 씩 뒤로 걷는게 답이다 
         if (n >= k) {
             sb.append(n-k).append('\n');
-
+            
             for (int i = n; i >= k; i--)
                 sb.append(i).append(' ');
 
@@ -29,9 +37,8 @@ public class Main {
             return;
         }
 
-        int[] field = new int[100_001];
-        Arrays.fill(field, -1);
-        field[n] = -2;
+        Memory[] field = new Memory[100_001];
+        field[n] = new Memory(-1);
 
         bfs(field, n, k);
 
@@ -42,7 +49,7 @@ public class Main {
         System.out.println(sb);
     }
 
-    private static void bfs(int[] field, int n, int k) {
+    private static void bfs(Memory[] field, int n, int k) {
         Queue<Integer> position = new ArrayDeque<>();
 
         position.add(n);
@@ -54,31 +61,31 @@ public class Main {
                 return;
 
             int back = now - 1;
-            if (back >= 0 && field[back] == -1) {
-                field[back] = now;
+            if (back >= 0 && field[back] == null) {
+                field[back] = new Memory(now);
                 position.add(back);
             }
 
             int front = now + 1;
-            if (front <= 100_000 && field[front] == -1) {
-                field[front] = now;
+            if (front <= 100_000 && field[front] == null) {
+                field[front] = new Memory(now);
                 position.add(front);
             }
 
             int teleport = now * 2;
-            if (teleport <= 100_000 && field[teleport] == -1) {
-                field[teleport] = now;
+            if (teleport <= 100_000 && field[teleport] == null) {
+                field[teleport] = new Memory(now);
                 position.add(teleport);
             }
         }
     }
 
-    private static void recursion(int[] field, int n, int k, StringBuilder sb) {
+    private static void recursion(Memory[] field, int n, int k, StringBuilder sb) {
         if (k == n)
             return;
 
-        recursion(field, n, field[k], sb);
-        sb.append(field[k]).append(" ");
+        recursion(field, n, field[k].before, sb);
+        sb.append(field[k].before).append(" ");
         answer++;
     }
 }
