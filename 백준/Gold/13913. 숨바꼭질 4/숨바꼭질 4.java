@@ -25,12 +25,21 @@ public class Main {
         int n = Integer.parseInt(st.nextToken());
         int k = Integer.parseInt(st.nextToken());
 
+        StringBuilder sb = new StringBuilder();
+
+        if (n >= k) {
+            sb.append(n-k).append('\n');
+            for (int i = n; i >= k; i--)
+                sb.append(i).append(' ');
+                
+            System.out.print(sb);
+            return;
+        }
+        
         Memory[] field = new Memory[100_001];
         field[n] = new Memory(n, -1);
 
         bfs(field, n, k);
-
-        StringBuilder sb = new StringBuilder();
 
         recursion(field, n, k, sb);
         sb.append(k);
@@ -50,10 +59,10 @@ public class Main {
             if (now == k)
                 return;
 
-            int teleport = now * 2;
-            if (teleport <= 100_000 && field[teleport] == null) {
-                field[teleport] = new Memory(teleport, now);
-                position.add(teleport);
+            int back = now - 1;
+            if (back >= 0 && field[back] == null) {
+                field[back] = new Memory(back, now);
+                position.add(back);
             }
 
             int front = now + 1;
@@ -62,10 +71,10 @@ public class Main {
                 position.add(front);
             }
 
-            int back = now - 1;
-            if (back >= 0 && field[back] == null) {
-                field[back] = new Memory(back, now);
-                position.add(back);
+            int teleport = now * 2;
+            if (teleport <= 100_000 && field[teleport] == null) {
+                field[teleport] = new Memory(teleport, now);
+                position.add(teleport);
             }
         }
     }
