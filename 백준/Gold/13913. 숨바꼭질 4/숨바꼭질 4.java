@@ -50,10 +50,10 @@ public class Main {
             if (now == k)
                 return;
 
-            int back = now - 1;
-            if (back >= 0 && field[back] == null) {
-                field[back] = new Memory(back, now);
-                position.add(back);
+            int teleport = now * 2;
+            if (teleport <= 100_000 && field[teleport] == null) {
+                field[teleport] = new Memory(teleport, now);
+                position.add(teleport);
             }
 
             int front = now + 1;
@@ -62,10 +62,10 @@ public class Main {
                 position.add(front);
             }
 
-            int teleport = now * 2;
-            if (teleport <= 100_000 && field[teleport] == null) {
-                field[teleport] = new Memory(teleport, now);
-                position.add(teleport);
+            int back = now - 1;
+            if (back >= 0 && field[back] == null) {
+                field[back] = new Memory(back, now);
+                position.add(back);
             }
         }
     }
