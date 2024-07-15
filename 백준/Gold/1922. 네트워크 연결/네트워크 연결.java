@@ -27,9 +27,7 @@ public class Main {
         int n = Integer.parseInt(br.readLine());
         int m = Integer.parseInt(br.readLine());
 
-        Queue<Info>[] expenses = new PriorityQueue[n + 1];
-        for (int i = 1; i <= n; i++)
-            expenses[i] = new PriorityQueue<>();
+        int[][] expenses = new int[n + 1][n + 1];
 
         for (int i = 0; i < m; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
@@ -39,15 +37,17 @@ public class Main {
 
             if (a == b)
                 continue;
+            if (expenses[a][b] != 0 && expenses[a][b] <= c)
+                continue;
 
-            expenses[a].add(new Info(b, c));
-            expenses[b].add(new Info(a, c));
+            expenses[a][b] = c;
+            expenses[b][a] = c;
         }
 
         System.out.println(prim(expenses, n));
     }
 
-    private static int prim(Queue<Info>[] expenses, int n) {
+    private static int prim(int[][] expenses, int n) {
         Queue<Info> pq = new PriorityQueue<>();
         boolean[] checked = new boolean[n + 1];
         int answer = 0;
@@ -65,7 +65,9 @@ public class Main {
             answer += now.expense;
             count++;
 
-            pq.addAll(expenses[now.next]);
+            for (int i = 1; i <= n; i++)
+                if (expenses[now.next][i] != 0)
+                    pq.add(new Info(i, expenses[now.next][i]));
         }
 
         return answer;
