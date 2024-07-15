@@ -35,9 +35,9 @@ public class Main {
             int b = Integer.parseInt(st.nextToken());
             int c = Integer.parseInt(st.nextToken());
 
-            if (a == b)
-                continue;
             if (expenses[a][b] != 0 && expenses[a][b] <= c)
+                continue;
+            if (a == b)
                 continue;
 
             expenses[a][b] = c;
