@@ -1,81 +1,73 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
+class Info implements Comparable<Info>{
+    int next;
+    int expense;
+
+    public Info(int next, int expense) {
+        this.next = next;
+        this.expense = expense;
+    }
+
+    @Override
+    public int compareTo(Info o) {
+        return expense - o.expense;
+    }
+}
+
 public class Main {
-	static class Edge implements Comparable<Edge> {
-		int a;
-		int b;
-		int cost;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-		public Edge(int a, int b, int cost) {
-			this.a = a;
-			this.b = b;
-			this.cost = cost;
-		}
+        int n = Integer.parseInt(br.readLine());
+        int m = Integer.parseInt(br.readLine());
 
-		@Override
-		public int compareTo(Edge o) {
-			return this.cost - o.cost;
-		}
+        Queue<Info>[] expenses = new PriorityQueue[n + 1];
+        for (int i = 1; i <= n; i++)
+            expenses[i] = new PriorityQueue<>();
 
-	}
+        for (int i = 0; i < m; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            int c = Integer.parseInt(st.nextToken());
 
-	public static void union(int a, int b, int[] parent) {
-		a = find(a, parent);
-		b = find(b, parent);
+            if (a == b)
+                continue;
 
-		if (a > b)
-			parent[a] = b;
-		else
-			parent[b] = a;
-	}
+            expenses[a].add(new Info(b, c));
+            expenses[b].add(new Info(a, c));
+        }
 
-	public static int find(int n, int[] parent) {
-		if (parent[n] == n)
-			return n;
-		return parent[n] = find(parent[n], parent);
-	}
+        System.out.println(prim(expenses, n));
+    }
 
-	public static void main(String[] args) throws NumberFormatException, IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private static int prim(Queue<Info>[] expenses, int n) {
+        Queue<Info> pq = new PriorityQueue<>();
+        boolean[] checked = new boolean[n + 1];
+        int answer = 0;
 
-		int n = Integer.parseInt(br.readLine());
-		int m = Integer.parseInt(br.readLine());
+        pq.add(new Info(1, 0));
 
-		int[] parent = new int[n + 1];
-		for (int i = 1; i <= n; i++)
-			parent[i] = i;
+        int count = 0;
+        while (count < n) {
+            Info now = pq.poll();
 
-		Queue<Edge> pq = new PriorityQueue<>();
-		for (int i = 0; i < m; i++) {
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
-			int cost = Integer.parseInt(st.nextToken());
+            if (checked[now.next])
+                continue;
 
-			if (a == b)
-				continue;
+            checked[now.next] = true;
+            answer += now.expense;
+            count++;
 
-			pq.add(new Edge(a, b, cost));
-		}
-		int cost = 0;
+            pq.addAll(expenses[now.next]);
+        }
 
-		while (!pq.isEmpty()) {
-			Edge e = pq.poll();
-
-			if (find(e.a, parent) == find(e.b, parent))
-				continue;
-
-			union(e.a, e.b, parent);
-			cost += e.cost;
-		}
-
-		System.out.println(cost);
-	}
+        return answer;
+    }
 }
