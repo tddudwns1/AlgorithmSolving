@@ -70,12 +70,17 @@ public class Main {
         times[0] = 0;
 
         for (int cycle = 1; cycle < n; cycle++) {
+            boolean cantReturn = true;
             for (Edge edge : edges) {
                 if (times[edge.end] <= times[edge.start] + edge.cost)
                     continue;
 
                 times[edge.end] = times[edge.start] + edge.cost;
+                cantReturn = false;
             }
+            
+            if (cantReturn)
+                return "NO";
         }
         for (Edge edge : edges) {
             if (times[edge.start] == Integer.MAX_VALUE)
