@@ -28,7 +28,8 @@ public class Main {
             int m = Integer.parseInt(st.nextToken());
             int w = Integer.parseInt(st.nextToken());
 
-            Queue<Edge> edges = new ArrayDeque<>();
+            Edge[] edges = new Edge[m * 2 + w];
+            int index = 0;
 
             for (int i = 0; i < m; i++) {
                 st = new StringTokenizer(br.readLine());
@@ -37,8 +38,8 @@ public class Main {
                 int e = Integer.parseInt(st.nextToken());
                 int t = Integer.parseInt(st.nextToken());
 
-                edges.add(new Edge(s, e, t));
-                edges.add(new Edge(e, s, t));
+                edges[index++] = new Edge(s, e, t);
+                edges[index++] = new Edge(e, s, t);
             }
 
             for (int i = 0; i < w; i++) {
@@ -48,7 +49,7 @@ public class Main {
                 int e = Integer.parseInt(st.nextToken());
                 int t = Integer.parseInt(st.nextToken());
 
-                edges.add(new Edge(s, e, -t));
+                edges[index++] = new Edge(s, e, -t);
             }
 
             sb.append(bellmanFord(edges, n)).append("\n");
@@ -57,7 +58,7 @@ public class Main {
         System.out.println(sb);
     }
 
-    private static String bellmanFord(Queue<Edge> edges, int n) {
+    private static String bellmanFord(Edge[] edges, int n) {
         int[] times = new int[n + 1];
         Arrays.fill(times, 500 * 10_000);
         times[0] = 0;
