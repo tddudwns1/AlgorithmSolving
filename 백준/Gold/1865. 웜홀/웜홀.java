@@ -77,9 +77,6 @@ public class Main {
                 return "NO";
         }
         for (Edge edge : edges) {
-            if (times[edge.start] == Integer.MAX_VALUE)
-                continue;
-
             if (times[edge.end] <= times[edge.start] + edge.cost)
                 continue;
 
