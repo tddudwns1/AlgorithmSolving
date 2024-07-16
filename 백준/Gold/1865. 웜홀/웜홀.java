@@ -42,8 +42,6 @@ public class Main {
                 infos[e][s] = infos[s][e] = Math.min(infos[s][e], t);
             }
 
-            boolean[] canReturn = new boolean[n + 1];
-
             for (int i = 0; i < w; i++) {
                 st = new StringTokenizer(br.readLine());
 
@@ -52,7 +50,6 @@ public class Main {
                 int t = Integer.parseInt(st.nextToken());
 
                 infos[s][e] = Math.min(infos[s][e], -t);
-                canReturn[e] = true;
             }
 
             Queue<Edge> edges = new ArrayDeque<>();
@@ -61,36 +58,33 @@ public class Main {
                     if (infos[i][j] != Integer.MAX_VALUE)
                         edges.add(new Edge(i, j, infos[i][j]));
 
-            sb.append(bellmanFord(edges, canReturn, n)).append("\n");
+            sb.append(bellmanFord(edges, n)).append("\n");
         }
 
         System.out.println(sb);
     }
 
-    private static String bellmanFord(Queue<Edge> edges, boolean[] canReturn, int n) {
+    private static String bellmanFord(Queue<Edge> edges, int n) {
         int[] times = new int[n + 1];
+        Arrays.fill(times, 500 * 10_000);
+        times[0] = 0;
 
-        for (int start = 1; start <= n; start++) {
-            if (!canReturn[start])
+        for (int cycle = 1; cycle < n; cycle++) {
+            for (Edge edge : edges) {
+                if (times[edge.end] <= times[edge.start] + edge.cost)
+                    continue;
+
+                times[edge.end] = times[edge.start] + edge.cost;
+            }
+        }
+        for (Edge edge : edges) {
+            if (times[edge.start] == Integer.MAX_VALUE)
                 continue;
 
-            Arrays.fill(times, Integer.MAX_VALUE);
-            times[start] = 0;
+            if (times[edge.end] <= times[edge.start] + edge.cost)
+                continue;
 
-            for (int cycle = 1; cycle <= n; cycle++) {
-                for (Edge edge : edges) {
-                    if (times[edge.start] == Integer.MAX_VALUE)
-                        continue;
-
-                    if (times[edge.end] <= times[edge.start] + edge.cost)
-                        continue;
-
-                    if (cycle == n)
-                        return "YES";
-
-                    times[edge.end] = times[edge.start] + edge.cost;
-                }
-            }
+            return "YES";
         }
 
         return "NO";
