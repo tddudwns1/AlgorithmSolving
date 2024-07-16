@@ -60,16 +60,17 @@ public class Main {
 
     private static String bellmanFord(Edge[] edges, int n) {
         int[] times = new int[n + 1];
-        Arrays.fill(times, 500 * 10_000);
+        Arrays.fill(times, 5_000_000);
         times[0] = 0;
 
         for (int cycle = 1; cycle < n; cycle++) {
             boolean cantReturn = true;
             for (Edge edge : edges) {
-                if (times[edge.end] <= times[edge.start] + edge.cost)
+                int candidate = times[edge.start] + edge.cost;
+                if (times[edge.end] <= candidate)
                     continue;
 
-                times[edge.end] = times[edge.start] + edge.cost;
+                times[edge.end] = candidate;
                 cantReturn = false;
             }
 
