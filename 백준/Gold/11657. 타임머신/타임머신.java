@@ -1,5 +1,8 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
 class Edge {
     int s;
@@ -13,6 +16,9 @@ class Edge {
     }
 }
 
+/**
+ * 벨만 포드 기본 문제
+ */
 public class Main {
     static final Long MAX = 30_0000_0000L;
 
@@ -58,7 +64,7 @@ public class Main {
     private static boolean bellmanFord(Edge[] edges, long[] times, int n) {
         times[1] = 0;
 
-        for (int count = 0; count < n; count++)
+        for (int count = 0; count < n; count++) {
             for (Edge now : edges) {
                 if (times[now.s] == MAX)
                     continue;
@@ -69,6 +75,7 @@ public class Main {
 
                 times[now.e] = newTime;
             }
+        }
 
         for (Edge now : edges) {
             if (times[now.s] == MAX)
