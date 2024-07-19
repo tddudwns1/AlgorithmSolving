@@ -67,10 +67,10 @@ public class Main {
         if (x == y)
             return;
 
-        if (x > y)
-            parents[x] = y;
-
         if (x < y)
             parents[y] = x;
+
+        if (x > y)
+            parents[x] = y;
     }
 }
