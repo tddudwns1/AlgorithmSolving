@@ -24,19 +24,17 @@ public class Main {
         for (int i = 0; i < know; i++)
             parents[Integer.parseInt(st.nextToken())] = 0;
 
-        List<Integer>[] groups = new ArrayList[m];
+        int[] groups = new int[m];
         for (int i = 0; i < m; i++) {
-            groups[i] = new ArrayList<>();
             st = new StringTokenizer(br.readLine());
             int members = Integer.parseInt(st.nextToken());
 
             int standard = Integer.parseInt(st.nextToken());
-            groups[i].add(standard);
+            groups[i] = standard;
 
             for (int j = 1; j < members; j++) {
                 int now = Integer.parseInt(st.nextToken());
                 union(standard, now);
-                groups[i].add(now);
             }
         }
 
@@ -44,11 +42,9 @@ public class Main {
             find(i);
 
         int answer = m;
-        for (int i = 0; i < m; i++) {
-            if (parents[groups[i].get(0)] == 0) {
+        for (int i = 0; i < m; i++)
+            if (parents[groups[i]] == 0) 
                 answer--;
-            }
-        }
 
         System.out.println(answer);
     }
