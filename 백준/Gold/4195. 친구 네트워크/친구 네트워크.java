@@ -5,12 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-/**
- * 친구 네트워크 정보를 저장하기 위한 정보
- * 임의의 root node, 그 root 기준 rank(depth), 그 root 기준 size(친구 수)
- */
 class Info {
     String parent;
+    int rank = 0;
     int size = 1;
 
     public Info(String parent) {
@@ -72,7 +69,16 @@ public class Main {
         Info info1 = infos.get(key1);
         Info info2 = infos.get(key2);
 
-        info1.parent = info2.parent;
-        info2.size += info1.size;
+        if (info1.rank < info2.rank) {
+            info1.parent = info2.parent;
+            info2.size += info1.size;
+            return;
+        }
+
+        info2.parent = info1.parent;
+        info1.size += info2.size;
+
+        if (info1.rank == info2.rank)
+            info1.rank++;
     }
 }
