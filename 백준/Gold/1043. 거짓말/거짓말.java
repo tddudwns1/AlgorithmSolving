@@ -69,8 +69,7 @@ public class Main {
 
         if (x < y)
             parents[y] = x;
-
-        if (x > y)
+        else
             parents[x] = y;
     }
 }
