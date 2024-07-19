@@ -21,8 +21,8 @@ public class Main {
 
         st = new StringTokenizer(br.readLine());
         int know = Integer.parseInt(st.nextToken());
-            for (int i = 0; i < know; i++)
-                union(Integer.parseInt(st.nextToken()), 0);
+        for (int i = 0; i < know; i++)
+            parents[Integer.parseInt(st.nextToken())] = 0;
 
         List<Integer>[] groups = new ArrayList[m];
         for (int i = 0; i < m; i++) {
@@ -45,11 +45,9 @@ public class Main {
 
         int answer = m;
         for (int i = 0; i < m; i++) {
-            for (int now : groups[i])
-                if (parents[now] == 0){
-                    answer--;
-                    break;
-                }
+            if (parents[groups[i].get(0)] == 0) {
+                answer--;
+            }
         }
 
         System.out.println(answer);
