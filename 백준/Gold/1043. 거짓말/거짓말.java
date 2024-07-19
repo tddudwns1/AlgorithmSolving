@@ -1,8 +1,9 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -21,29 +22,28 @@ public class Main {
 
         st = new StringTokenizer(br.readLine());
         int know = Integer.parseInt(st.nextToken());
+        int[] knows = new int[know];
         for (int i = 0; i < know; i++)
-            parents[Integer.parseInt(st.nextToken())] = 0;
+            knows[i] = Integer.parseInt(st.nextToken());
 
         int[] groups = new int[m];
         for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
             int members = Integer.parseInt(st.nextToken());
 
-            int standard = Integer.parseInt(st.nextToken());
-            groups[i] = standard;
+            int standard = groups[i] = Integer.parseInt(st.nextToken());
 
-            for (int j = 1; j < members; j++) {
-                int now = Integer.parseInt(st.nextToken());
-                union(standard, now);
-            }
+            for (int j = 1; j < members; j++)
+                union(standard, Integer.parseInt(st.nextToken()));
         }
 
-        for (int i = 1; i <= n; i++)
-            find(i);
+        Set<Integer> set = new HashSet<>();
+        for (int now : knows)
+            set.add(find(now));
 
         int answer = m;
         for (int i = 0; i < m; i++)
-            if (parents[groups[i]] == 0) 
+            if (set.contains(find(groups[i])))
                 answer--;
 
         System.out.println(answer);
@@ -55,15 +55,15 @@ public class Main {
     }
 
     private static void union(int x, int y) {
-        x = find(x);
-        y = find(y);
+        int rootX = find(x);
+        int rootY = find(y);
 
-        if (x == y)
+        if (rootX == rootY)
             return;
 
-        if (x < y)
-            parents[y] = x;
+        if (rootX < rootY)
+            parents[rootY] = rootX;
         else
-            parents[x] = y;
+            parents[rootX] = rootY;
     }
 }
