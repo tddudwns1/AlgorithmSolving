@@ -49,7 +49,6 @@ public class Main {
         order[1] = Integer.parseInt(st.nextToken());
 
         int[] total = new int[n + 1];
-        Arrays.fill(total, Integer.MAX_VALUE);
 
         System.out.println(process(n, distances, order, total));
     }
@@ -64,6 +63,8 @@ public class Main {
         }
 
         Info candidate1 = dijkstra(stopover, n, distances, n, total);
+        if (candidate1.end == -1)
+            return -1;
 
         stopover = new Info(1, 0);
 
@@ -74,12 +75,15 @@ public class Main {
         }
 
         Info candidate2 = dijkstra(stopover, n, distances, n, total);
+        if (candidate2.end == -1)
+            return -1;
 
         return Math.min(candidate1.distance, candidate2.distance);
     }
 
     private static Info dijkstra(Info start, int n, Queue<Info>[] distances, int target, int[] total) {
         Queue<Info> pq = new PriorityQueue<>();
+        Arrays.fill(total, Integer.MAX_VALUE);
         boolean[] checked = new boolean[n + 1];
 
         pq.add(start);
@@ -92,10 +96,8 @@ public class Main {
                 continue;
             checked[now.end] = true;
 
-            if (target == now.end) {
-                Arrays.fill(total, Integer.MAX_VALUE);
+            if (target == now.end)
                 return new Info(now.end, now.distance);
-            }
 
             for(Info next : distances[now.end])
                 if (total[next.end] > total[now.end] + next.distance)
