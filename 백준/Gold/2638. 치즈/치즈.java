@@ -26,32 +26,31 @@ public class Main {
         int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
 
-        char[][] moNoon = new char[n + 2][m + 2];
+        int[][] moNoon = new int[n][m];
         Queue<Point> cheezes = new ArrayDeque<>();
 
-        for (int y = 1; y <= n; y++) {
+        for (int y = 0; y < n; y++) {
             st = new StringTokenizer(br.readLine());
-            for (int x = 1; x <= m; x++) {
-                moNoon[y][x] = st.nextToken().charAt(0);
-                if (moNoon[y][x] == '1')
+            for (int x = 0; x < m; x++) {
+                moNoon[y][x] = Integer.parseInt(st.nextToken());
+                if (moNoon[y][x] == 1)
                     cheezes.add(new Point(y, x));
             }
         }
 
         Queue<Point> candidateOutsideAir = new ArrayDeque<>();
-        candidateOutsideAir.add(new Point(1, 1));
+        candidateOutsideAir.add(new Point(0, 0));
 
         int hours = 0;
 
-        while (true) {
-            checkOutsideAir(moNoon, candidateOutsideAir);
+        while (!cheezes.isEmpty()) {
+            checkOutsideAir(moNoon, candidateOutsideAir, n, m);
 
             Queue<Point> candidateMeltCheeze = new ArrayDeque<>();
-            if (!checkMeltCheeze(moNoon, cheezes, candidateMeltCheeze, candidateOutsideAir))
-                break;
-
+            checkMeltCheeze(moNoon, cheezes, candidateMeltCheeze, candidateOutsideAir);
+            
             for (Point now : candidateMeltCheeze)
-                moNoon[now.y][now.x] = 'a';
+                moNoon[now.y][now.x] = 2;
 
             hours++;
         }
@@ -59,9 +58,8 @@ public class Main {
         System.out.println(hours);
     }
 
-    private static boolean checkMeltCheeze(char[][] moNoon, Queue<Point> cheezes, Queue<Point> candidateMeltCheeze, Queue<Point> candidateOutsideAir) {
+    private static void checkMeltCheeze(int[][] moNoon, Queue<Point> cheezes, Queue<Point> candidateMeltCheeze, Queue<Point> candidateOutsideAir) {
         Iterator<Point> iterator = cheezes.iterator();
-        boolean isChange = false;
 
         while (iterator.hasNext()) {
             Point now = iterator.next();
@@ -71,7 +69,7 @@ public class Main {
                 int dy = now.y + move[i][0];
                 int dx = now.x + move[i][1];
 
-                if (moNoon[dy][dx] != 'a')
+                if (moNoon[dy][dx] != 2)
                     continue;
 
                 count++;
@@ -84,39 +82,38 @@ public class Main {
                 int dy = now.y + move[i][0];
                 int dx = now.x + move[i][1];
 
-                if (moNoon[dy][dx] != '0')
+                if (moNoon[dy][dx] != 0)
                     continue;
 
+                moNoon[dy][dx] = -1;
                 candidateOutsideAir.add(new Point(dy, dx));
             }
-
-            isChange = true;
 
             candidateMeltCheeze.add(new Point(now.y, now.x));
             iterator.remove();
         }
-
-        return isChange;
     }
 
-    private static void checkOutsideAir(char[][] moNoon, Queue<Point> candidateOutsideAir) {
+    private static void checkOutsideAir(int[][] moNoon, Queue<Point> candidateOutsideAir, int n, int m) {
         for (Point now : candidateOutsideAir)
-            moNoon[now.y][now.x] = 'a';
+            moNoon[now.y][now.x] = 2;
 
         while (!candidateOutsideAir.isEmpty()) {
             Point now = candidateOutsideAir.poll();
 
             for (int i = 0; i < 4; i++) {
                 int dy = now.y + move[i][0];
+                if (dy < 0 || dy >= n)
+                    continue;
+
                 int dx = now.x + move[i][1];
-
-                if (moNoon[dy][dx] == '\0')
+                if (dx < 0 || dx >= m)
                     continue;
 
-                if (moNoon[dy][dx] != '0')
+                if (moNoon[dy][dx] > 0)
                     continue;
 
-                moNoon[dy][dx] = 'a';
+                moNoon[dy][dx] = 2;
                 candidateOutsideAir.add(new Point(dy, dx));
             }
         }
