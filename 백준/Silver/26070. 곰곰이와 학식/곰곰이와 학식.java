@@ -8,68 +8,42 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        long a = Long.parseLong(st.nextToken());
-        long b = Long.parseLong(st.nextToken());
-        long c = Long.parseLong(st.nextToken());
+        long[] bears = new long[3];
+        bears[0] = Long.parseLong(st.nextToken());
+        bears[1] = Long.parseLong(st.nextToken());
+        bears[2] = Long.parseLong(st.nextToken());
 
         st = new StringTokenizer(br.readLine());
 
-        long x = Long.parseLong(st.nextToken());
-        long y = Long.parseLong(st.nextToken());
-        long z = Long.parseLong(st.nextToken());
+        long[] tickets = new long[3];
+        tickets[0] = Long.parseLong(st.nextToken());
+        tickets[1] = Long.parseLong(st.nextToken());
+        tickets[2] = Long.parseLong(st.nextToken());
 
         long answer = 0;
+        int now = -1;
 
         while (true) {
-            // a
-            if (a != 0)
-                if (a < x) {
-                    answer += a;
-                    x -= a;
-                    a = 0;
-                } else {
-                    answer += x;
-                    a -= x;
-                    x = 0;
-                }
+            now = (now + 1) % 3;
 
-            // b
-            if (b != 0)
-                if (b < y) {
-                    answer += b;
-                    y -= b;
-                    b = 0;
-                } else {
-                    answer += y;
-                    b -= y;
-                    y = 0;
-                }
+            if (bears[now] < tickets[now]) {
+                answer += bears[now];
+                tickets[now] -= bears[now];
+                bears[now] = 0;
+            } else {
+                answer += tickets[now];
+                bears[now] -= tickets[now];
+                tickets[now] = 0;
+            }
 
-            // c
-            if (c != 0)
-                if (c < z) {
-                    answer += c;
-                    z -= c;
-                    c = 0;
-                } else {
-                    answer += z;
-                    c -= z;
-                    z = 0;
-                }
-
-            if (x < 3 && y < 3 && z < 3)
+            if (tickets[0] < 3 && tickets[1] < 3 && tickets[2] < 3)
                 break;
 
-            if (x >= y && x >= z) {
-                y += x / 3;
-                x %= 3;
-            } else if (y >= x && y >= z) {
-                z += y / 3;
-                y %= 3;
-            } else {
-                x += z / 3;
-                z %= 3;
-            }
+            if (bears[0] == 0 && bears[1] == 0 && bears[2] == 0)
+                break;
+
+            tickets[(now + 1) % 3] += tickets[now] / 3;
+            tickets[now] %= 3;
         }
 
         System.out.println(answer);
