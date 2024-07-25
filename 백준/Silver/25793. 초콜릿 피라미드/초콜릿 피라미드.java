@@ -18,9 +18,10 @@ public class Main {
             long n = Math.min(r, c);
             long diff = Math.max(r, c) - n;
 
-            long dark = n * (n + 1) * (2 * n + 1) / 3
-                    - n * (n + 1)
-                    + n * (n + 1) * diff
+            long nPlus1Multn = n * (n + 1);
+            long dark = nPlus1Multn * (2 * n + 1) / 3
+                    - nPlus1Multn
+                    + nPlus1Multn * diff
                     - n * diff;
             long white = dark
                     + n;
