@@ -14,24 +14,28 @@ public class Main {
         int n = Integer.parseInt(st.nextToken());
         int k = Integer.parseInt(st.nextToken());
 
-        int[] answer = process(n, k);
+        int[] answer;
+
+        if (n < k)
+            answer = process(n, k);
+        else
+            answer = new int[]{n - k, 1};
 
         System.out.println(answer[0]);
         System.out.println(answer[1]);
     }
 
     private static int[] process(int n, int k) {
-        // 배열 길이 고민
-        int[] field = new int[100_002];
+        int[] field = new int[k + 2];
         Arrays.fill(field, Integer.MAX_VALUE);
         Queue<Integer> q = new ArrayDeque<>();
-
         q.add(n);
 
+        int max = k + 1;
         int time = 0;
+        int count = 0;
         while (true) {
             int size = q.size();
-            int count = 0;
 
             while (size-- > 0) {
                 int now = q.poll();
@@ -47,18 +51,23 @@ public class Main {
                 field[now] = time;
 
                 int back = now - 1;
-                if (back >= 0)
+                if (back >= 0 && field[back] >= time)
                     q.add(back);
+
                 int front = now + 1;
-                if (front <= 100_001)
-                    q.add(front);
-                int mult = now * 2;
-                if (mult <= 100_001)
-                    q.add(mult);
+                if (front <= max) {
+                    if (field[front] >= time)
+                        q.add(front);
+
+                    int mult = now * 2;
+                    if (mult <= max && field[mult] >= time)
+                        q.add(mult);
+                }
             }
 
             if (count != 0)
                 return new int[]{time, count};
+
             time++;
         }
     }
