@@ -35,10 +35,6 @@ public class Main {
         int[] field = new int[k + 2];
         Arrays.fill(field, Integer.MAX_VALUE);
 
-        // 시간마다 도착하는 위치를 계산하기 위한 목록
-        Queue<Integer> q = new ArrayDeque<>();
-        q.add(n);
-
         // 한 칸 넘어서가 최대 탐색 범위
         // 왜냐하면 *2를 하며 k + 2만큼 가고 뒤로 2번 가는 것 보다
         // -1을 하고 *2를 하는게 같은 방법이라도 1번 적은 과정이고
@@ -48,6 +44,13 @@ public class Main {
         int time = 0;
         // 방법 수
         int count = 0;
+
+        // 시간마다 도착하는 위치를 계산하기 위한 목록
+        Queue<Integer> q = new ArrayDeque<>();
+        q.add(n);
+
+        // 현재 시간 기록
+        field[n] = time;
         while (true) {
             // 같은 시간 내에 탐색할 방법 수
             int size = q.size();
@@ -64,7 +67,7 @@ public class Main {
                 int back = now - 1;
                 if (back >= 0 && field[back] >= time) {
                     q.add(back);
-                    
+
                     // 현재 시간 기록
                     field[back] = time;
                 }
