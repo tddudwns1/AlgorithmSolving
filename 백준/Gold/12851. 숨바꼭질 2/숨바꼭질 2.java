@@ -64,6 +64,7 @@ public class Main {
                     continue;
                 }
 
+                // 뒤로 한칸
                 int back = now - 1;
                 if (back >= 0 && field[back] >= time) {
                     q.add(back);
@@ -72,6 +73,7 @@ public class Main {
                     field[back] = time;
                 }
 
+                // 앞으로 한칸
                 int front = now + 1;
                 if (front <= max) {
                     if (field[front] >= time) {
@@ -81,6 +83,7 @@ public class Main {
                         field[front] = time;
                     }
 
+                    // 2배 위치로 순간이동
                     int mult = now * 2;
                     if (mult <= max && field[mult] >= time) {
                         q.add(mult);
@@ -91,9 +94,11 @@ public class Main {
                 }
             }
 
+            // 만약 도착 정보가 있다면 그때의 값 리턴
             if (count != 0)
                 return new int[]{time, count};
 
+            // 시간 흐름
             time++;
         }
     }
