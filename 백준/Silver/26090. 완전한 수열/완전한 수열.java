@@ -19,7 +19,8 @@ public class Main {
 
         int count = 0;
         for (int i = 0; i <= n; i++) {
-            for (int j = 2; j <= n - i; j++) {
+            int last = n - i;
+            for (int j = 2; j <= last; j++) {
                 if (isNotDecimal[j])
                     continue;
 
