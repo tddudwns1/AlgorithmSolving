@@ -4,8 +4,6 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-    final static int MAX = 100_0001;
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
@@ -15,8 +13,9 @@ public class Main {
         for (int i = 1; i <= n; i++)
             sequence[i] = Integer.parseInt(st.nextToken()) + sequence[i - 1];
 
-        boolean[] isNotDecimal = new boolean[100_0001];
-        setNotDecimalArray(isNotDecimal);
+        int limit = Math.max(sequence[n], n) + 1;
+        boolean[] isNotDecimal = new boolean[limit];
+        setNotDecimalArray(isNotDecimal, limit);
 
         int count = 0;
         for (int i = 0; i <= n; i++) {
@@ -35,14 +34,14 @@ public class Main {
         System.out.println(count);
     }
 
-    private static void setNotDecimalArray(boolean[] isNotDecimal) {
-        int limit = (int) Math.sqrt(MAX);
+    private static void setNotDecimalArray(boolean[] isNotDecimal, int limit) {
+        int sqrt = (int) Math.sqrt(limit);
 
         isNotDecimal[0] = true;
         isNotDecimal[1] = true;
-        for (int i = 2; i < limit; i++)
+        for (int i = 2; i <= sqrt; i++)
             if (!isNotDecimal[i])
-                for (int j = i * 2; j < MAX; j += i)
+                for (int j = i * 2; j < limit; j += i)
                     isNotDecimal[j] = true;
     }
 }
