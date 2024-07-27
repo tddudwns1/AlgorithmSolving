@@ -18,9 +18,10 @@ public class Main {
         setNotDecimalArray(isNotDecimal, limit);
 
         int count = 0;
-        for (int i = 0; i <= n; i++) {
-            int last = n - i;
-            for (int j = 2; j <= last; j++) {
+        int last1 = n - 1;
+        for (int i = 0; i < last1; i++) {
+            int last2 = n - i;
+            for (int j = 2; j <= last2; j++) {
                 if (isNotDecimal[j])
                     continue;
 
