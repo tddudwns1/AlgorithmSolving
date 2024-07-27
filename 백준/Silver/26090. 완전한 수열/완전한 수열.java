@@ -14,19 +14,19 @@ public class Main {
             sequence[i] = Integer.parseInt(st.nextToken()) + sequence[i - 1];
 
         int limit = Math.max(sequence[n], n) + 1;
-        boolean[] isNotDecimal = new boolean[limit];
-        setNotDecimalArray(isNotDecimal, limit);
+        boolean[] isNotPrime = new boolean[limit];
+        setNotPrimeArray(isNotPrime, limit);
 
         int count = 0;
         int last1 = n - 1;
         for (int i = 0; i < last1; i++) {
             int last2 = n - i;
             for (int j = 2; j <= last2; j++) {
-                if (isNotDecimal[j])
+                if (isNotPrime[j])
                     continue;
 
                 int sum = sequence[i + j] - sequence[i];
-                if (isNotDecimal[sum])
+                if (isNotPrime[sum])
                     continue;
 
                 count++;
@@ -36,14 +36,14 @@ public class Main {
         System.out.println(count);
     }
 
-    private static void setNotDecimalArray(boolean[] isNotDecimal, int limit) {
+    private static void setNotPrimeArray(boolean[] isNotDecimal, int limit) {
         int sqrt = (int) Math.sqrt(limit);
 
         isNotDecimal[0] = true;
         isNotDecimal[1] = true;
         for (int i = 2; i <= sqrt; i++)
             if (!isNotDecimal[i])
-                for (int j = i * 2; j < limit; j += i)
+                for (int j = i * i; j < limit; j += i)
                     isNotDecimal[j] = true;
     }
 }
