@@ -33,7 +33,7 @@ public class Main {
         if((stone.a + stone.b + stone.c) % 3 != 0)
             return 0;
 
-        boolean[][] visited = new boolean[1501][1501];
+        boolean[][] visited = new boolean[1500][1500];
 
         Queue<Stone> q = new ArrayDeque<>();
         q.add(stone);
