@@ -29,8 +29,11 @@ public class Main {
                 int left = x - 1;
                 int up = y - 1;
 
-                dp[y][x][0] = dp[y][left][0] + dp[y][left][1];
-                dp[y][x][2] = dp[up][x][1] + dp[up][x][2];
+                dp[y][x][0] = dp[y][left][0]
+                        + dp[y][left][1];
+
+                dp[y][x][2] = dp[up][x][1]
+                        + dp[up][x][2];
 
                 if (home[up][x] == 1 || home[y][left] == 1)
                     continue;
