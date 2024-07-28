@@ -26,19 +26,22 @@ public class Main {
             for (int x = 3; x <= n; x++) {
                 if (home[y][x] == 1)
                     continue;
+                
+                int left = x - 1;
+                int up = y - 1;
 
-                dp[y][x][0] = dp[y][x - 1][0]
-                        + dp[y][x - 1][1];
+                dp[y][x][0] = dp[y][left][0]
+                        + dp[y][left][1];
 
-                dp[y][x][2] = dp[y - 1][x][1]
-                        + dp[y - 1][x][2];
+                dp[y][x][2] = dp[up][x][1]
+                        + dp[up][x][2];
 
-                if (home[y - 1][x] == 1 || home[y][x - 1] == 1)
+                if (home[up][x] == 1 || home[y][left] == 1)
                     continue;
 
-                dp[y][x][1] = dp[y - 1][x - 1][0]
-                        + dp[y - 1][x - 1][1]
-                        + dp[y - 1][x - 1][2];
+                dp[y][x][1] = dp[up][left][0]
+                        + dp[up][left][1]
+                        + dp[up][left][2];
             }
         }
 
