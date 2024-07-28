@@ -30,10 +30,10 @@ public class Main {
     }
 
     private static int process(Stone stone) {
-        if((stone.a + stone.b + stone.c) % 3 != 0)
+        if ((stone.a + stone.b + stone.c) % 3 != 0)
             return 0;
 
-        boolean[][] visited = new boolean[1500][1500];
+        boolean[][] visited = new boolean[1403][1403];
 
         Queue<Stone> q = new ArrayDeque<>();
         q.add(stone);
@@ -49,66 +49,58 @@ public class Main {
                 return 1;
 
             if (a < b) {
-                int newA = a + a;
-                int newB = b - a;
-
-                if (visited[newA][newB])
-                    continue;
-                visited[newA][newB] = true;
-
-                q.add(new Stone(newA, newB, now.c));
+                int small = a << 1;
+                if (small < 700) {
+                    int big = b - a;
+                    addQ(small, big, now.c, q, visited);
+                }
             } else if (a > b) {
-                int newA = a - b;
-                int newB = b + b;
-
-                if (visited[newA][newB])
-                    continue;
-                visited[newA][newB] = true;
-
-                q.add(new Stone(newA, newB, now.c));
+                int small = b << 1;
+                if (small < 700) {
+                    int big = a - b;
+                    addQ(small, big, now.c, q, visited);
+                }
             }
 
             if (a < c) {
-                int newA = a + a;
-                int newC = c - a;
-
-                if (visited[newA][newC])
-                    continue;
-                visited[newA][now.c] = true;
-
-                q.add(new Stone(newA, now.b, newC));
+                int small = a << 1;
+                if (small < 700) {
+                    int big = c - a;
+                    addQ(small, big, now.b, q, visited);
+                }
             } else if (a > c) {
-                int newA = a - c;
-                int newC = c + c;
-
-                if (visited[newA][newC])
-                    continue;
-                visited[newA][now.c] = true;
-
-                q.add(new Stone(newA, now.b, newC));
+                int small = c << 1;
+                if (small < 700) {
+                    int big = a - c;
+                    addQ(small, big, now.b, q, visited);
+                }
             }
 
             if (b < c) {
-                int newB = b + b;
-                int newC = c - b;
-
-                if (visited[newB][newC])
-                    continue;
-                visited[newB][now.c] = true;
-
-                q.add(new Stone(now.a, newB, newC));
+                int small = b << 1;
+                if (small < 700) {
+                    int big = c - b;
+                    addQ(small, big, now.a, q, visited);
+                }
             } else if (b > c) {
-                int newB = b - c;
-                int newC = c + c;
-
-                if (visited[newB][newC])
-                    continue;
-                visited[newB][now.c] = true;
-
-                q.add(new Stone(now.a, newB, newC));
+                int small = c << 1;
+                if (small < 700) {
+                    int big = b - c;
+                    addQ(small, big, now.a, q, visited);
+                }
             }
         }
 
         return 0;
     }
+
+    private static void addQ(int small, int big, int other, Queue<Stone> q, boolean[][] visited) {
+        if (visited[small][big])
+            return;
+
+        visited[small][big] = true;
+
+        q.add(new Stone(small, big, other));
+    }
+
 }
