@@ -48,59 +48,43 @@ public class Main {
             if (a == b && a == c)
                 return 1;
 
-            if (a < b) {
-                int small = a << 1;
-                if (small < 700) {
-                    int big = b - a;
-                    addQ(small, big, now.c, q, visited);
-                }
-            } else if (a > b) {
-                int small = b << 1;
-                if (small < 700) {
-                    int big = a - b;
-                    addQ(small, big, now.c, q, visited);
-                }
-            }
+            if (a != b)
+                if (a < b)
+                    addQ(a, b, now.c, q, visited);
+                else
+                    addQ(b, a, now.c, q, visited);
 
-            if (a < c) {
-                int small = a << 1;
-                if (small < 700) {
-                    int big = c - a;
-                    addQ(small, big, now.b, q, visited);
-                }
-            } else if (a > c) {
-                int small = c << 1;
-                if (small < 700) {
-                    int big = a - c;
-                    addQ(small, big, now.b, q, visited);
-                }
-            }
 
-            if (b < c) {
-                int small = b << 1;
-                if (small < 700) {
-                    int big = c - b;
-                    addQ(small, big, now.a, q, visited);
-                }
-            } else if (b > c) {
-                int small = c << 1;
-                if (small < 700) {
-                    int big = b - c;
-                    addQ(small, big, now.a, q, visited);
-                }
-            }
+            if (a != c)
+                if (a < c)
+                    addQ(a, c, now.b, q, visited);
+                else
+                    addQ(c, a, now.b, q, visited);
+
+
+            if (b != c)
+                if (b < c)
+                    addQ(b, c, now.a, q, visited);
+                else
+                    addQ(c, b, now.a, q, visited);
         }
 
         return 0;
     }
 
     private static void addQ(int small, int big, int other, Queue<Stone> q, boolean[][] visited) {
-        if (visited[small][big])
+        if (small > 350)
             return;
 
-        visited[small][big] = true;
+        int doubleSmall = small << 1;
+        int bigMinusSmall = big - small;
 
-        q.add(new Stone(small, big, other));
+        if (visited[doubleSmall][bigMinusSmall])
+            return;
+
+        visited[doubleSmall][bigMinusSmall] = true;
+
+        q.add(new Stone(doubleSmall, bigMinusSmall, other));
     }
 
 }
