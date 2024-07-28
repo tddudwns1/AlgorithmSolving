@@ -5,19 +5,15 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
+/**
+ * 수학적 지식과 bfs를 이용한 문제
+ * 기본적으로 a + b + c는 유지되는 조건을 이용하면 되는 문제
+ * if b > a
+ * a = a + a, b = b - a, c = c
+ * a + b + c = a + a + b - a + c
+ *           = a + b + c
+ */
 public class Main {
-    static class Stone {
-        int a;
-        int b;
-        int c;
-
-        public Stone(int a, int b, int c) {
-            this.a = a;
-            this.b = b;
-            this.c = c;
-        }
-    }
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -26,53 +22,55 @@ public class Main {
         int b = Integer.parseInt(st.nextToken());
         int c = Integer.parseInt(st.nextToken());
 
-        System.out.println(process(new Stone(a, b, c)));
+        System.out.println(process(new int[]{a, b, c}));
     }
 
-    private static int process(Stone stone) {
-        if ((stone.a + stone.b + stone.c) % 3 != 0)
+    private static int process(int[] stone) {
+        // a + b + c가 3으로 나눠지지 않으면 탐색할 필요 x
+        if ((stone[0] + stone[1] + stone[2]) % 3 != 0)
             return 0;
 
-        boolean[][] visited = new boolean[1403][1403];
+        // 두 수만 체크한다면 
+        boolean[][] visited = new boolean[1501][1501];
 
-        Queue<Stone> q = new ArrayDeque<>();
+        Queue<int[]> q = new ArrayDeque<>();
         q.add(stone);
 
         while (!q.isEmpty()) {
-            Stone now = q.poll();
+            int[] now = q.poll();
 
-            int a = now.a;
-            int b = now.b;
-            int c = now.c;
+            int a = now[0];
+            int b = now[1];
+            int c = now[2];
 
             if (a == b && a == c)
                 return 1;
 
             if (a != b)
                 if (a < b)
-                    addQ(a, b, now.c, q, visited);
+                    addQ(a, b, c, q, visited);
                 else
-                    addQ(b, a, now.c, q, visited);
+                    addQ(b, a, c, q, visited);
 
 
             if (a != c)
                 if (a < c)
-                    addQ(a, c, now.b, q, visited);
+                    addQ(a, c, b, q, visited);
                 else
-                    addQ(c, a, now.b, q, visited);
+                    addQ(c, a, b, q, visited);
 
 
             if (b != c)
                 if (b < c)
-                    addQ(b, c, now.a, q, visited);
+                    addQ(b, c, a, q, visited);
                 else
-                    addQ(c, b, now.a, q, visited);
+                    addQ(c, b, a, q, visited);
         }
 
         return 0;
     }
 
-    private static void addQ(int small, int big, int other, Queue<Stone> q, boolean[][] visited) {
+    private static void addQ(int small, int big, int other, Queue<int[]> q, boolean[][] visited) {
         if (small > 350)
             return;
 
@@ -82,9 +80,17 @@ public class Main {
         if (visited[doubleSmall][bigMinusSmall])
             return;
 
-        visited[doubleSmall][bigMinusSmall] = true;
+        if (visited[doubleSmall][other])
+            return;
 
-        q.add(new Stone(doubleSmall, bigMinusSmall, other));
+        if (visited[other][bigMinusSmall])
+            return;
+
+        visited[doubleSmall][bigMinusSmall] = true;
+        visited[doubleSmall][other] = true;
+        visited[other][bigMinusSmall] = true;
+
+        q.add(new int[]{doubleSmall, bigMinusSmall, other});
     }
 
 }
