@@ -28,16 +28,32 @@ public class Main {
             ladder[y][x] = true;
         }
 
-        for (int limit = m % 2; limit < 4; limit += 2) {
-            dfs(n, h, 1, 1, 0, limit, ladder);
+        if (checkOddLine(ladder, n, h) <= 3)
+            for (int limit = m % 2; limit < 4; limit += 2) {
+                dfs(n, h, 1, 1, 0, limit, ladder);
 
-            if (flag) {
-                answer = limit;
-                break;
+                if (flag) {
+                    answer = limit;
+                    break;
+                }
             }
-        }
 
         System.out.println(answer);
+    }
+
+    private static int checkOddLine(boolean[][] ladder, int n, int h) {
+        int countOdd = 0;
+        for (int x = 1; x < n; x++) {
+            boolean checkOdd = false;
+            for (int y = 1; y <= h; y++)
+                if (ladder[y][x])
+                    checkOdd = !checkOdd;
+            
+            if (checkOdd)
+                countOdd++;
+        }
+
+        return countOdd;
     }
 
     private static void dfs(int n, int h, int startY, int startX, int count, int limit, boolean[][] ladder) {
