@@ -98,12 +98,12 @@ public class Main {
         if (visited[doubleSmall][bigMinusSmall])
             return;
 
-        visited[doubleSmall][bigMinusSmall] = true;
-        visited[doubleSmall][other] = true;
-        visited[other][bigMinusSmall] = true;
         visited[bigMinusSmall][doubleSmall] = true;
-        visited[other][doubleSmall] = true;
+        visited[doubleSmall][bigMinusSmall] = true;
         visited[bigMinusSmall][other] = true;
+        visited[other][bigMinusSmall] = true;
+        visited[doubleSmall][other] = true;
+        visited[other][doubleSmall] = true;
 
         q.add(new int[]{doubleSmall, bigMinusSmall, other});
     }
