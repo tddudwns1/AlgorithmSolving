@@ -101,6 +101,9 @@ public class Main {
         visited[doubleSmall][bigMinusSmall] = true;
         visited[doubleSmall][other] = true;
         visited[other][bigMinusSmall] = true;
+        visited[bigMinusSmall][doubleSmall] = true;
+        visited[other][doubleSmall] = true;
+        visited[bigMinusSmall][other] = true;
 
         q.add(new int[]{doubleSmall, bigMinusSmall, other});
     }
