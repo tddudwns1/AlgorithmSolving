@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -48,7 +47,7 @@ public class Main {
             for (int y = 1; y <= h; y++)
                 if (ladder[y][x])
                     checkOdd = !checkOdd;
-            
+
             if (checkOdd)
                 countOdd++;
         }
@@ -93,8 +92,11 @@ public class Main {
             while (++nowY <= h) {
                 if (ladder[nowY][nowX])
                     nowX++;
-                else if (ladder[nowY][nowX - 1])
-                    nowX--;
+                else {
+                    int left = nowX - 1;
+                    if (ladder[nowY][left])
+                        nowX = left;
+                }
             }
 
             if (nowX != x)
