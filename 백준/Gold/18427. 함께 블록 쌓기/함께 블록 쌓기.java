@@ -1,8 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -14,37 +12,30 @@ public class Main {
         int m = Integer.parseInt(st.nextToken());
         int h = Integer.parseInt(st.nextToken());
 
-        int[][] blocks = new int[n + 1][h + 1];
-
-        Queue<Integer>[] students = new ArrayDeque[n + 1];
-        for (int i = 1; i <= n; i++)
-            students[i] = new ArrayDeque<>();
-
-        for (int student = 1; student <= n; student++) {
-            students[student].add(0);
-
+        int[][] blocks = new int[n][];
+        for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
-            while (st.hasMoreTokens()) {
-                int now = Integer.parseInt(st.nextToken());
-                if (now > h)
-                    continue;
-
-                students[student].add(now);
-                blocks[student][now] = 1;
+            int count = st.countTokens();
+            blocks[i] = new int[count];
+            for (int j = 0; j < count; j++) {
+                blocks[i][j] = Integer.parseInt(st.nextToken());
             }
         }
 
-        int before = 1;
-        for (int nowStudent = 2; nowStudent <= n; nowStudent++) {
-            for (int nowBlockHeight : students[nowStudent]) {
-                for (int candidate = nowBlockHeight + 1; candidate <= h; candidate++) {
-                    blocks[nowStudent][candidate] = (blocks[nowStudent][candidate] + blocks[before][candidate - nowBlockHeight]) % 1_0007;
+        int MOD = 10007;
+        int[] dp = new int[h + 1];
+        dp[0] = 1;
+
+        for (int i = 0; i < n; i++) {
+            int[] newDp = dp.clone();
+            for (int block : blocks[i]) {
+                for (int j = block; j <= h; j++) {
+                    newDp[j] = (newDp[j] + dp[j - block]) % MOD;
                 }
             }
-
-            before = nowStudent;
+            dp = newDp;
         }
 
-        System.out.println(blocks[n][h]);
+        System.out.println(dp[h]);
     }
 }
