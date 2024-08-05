@@ -46,19 +46,17 @@ public class Main {
                 else if (dp[before][depth] && s1[depth - 1] == s3[depth * 2 - 1])
                     dp[depth][depth] = true;
 
-                for (int x = 0; x < s2len; x++) {
-                    if (dp[depth][x] && s2[x] == s3[depth + x])
-                        dp[depth][x + 1] = true;
-                    else if (dp[before][x + 1] && s1[before] == s3[depth + x])
-                        dp[depth][x + 1] = true;
-                }
+                for (int x = 1; x <= s2len; x++)
+                    if (dp[depth][x - 1] && s2[x - 1] == s3[depth + x - 1])
+                        dp[depth][x] = true;
+                    else if (dp[depth - 1][x] && s1[depth - 1] == s3[depth + x - 1])
+                        dp[depth][x] = true;
 
-                for (int y = 0; y < s1len; y++) {
-                    if (dp[y][depth] && s1[y] == s3[depth + y])
-                        dp[y + 1][depth] = true;
-                    else if (dp[y + 1][before] && s2[before] == s3[depth + y])
-                        dp[y + 1][depth] = true;
-                }
+                for (int y = 1; y <= s1len; y++)
+                    if (dp[y - 1][depth] && s1[y - 1] == s3[depth + y - 1])
+                        dp[y][depth] = true;
+                    else if (dp[y][before] && s2[before] == s3[depth + y - 1])
+                        dp[y][depth] = true;
 
                 before = depth;
             }
