@@ -41,21 +41,21 @@ public class Main {
 
             int before = 0;
             for (int depth = 1; depth <= min; depth++) {
-                if (dp[depth][before] && s2[before] == s3[depth * 2 - 1])
+                if (dp[depth][before] && s2[before] == s3[depth + before])
                     dp[depth][depth] = true;
-                else if (dp[before][depth] && s1[depth - 1] == s3[depth * 2 - 1])
+                else if (dp[before][depth] && s1[depth - 1] == s3[depth + before])
                     dp[depth][depth] = true;
 
                 for (int x = 1; x <= s2len; x++)
-                    if (dp[depth][x - 1] && s2[x - 1] == s3[depth + x - 1])
+                    if (dp[before][x] && s1[before] == s3[before + x])
                         dp[depth][x] = true;
-                    else if (dp[depth - 1][x] && s1[depth - 1] == s3[depth + x - 1])
+                    else if (dp[depth][x - 1] && s2[x - 1] == s3[before + x])
                         dp[depth][x] = true;
 
                 for (int y = 1; y <= s1len; y++)
-                    if (dp[y - 1][depth] && s1[y - 1] == s3[depth + y - 1])
+                    if (dp[y][before] && s2[before] == s3[before + y])
                         dp[y][depth] = true;
-                    else if (dp[y][before] && s2[before] == s3[depth + y - 1])
+                    else if (dp[y - 1][depth] && s1[y - 1] == s3[before + y])
                         dp[y][depth] = true;
 
                 before = depth;
