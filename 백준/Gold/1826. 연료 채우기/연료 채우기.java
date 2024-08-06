@@ -56,12 +56,10 @@ public class Main {
                     break;
 
             if (pq.isEmpty())
-                break;
+                return -1;
 
             position += pq.poll();
             count++;
         }
-
-        return -1;
     }
 }
