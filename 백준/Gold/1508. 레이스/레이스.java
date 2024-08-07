@@ -1,8 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -21,34 +19,55 @@ public class Main {
 
         int left = 1;
         int right = n;
-        long answer = 0;
+        int bestMid = 0;
 
+        portal:
         while (left <= right) {
             int mid = (left + right) >> 1;
             int before = -mid;
-            long now = 0;
-            int i = 0;
+            int count = 0;
 
-            for (; i < k; i++) {
+            for (int i = 0; i < k; i++) {
                 int position = referees[i];
 
-                now = now << 1;
-                if (position - before >= mid) {
-                    now += 1;
-                    before = position;
-                    if (Long.bitCount(now) == m)
-                        break;
-                }
+                if (position - before < mid)
+                    continue;
+
+                before = position;
+
+                if (++count != m)
+                    continue;
+
+                left = mid + 1;
+                bestMid = mid;
+                continue portal;
             }
 
-            while (++i < k)
-                now <<= 1;
+            right = mid - 1;
+        }
 
-            if (Long.bitCount(now) == m) {
-                left = mid + 1;
-                answer = now;
-            } else
-                right = mid - 1;
+        long answer = 0;
+        int before = -bestMid;
+        int count = 0;
+
+        for (int i = 0; i < k; i++) {
+            int position = referees[i];
+
+            answer = answer << 1;
+
+            if (position - before < bestMid)
+                continue;
+
+            answer++;
+            before = position;
+
+            if (++count != m)
+                continue;
+
+            while (++i < k)
+                answer = answer << 1;
+
+            break;
         }
 
         System.out.println(Long.toBinaryString(answer));
