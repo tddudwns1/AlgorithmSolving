@@ -64,9 +64,11 @@ public class Main {
 
                     int newBreakCount = now.breakCount;
 
-                    if (map[dy][dx] == '1')
-                        if (++newBreakCount > k)
+                    if (map[dy][dx] == '1') {
+                        if (newBreakCount == k)
                             continue;
+                        newBreakCount++;
+                    }
 
                     if (visited[dy][dx][newBreakCount])
                         continue;
