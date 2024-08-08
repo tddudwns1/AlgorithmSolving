@@ -37,7 +37,6 @@ public class Main {
         int[][] move = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
         boolean[][][] visited = new boolean[n][m][k + 1];
         Queue<Info> q = new ArrayDeque<>();
-        int answer = -1;
 
         q.add(new Info(0, 0, 0));
 
@@ -79,6 +78,6 @@ public class Main {
             }
         }
 
-        return answer;
+        return -1;
     }
 }
