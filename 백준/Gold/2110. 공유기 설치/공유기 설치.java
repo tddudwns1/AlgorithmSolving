@@ -22,31 +22,37 @@ public class Main {
     }
 
     private static int process(int[] houses, int n, int c) {
+        int left = 1;
+        int right = houses[n - 1] - houses[0];
         int answer = 0;
-        int left = 0;
-        int right = houses[n - 1] - houses[0] + 1;
 
-        while (left < right) {
-            int mid = (left + right) >> 1;
-            int count = 0;
-            int prev = -mid;
-
-            // 여기에 이진탐색 좀있다가 넣어보기
-            for (int now : houses) {
-                if (now - prev < mid)
-                    continue;
-
-                count++;
-                prev = now;
-            }
-
-            if (count >= c) {
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (canPlaceRouters(houses, n, c, mid)) {
                 answer = mid;
                 left = mid + 1;
-            } else
-                right = mid;
+            } else {
+                right = mid - 1;
+            }
         }
 
         return answer;
+    }
+
+    private static boolean canPlaceRouters(int[] houses, int n, int c, int distance) {
+        int count = 1;
+        int prev = houses[0];
+
+        for (int i = 1; i < n; i++) {
+            if (houses[i] - prev >= distance) {
+                count++;
+                prev = houses[i];
+                if (count == c) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
