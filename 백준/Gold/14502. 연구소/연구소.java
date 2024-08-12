@@ -10,7 +10,7 @@ public class Main {
 	static Queue<int[]> virus = new ArrayDeque();
 	static int[][] move = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
 	static String[][] lab;
-	static int n, m;
+	static int n, m, min = Integer.MAX_VALUE;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -31,18 +31,18 @@ public class Main {
 					virus.add(new int[] { i, j });
 		}
 
-		int ans = 0;
+		int ans = Integer.MAX_VALUE;
 		int end = n * m;
 		for (int i = 0; i < end - 2; i++) {
-			if(setWall(i))
+			if (setWall(i))
 				continue;
 			for (int j = i + 1; j < end - 1; j++) {
-				if(setWall(j))
+				if (setWall(j))
 					continue;
 				for (int k = j + 1; k < end; k++) {
-					if(setWall(k))
+					if (setWall(k))
 						continue;
-					ans = Math.max(ans, safe - bfs() - 3);
+					ans = Math.min(ans, bfs());
 					getWall(k);
 				}
 				getWall(j);
@@ -50,7 +50,7 @@ public class Main {
 			getWall(i);
 		}
 
-		System.out.println(ans);
+		System.out.println(safe - 3 - ans);
 	}
 
 	private static int bfs() {
@@ -58,28 +58,29 @@ public class Main {
 		int cnt = 0;
 		Queue<int[]> q = new ArrayDeque<>();
 		Iterator<int[]> it = virus.iterator();
-		while(it.hasNext())
+		while (it.hasNext())
 			q.add(it.next());
-		
-		while(!q.isEmpty()) {
+
+		while (!q.isEmpty()) {
 			int[] now = q.poll();
-			for(int i = 0; i < 4; i++) {
+			for (int i = 0; i < 4; i++) {
 				int dy = now[0] + move[i][0];
-				if(dy < 1 || dy > n)
-					continue;
+//				if (dy < 1 || dy > n)
+//					continue;
 				int dx = now[1] + move[i][1];
-				if(dx < 1 || dx > m)
-					continue;
-				if(visited[dy][dx])
+//				if (dx < 1 || dx > m)
+//					continue;
+				if (visited[dy][dx])
 					continue;
 				if(lab[dy][dx] == null || !lab[dy][dx].equals("0"))
 					continue;
 				visited[dy][dx] = true;
-				q.add(new int[] {dy, dx});
-				cnt++;
+				q.add(new int[] { dy, dx });
+				if (++cnt > min)
+					return n * m;
 			}
 		}
-		
+		min = Math.min(min, cnt);
 		return cnt;
 	}
 
