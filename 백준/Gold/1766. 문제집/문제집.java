@@ -1,14 +1,12 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
     static class Problem {
         int beforeCount = 0;
-        Queue<Integer> after = new PriorityQueue<>();
+        Queue<Integer> after = new ArrayDeque<>();
 
         public Problem(){}
     }
