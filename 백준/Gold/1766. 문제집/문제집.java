@@ -3,10 +3,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
+/**
+ * 위상 정렬 문제
+ */
 public class Main {
     static class Problem {
         int beforeCount = 0;
-        Queue<Integer> after = new ArrayDeque<>();
+        List<Integer> after = new ArrayList<>();
 
         public Problem(){}
     }
@@ -39,6 +42,7 @@ public class Main {
     }
 
     private static void process(int n, StringBuilder sb, Problem[] problems) {
+        // 기존 위상 정렬과 다른 유일한 부분
         Queue<Integer> candidate = new PriorityQueue<>();
 
         for (int i = 1; i <= n; i++)
@@ -48,10 +52,9 @@ public class Main {
         while(!candidate.isEmpty()) {
             int now = candidate.poll();
 
-            for (int next : problems[now].after) {
+            for (int next : problems[now].after)
                 if (--problems[next].beforeCount == 0)
                     candidate.add(next);
-            }
 
             sb.append(now).append(" ");
         }
