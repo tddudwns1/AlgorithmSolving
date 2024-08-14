@@ -48,9 +48,7 @@ public class Main {
         while(!candidate.isEmpty()) {
             int now = candidate.poll();
 
-            while (!problems[now].after.isEmpty()) {
-                int next = problems[now].after.poll();
-
+            for (int next : problems[now].after) {
                 if (--problems[next].beforeCount == 0)
                     candidate.add(next);
             }
