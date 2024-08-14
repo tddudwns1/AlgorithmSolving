@@ -6,7 +6,7 @@ import java.util.*;
 public class Main {
     static class Problem {
         int beforeCount = 0;
-        List<Integer> after = new ArrayList<>();
+        Queue<Integer> after = new ArrayDeque<>();
 
         public Problem(){}
     }
@@ -48,9 +48,10 @@ public class Main {
         while(!candidate.isEmpty()) {
             int now = candidate.poll();
 
-            for (int next : problems[now].after)
+            for (int next : problems[now].after) {
                 if (--problems[next].beforeCount == 0)
                     candidate.add(next);
+            }
 
             sb.append(now).append(" ");
         }
