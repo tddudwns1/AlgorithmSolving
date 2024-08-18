@@ -43,17 +43,14 @@ public class Main {
                 int a = Integer.parseInt(st.nextToken());
                 int b = Integer.parseInt(st.nextToken());
 
-                switch (signal) {
-                    case "!":
-                        int w = Integer.parseInt(st.nextToken());
-                        union(a, b, w);
-                        break;
-                    default:
-                        if (find(a) == find(b))
-                            sb.append(samples[b].diffFromRoot - samples[a].diffFromRoot).append("\n");
-                        else
-                            sb.append(UNKNOWN);
-                        break;
+                if (signal.equals("!")) {
+                    int w = Integer.parseInt(st.nextToken());
+                    union(a, b, w);
+                } else {
+                    if (find(a) == find(b))
+                        sb.append(samples[b].diffFromRoot - samples[a].diffFromRoot).append("\n");
+                    else
+                        sb.append(UNKNOWN);
                 }
             }
         }
