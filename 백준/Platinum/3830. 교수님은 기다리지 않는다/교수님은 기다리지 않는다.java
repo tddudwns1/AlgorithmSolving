@@ -3,6 +3,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
+/**
+ * union find 문제
+ */
 public class Main {
     static class Sample {
         int parent;
@@ -36,16 +39,16 @@ public class Main {
             for (int i = 0; i < m; i++) {
                 st = new StringTokenizer(br.readLine());
 
-                char signal = st.nextToken().charAt(0);
+                String signal = st.nextToken();
                 int a = Integer.parseInt(st.nextToken());
                 int b = Integer.parseInt(st.nextToken());
 
                 switch (signal) {
-                    case '!':
+                    case "!":
                         int w = Integer.parseInt(st.nextToken());
                         union(a, b, w);
                         break;
-                    case '?':
+                    default:
                         if (find(a) == find(b))
                             sb.append(samples[b].diffFromRoot - samples[a].diffFromRoot).append("\n");
                         else
