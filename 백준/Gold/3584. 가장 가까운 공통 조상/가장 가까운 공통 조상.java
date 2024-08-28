@@ -70,11 +70,11 @@ public class Main {
     }
 
     private static void setDepth(int now, Node[] tree) {
-        if (tree[now].parent == 0)
+        if (tree[now].depth != 0)
             return;
 
-        if (tree[tree[now].parent].depth != 0)
-            tree[now].depth = tree[tree[now].parent].depth + 1;
+        if (tree[now].parent == 0)
+            return;
 
         setDepth(tree[now].parent, tree);
 
