@@ -35,7 +35,8 @@ public class Main {
             }
 
             for (int now = 1; now <= n; now++)
-                setDepth(now, tree);
+                if (tree[now].depth == 0)
+                    setDepth(now, tree);
 
 
             StringTokenizer st = new StringTokenizer(br.readLine());
