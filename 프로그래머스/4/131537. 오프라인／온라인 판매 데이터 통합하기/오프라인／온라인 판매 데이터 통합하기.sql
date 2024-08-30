@@ -1,0 +1,25 @@
+SELECT
+    date_format(SALES_DATE, '%Y-%m-%d') as SALES_DATE,
+    PRODUCT_ID,
+    USER_ID,
+    SALES_AMOUNT
+FROM
+    ONLINE_SALE  
+where
+    YEAR(SALES_DATE) = 2022
+    AND MONTH(SALES_DATE) = 3
+UNION ALL
+SELECT
+    date_format(SALES_DATE, '%Y-%m-%d') as SALES_DATE,
+    PRODUCT_ID,
+    NULL AS USER_ID,
+    SALES_AMOUNT
+FROM
+    OFFLINE_SALE
+where
+    YEAR(SALES_DATE) = 2022
+    AND MONTH(SALES_DATE) = 3
+order by
+    SALES_DATE,
+    PRODUCT_ID,
+    USER_ID
