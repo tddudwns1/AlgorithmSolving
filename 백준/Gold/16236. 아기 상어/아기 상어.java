@@ -25,7 +25,7 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
 
-//        Deque<Integer> sharkSizeQueue = new ArrayDeque<>();
+        Queue<Integer> sharkSizeQueue = new PriorityQueue<>();
 
         Position positionOfBaby = null;
         int[][] space = new int[n][n];
@@ -33,18 +33,21 @@ public class Main {
             StringTokenizer st = new StringTokenizer(br.readLine());
             for (int x = 0; x < n; x++) {
                 int sizeOfShark = Integer.parseInt(st.nextToken());
+                if (sizeOfShark == 0)
+                    continue;
+
                 if (sizeOfShark == 9) {
                     positionOfBaby = new Position(y, x);
                 } else {
-                    space[y][x] = sizeOfShark;
+                    sharkSizeQueue.add(space[y][x] = sizeOfShark);
                 }
             }
         }
 
-        System.out.println(process(positionOfBaby, space, n));
+        System.out.println(process(positionOfBaby, space, n, sharkSizeQueue));
     }
 
-    private static int process(Position positionOfBaby, int[][] space, int n) {
+    private static int process(Position positionOfBaby, int[][] space, int n, Queue<Integer> sharkSizeQueue) {
         int[][] move = {{-1, 0}, {0, -1}, {0, 1}, {1, 0}};
         List<Position> list = new ArrayList<>();
         list.add(positionOfBaby);
@@ -67,6 +70,10 @@ public class Main {
 
                 if (space[now.y][now.x] != 0 && space[now.y][now.x] < sizeOfBaby) {
                     answer = time;
+
+                    sharkSizeQueue.remove(space[now.y][now.x]);
+                    if (sharkSizeQueue.isEmpty())
+                        break;
                     space[now.y][now.x] = 0;
 
                     if (--countForSizeUp == 0) {
@@ -78,6 +85,7 @@ public class Main {
 
                     visited = new boolean[n][n];
                     visited[now.y][now.x] = true;
+
                     continue portal;
                 }
 
