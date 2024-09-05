@@ -40,8 +40,13 @@ public class Main {
             for (int i = 0; i < n; i++) {
                 int now = restSpot[i];
 
-                while (spot + distance < now) {
-                    spot += distance;
+                while (true) {
+                    int next = spot + distance;
+
+                    if (next >= now)
+                        break;
+
+                    spot = next;
                     count++;
                 }
 
@@ -50,8 +55,13 @@ public class Main {
                 spot = restSpot[i];
             }
 
-            while (spot + distance < l) {
-                spot += distance;
+            while (true) {
+                int next = spot + distance;
+
+                if (next >= l)
+                    break;
+
+                spot = next;
                 count++;
             }
 
