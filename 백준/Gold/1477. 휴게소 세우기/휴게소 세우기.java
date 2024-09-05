@@ -40,7 +40,7 @@ public class Main {
             for (int i = 0; i < n; i++) {
                 int now = restSpot[i];
 
-                while (spot + distance < now && spot + distance < l) {
+                while (spot + distance < now) {
                     spot += distance;
                     count++;
                 }
