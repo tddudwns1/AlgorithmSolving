@@ -50,15 +50,13 @@ public class Main {
         System.out.println(sb);
     }
 
-    private static int setTrees(int now, int parent, Node[] trees) {
+    private static void setTrees(int now, int parent, Node[] trees) {
         for (int next : trees[now].connected) {
             if (next == parent) {
                 continue;
             }
-
-            trees[now].countOfSubTrees += setTrees(next, now, trees);
+            setTrees(next, now, trees);
+            trees[now].countOfSubTrees += trees[next].countOfSubTrees;
         }
-
-        return trees[now].countOfSubTrees;
     }
 }
