@@ -28,34 +28,26 @@ public class Main {
         if (checkCharacter())
             return "0\n";
 
-        int tempLeft = left;
+        int tempLeft = left++;
         int tempRight = right;
-        if (str.charAt(left + 1) == str.charAt(right)) {
-            left++;
+        if (str.charAt(left) == str.charAt(right))
             if (checkCharacter())
                 return "1\n";
-        }
 
         left = tempLeft;
-        right = tempRight;
-        if (str.charAt(left) == str.charAt(right - 1)) {
-            right--;
+        right = --tempRight;
+        if (str.charAt(left) == str.charAt(right))
             if (checkCharacter())
                 return "1\n";
-        }
 
         return "2\n";
     }
 
     private static boolean checkCharacter() {
-        while (str.charAt(left) == str.charAt(right)) {
-            left++;
-            right--;
-
-            if (left >= right)
+        while (str.charAt(left) == str.charAt(right))
+            if (++left >= --right)
                 return true;
-        }
-
+        
         return false;
     }
 }
