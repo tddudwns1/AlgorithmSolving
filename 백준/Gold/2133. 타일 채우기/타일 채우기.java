@@ -14,14 +14,15 @@ public class Main {
         if (n % 2 == 1)
             return 0;
 
-        int[] memo = new int[n + 1];
-        memo[0] = 1;
+        int before = 1;
+        int now = 0;
         int sum = 0;
         for (int i = 2; i <= n; i += 2) {
-            memo[i] = memo[i - 2] * 3 + sum * 2;
-            sum += memo[i - 2];
+            now = before * 3 + sum * 2;
+            sum += before;
+            before = now;
         }
 
-        return memo[n];
+        return now;
     }
 }
