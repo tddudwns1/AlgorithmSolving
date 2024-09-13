@@ -63,14 +63,6 @@ public class Main {
         answer--;
      }
 
-    private static int findEnemy(int friend, Student[] students) {
-        if (friend == students[friend].friend) {
-            return friend;
-        }
-
-        return students[friend].friend = findEnemy(students[friend].friend, students);
-    }
-
     private static void unionEnemy(int p, int q, Student[] students) {
         if (students[p].enemy == 0) {
             students[p].enemy = q;
@@ -83,11 +75,5 @@ public class Main {
         } else {
             unionFriend(p, students[q].enemy, students);
         }
-
-//        if (pf == qf) {
-//
-//        return;
-//    }
-//        students[qf].friend = pf;
     }
 }
