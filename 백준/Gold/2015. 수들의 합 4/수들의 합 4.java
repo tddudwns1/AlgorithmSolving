@@ -16,6 +16,7 @@ public class Main {
         long answer = 0;
         int prevTotal = 0;
         Map<Integer, Integer> countMap = new HashMap<>();
+        countMap.put(0, 1);
 
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n; i++) {
@@ -23,8 +24,6 @@ public class Main {
 
             prevTotal += a;
 
-            if (prevTotal == k)
-                answer++;
             answer += countMap.getOrDefault(prevTotal - k, 0);
 
             int orDefault = countMap.getOrDefault(prevTotal, 0);
