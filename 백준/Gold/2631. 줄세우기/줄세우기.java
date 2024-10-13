@@ -8,7 +8,7 @@ public class Main {
 
         int n = Integer.parseInt(br.readLine());
 
-        int[] lineUp = new int[n + 1];
+        int[] lineUp = new int[n];
         lineUp[0] = Integer.parseInt(br.readLine());
         int index = 0;
         for (int i = 1; i < n; i++) {
@@ -30,7 +30,7 @@ public class Main {
         int left = 0;
 
         while(left < right) {
-            int mid = (left + right) / 2;
+            int mid = (left + right) >> 1;
 
             if (lineUp[mid] < target) {
                 left = mid + 1;
