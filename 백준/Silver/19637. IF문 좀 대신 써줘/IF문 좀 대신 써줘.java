@@ -1,7 +1,8 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.StringTokenizer;
+import java.util.TreeMap;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -11,7 +12,7 @@ public class Main {
         int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
 
-        Map<Integer, String> nickNameMap = new TreeMap<>();
+        TreeMap<Integer, String> nickNameMap = new TreeMap<>();
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
 
@@ -23,35 +24,20 @@ public class Main {
             nickNameMap.put(limit, nickName);
         }
 
-        List<Integer> keys = new ArrayList<>(nickNameMap.keySet());
-        int size = keys.size() - 1;
 
         StringBuilder sb = new StringBuilder();
 
+        // m개의 입력을 처리
         for (int i = 0; i < m; i++) {
             int power = Integer.parseInt(br.readLine());
 
-            int index = binarySearch(keys, power, size);
+            // 주어진 power보다 작거나 같은 가장 큰 key를 찾는다
+            Integer key = nickNameMap.ceilingKey(power);
 
-            sb.append(nickNameMap.get(index)).append("\n");
+            // 만약 key가 null인 경우는 처리할 수 없으므로, 무시
+            sb.append(nickNameMap.get(key)).append("\n");
         }
 
         System.out.println(sb);
-    }
-
-    private static int binarySearch(List<Integer> keys, int power, int size) {
-        int left = 0;
-        int right = size;
-
-        while (left < right) {
-            int mid = (left + right) >> 1;
-
-            if (keys.get(mid) < power)
-                left = mid + 1;
-            else
-                right = mid;
-        }
-
-        return keys.get(left);
     }
 }
