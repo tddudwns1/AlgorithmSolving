@@ -20,20 +20,10 @@ public class Main {
         @Override
         public int compareTo(Country o) {
             if (gold != o.gold)
-                return Integer.compare(gold, o.gold);
+                return Integer.compare(o.gold, gold);
             if (silver != o.silver)
-                return Integer.compare(silver, o.silver);
-            return Integer.compare(bronze, o.bronze);
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            return this == o;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(num, gold, silver, bronze);
+                return Integer.compare(o.silver, silver);
+            return Integer.compare(o.bronze, bronze);
         }
     }
 
