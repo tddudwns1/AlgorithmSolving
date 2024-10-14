@@ -73,13 +73,13 @@ public class Main {
     private static int binarySearchLeft(int right, long criteria, int[] array) {
         int left = 0;
 
-        while (left < right) {
+        while (left <= right) {
             int mid = (left + right) >> 1;
 
             if (array[mid] < criteria)
                 left = mid + 1;
             else
-                right = mid;
+                right = mid - 1;
         }
 
         return left;
