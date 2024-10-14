@@ -15,7 +15,7 @@ public class Main {
         int left = 0;
         int right = k;
 
-        while (left <= right) {
+        while (left < right) {
             int mid = (left + right) >> 1;
 
             int sum = 0;
@@ -29,7 +29,7 @@ public class Main {
             if (sum < k)
                 left = mid + 1;
             else
-                right = mid - 1;
+                right = mid;
         }
 
         return left ;
