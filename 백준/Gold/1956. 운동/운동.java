@@ -35,9 +35,7 @@ public class Main {
                         continue;
                     if (costs[center][end] == Integer.MAX_VALUE)
                         continue;
-                    int newCost = costs[start][center] + costs[center][end];
-                    if (costs[start][end] > newCost)
-                        costs[start][end] = newCost;
+                    costs[start][end] = Math.min(costs[start][end], costs[start][center] + costs[center][end]);
                 }
             }
         }
