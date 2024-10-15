@@ -1,67 +1,82 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
-class Main {
+public class Main {
+    static class Edge implements Comparable<Edge> {
+        int destination;
+        int weight;
+
+        public Edge(int destination, int weight) {
+            this.destination = destination;
+            this.weight = weight;
+        }
+
+        @Override
+        public int compareTo(Edge o) {
+            return Integer.compare(weight, o.weight);
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
         StringTokenizer st = new StringTokenizer(br.readLine());
-        
-        int V = Integer.parseInt(st.nextToken());
-        int E = Integer.parseInt(st.nextToken());
-        
-        int K = Integer.parseInt(br.readLine());
-        
-        int[] weights = new int[V + 1];
-        Arrays.fill(weights, Integer.MAX_VALUE);
-        
-        List<int[]>[] edges = new ArrayList[V + 1];
-        for (int i = 0; i <= V; i++) {
-            edges[i] = new ArrayList<>();
+
+        int v = Integer.parseInt(st.nextToken());
+        int e = Integer.parseInt(st.nextToken());
+
+        int start = Integer.parseInt(br.readLine());
+
+        Queue<Edge>[] ways = new Queue[v + 1];
+        for (int i = 1; i <= v; i++) {
+            ways[i] = new ArrayDeque<>();
         }
-        
-        for(int i = 0; i < E; i++) {
+
+        for (int i = 0; i < e; i++) {
             st = new StringTokenizer(br.readLine());
-            int start = Integer.parseInt(st.nextToken());
-            int end = Integer.parseInt(st.nextToken());
+
+            int from = Integer.parseInt(st.nextToken());
+            int to = Integer.parseInt(st.nextToken());
             int weight = Integer.parseInt(st.nextToken());
-            edges[start].add(new int[]{end, weight});
+
+            ways[from].add(new Edge(to, weight));
         }
-        
-        dijkstra(V, K, weights, edges);
-        
-        StringBuilder sb = new StringBuilder();
-        for(int i = 1; i <= V; i++) {
-            if (weights[i] == Integer.MAX_VALUE)
-                sb.append("INF");
-            else
-                sb.append(weights[i]);
-            sb.append("\n");
-        }
-        
-        System.out.println(sb);
+
+        System.out.println(dijkstra(v, start, ways));
     }
-    
-    private static void dijkstra(int V, int K, int[] weights, List<int[]>[] edges) {
-        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
-        pq.add(new int[]{K, 0});
-        weights[K] = 0;
-        
+
+    private static String dijkstra(int v, int start, Queue<Edge>[] ways) {
+        Queue<Edge> pq = new PriorityQueue<>();
+
+        pq.add(new Edge(start, 0));
+
+        int[] weights = new int[v + 1];
+        boolean[] visited = new boolean[v + 1];
+
         while (!pq.isEmpty()) {
-            int[] current = pq.poll();
-            int start = current[0];
-            int weight = current[1];
-            
-            if (weight > weights[start]) continue;
-            
-            for (int[] edge : edges[start]) {
-                int end = edge[0];
-                int newWeight = weight + edge[1];
-                
-                if (newWeight < weights[end]) {
-                    weights[end] = newWeight;
-                    pq.add(new int[]{end, newWeight});
-                }
+            Edge now = pq.poll();
+
+            if (visited[now.destination])
+                continue;
+            visited[now.destination] = true;
+            weights[now.destination] = now.weight;
+
+            while(!ways[now.destination].isEmpty()) {
+                Edge poll = ways[now.destination].poll();
+                poll.weight += now.weight;
+                pq.add(poll);
             }
         }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 1; i <= v; i++) {
+            if (visited[i])
+                sb.append(weights[i]).append("\n");
+            else
+                sb.append("INF\n");
+        }
+        return sb.toString();
     }
 }
