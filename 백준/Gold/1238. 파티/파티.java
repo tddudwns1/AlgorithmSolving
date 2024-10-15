@@ -43,10 +43,8 @@ public class Main {
             int b = Integer.parseInt(st.nextToken());
             int weight = Integer.parseInt(st.nextToken());
 
-            for (int j = 0; j < 2; j++) {
-                info[0][a].add(new Node(b, weight));
-                info[1][b].add(new Node(a, weight));
-            }
+            info[0][a].add(new Node(b, weight));
+            info[1][b].add(new Node(a, weight));
         }
 
         System.out.println(process(n, x, info));
