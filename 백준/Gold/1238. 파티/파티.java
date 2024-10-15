@@ -1,21 +1,24 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.StringTokenizer;
 
 public class Main {
-    public static class Info implements Comparable<Info> {
+    static class Node implements Comparable<Node> {
         int destination;
-        int distance;
+        int weight;
 
-        public Info(int destination, int distance) {
+        public Node(int destination, int weight) {
             this.destination = destination;
-            this.distance = distance;
+            this.weight = weight;
         }
 
         @Override
-        public int compareTo(Info o) {
-            return distance - o.distance;
+        public int compareTo(Node o) {
+            return Integer.compare(weight, o.weight);
         }
     }
 
@@ -27,62 +30,69 @@ public class Main {
         int m = Integer.parseInt(st.nextToken());
         int x = Integer.parseInt(st.nextToken());
 
-        List<Info>[] goInfos = new List[n + 1];
-        for (int i = 1; i <= n; i++)
-            goInfos[i] = new ArrayList<>();
-
-        List<Info>[] backInfos = new List[n + 1];
-        for (int i = 1; i <= n; i++)
-            backInfos[i] = new ArrayList<>();
-
+        Queue<Node>[][] info = new ArrayDeque[2][n + 1];
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j < 2; j++) {
+                info[j][i] = new ArrayDeque<>();
+            }
+        }
         for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
 
-            int s = Integer.parseInt(st.nextToken());
-            int e = Integer.parseInt(st.nextToken());
-            int d = Integer.parseInt(st.nextToken());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            int weight = Integer.parseInt(st.nextToken());
 
-            goInfos[s].add(new Info(e, d));
-            backInfos[e].add(new Info(s, d));
+            for (int j = 0; j < 2; j++) {
+                info[0][a].add(new Node(b, weight));
+                info[1][b].add(new Node(a, weight));
+            }
         }
 
-        int[] goDist = new int[n + 1];
-        for (int i = 1; i <= n; i++)
-            Arrays.fill(goDist, Integer.MAX_VALUE);
-        dijkstra(x, goDist, n, goInfos);
-
-        int[] backDist = new int[n + 1];
-        for (int i = 1; i <= n; i++)
-            Arrays.fill(backDist, Integer.MAX_VALUE);
-        dijkstra(x, backDist, n, backInfos);
-
-        int answer = 0;
-        for (int i = 1; i <= n; i++)
-            answer = Math.max(answer, goDist[i] + backDist[i]);
-
-        System.out.println(answer);
+        System.out.println(process(n, x, info));
     }
 
-    public static void dijkstra(int destination, int[] dist, int n, List<Info>[] infos) {
-        PriorityQueue<Info> pq = new PriorityQueue<>();
+    private static int process(int n, int x, Queue<Node>[][] info) {
+        int[][] weights = new int[2][n + 1];
 
-        dist[destination] = 0;
-        pq.add(new Info(destination, 0));
+        for (int i = 0; i < 2; i++) {
+            dijkstra(n, x, weights[i], info[i]);
+        }
 
-        while (n > 0) {
-            Info now = pq.poll();
-            int index = now.destination;
+        int max = 0;
+        for (int i = 1; i <= n; i++) {
+            int sum = 0;
+            for (int j = 0; j < 2; j++) {
+                sum += weights[j][i];
+            }
+            max = Math.max(max, sum);
+        }
 
-            if (dist[index] < now.distance)
+        return max;
+    }
+
+    private static void dijkstra(int n, int x, int[] weights, Queue<Node>[] queues) {
+        Queue<Node> pq = new PriorityQueue<>();
+        boolean[] visited = new boolean[n + 1];
+
+        pq.add(new Node(x, 0));
+
+        while (!pq.isEmpty()) {
+            Node now = pq.poll();
+
+            if (visited[now.destination])
                 continue;
+            visited[now.destination] = true;
+            weights[now.destination] = now.weight;
 
-            for (Info next : infos[index])
-                if (dist[next.destination] > dist[index] + next.distance) {
-                    dist[next.destination] = dist[index] + next.distance;
-                    pq.add(new Info(next.destination, dist[next.destination]));
-                }
+            while (!queues[now.destination].isEmpty()) {
+                Node next = queues[now.destination].poll();
 
-            n--;
+                if (visited[next.destination])
+                    continue;
+                next.weight += now.weight;
+                pq.add(next);
+            }
         }
     }
 }
