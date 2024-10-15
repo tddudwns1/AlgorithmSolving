@@ -21,7 +21,6 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         StringTokenizer st = new StringTokenizer(br.readLine());
 
         int v = Integer.parseInt(st.nextToken());
@@ -65,6 +64,8 @@ public class Main {
 
             while(!ways[now.destination].isEmpty()) {
                 Edge poll = ways[now.destination].poll();
+                if (visited[poll.destination])
+                    continue;
                 poll.weight += now.weight;
                 pq.add(poll);
             }
