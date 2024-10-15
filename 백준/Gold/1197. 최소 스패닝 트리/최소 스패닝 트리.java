@@ -1,89 +1,61 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
 public class Main {
-    static class Edge implements Comparable<Edge> {
-        int node;
-        int weight;
-
-        /**
-         * 연결된 정점 정보를 가지고 있는 객체
-         * @param node 반대편 정점
-         * @param weight 가중치
-         */
-        public Edge(int node, int weight) {
-            this.node = node;
-            this.weight = weight;
-        }
-
-        /**
-         * 낮은 비용을 우선시 하여 비교하는 함수
-         * @param o the object to be compared.
-         * @return 낮은 비용
-         */
-        @Override
-        public int compareTo(Edge o) {
-            return weight - o.weight;
-        }
-    }
-
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int v = Integer.parseInt(st.nextToken());
-        int e = Integer.parseInt(st.nextToken());
-
-        // 연결된 정보를 담을 큐 배열
-        Deque<Edge>[] edges = new Deque[v + 1];
-        for (int i = 1; i <= v; i++)
-            edges[i] = new ArrayDeque<>();
-
-        for (int i = 0; i < e; i++) {
-            st = new StringTokenizer(br.readLine());
-            int from = Integer.parseInt(st.nextToken());
-            int to = Integer.parseInt(st.nextToken());
-            int weight = Integer.parseInt(st.nextToken());
-
-            // 양방향이므로 두 곳 모두 넣어준다
-            edges[from].add(new Edge(to, weight));
-            edges[to].add(new Edge(from, weight));
-        }
-
-        System.out.println(prim(edges, v));
-    }
-
-    private static int prim(Deque<Edge>[] edges, int v) {
-        // 프림 알고리즘을 위한 우선순위 큐와, 비용이 확정된 정점을 기록할 배열
-        Queue<Edge> pq = new PriorityQueue<>();
-        boolean[] visited = new boolean[v + 1];
-
-        // 1. 1번 정점부터 시작
-        pq.add(new Edge(1, 0));
-
-        // 정답을 저장할 변수와, 모든 정점이 이어졌는지 확인 할 카운트 변수
-        int answer = 0;
-        int count = v;
-        // 6.(끝) 모든 정점이 이어질 때 까지
-        while (count > 0) {
-            // 2. 우선순위 큐에서 현재 가장 가중치가 낮은 연결 정보를 가진 객체를 반환
-            Edge now = pq.poll();
-
-            // 3. 이미 비용이 확정된 정점인지 확인
-            if (visited[now.node])
-                // 3-1. 확정됐다면 건너뛰기
-                continue;
-            // 3-2. 확정되지 않았다면 기록
-            visited[now.node] = true;
-
-            // 4. 정답 변수에 해당 가중치 추가, 카운트 변수 감소
-            answer += now.weight;
-            count--;
-
-            // 5. 해당 정점이 가진 연결 정보를 우선순위 큐에 추가
-            for (Edge next : edges[now.node])
-                pq.add(next);
-        }
-
-        return answer;
-    }
+	static int ans = 0;
+	static class Edge implements Comparable<Edge>{
+		int next;	// 다음 정점
+		int weight;	// 간선의 가중치
+		
+		public Edge(int next, int weight) {
+			this.next = next;
+			this.weight = weight;
+		}
+		
+		@Override
+		public int compareTo(Edge e) { // 가중치를 기준으로 오름차순 정렬합니다.
+			return this.weight - e.weight;
+		}
+	}
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int v = Integer.parseInt(st.nextToken());
+		int e = Integer.parseInt(st.nextToken());
+		
+		List<Edge>[] edges = new ArrayList[v + 1];						// 정점들의 간선 정보들을 저장할 Array입니다
+		for(int i = 1; i <= v; i++) edges[i] = new ArrayList<Edge>();	// 정점의 간선 정보들을 저장할 List입니다
+		
+		for(int i = 0; i < e; i++) {
+			st = new StringTokenizer(br.readLine());
+			int a = Integer.parseInt(st.nextToken());
+			int b = Integer.parseInt(st.nextToken());
+			int weight = Integer.parseInt(st.nextToken());
+			
+			edges[a].add(new Edge(b, weight));	//	양방향 간선 정보를 각 정점마다 저장합니다.
+			edges[b].add(new Edge(a, weight));
+		}
+		
+		prim(edges, v);				// prim 알고리즘을 이용하여 MST를 구합니다.
+		System.out.println(ans);	// MST의 가중치를 출력합니다.
+	}
+	private static void prim(List<Edge>[] edges, int v) {
+		boolean[] visited = new boolean[v + 1];	// 방문을 확인 할 배열입니다.(사이클 생성 방지 용도)
+		Queue<Edge> pq = new PriorityQueue<>();	// 가중치가 낮은 간선을 우선으로 선택하기 위한 Queue입니다.
+		pq.add(new Edge(1, 0));					// 시작 정점을 정합니다
+		
+		while(!pq.isEmpty()) {					// 방문하지 않은 정점이 없을 때 까지 반복합니다.
+			Edge now = pq.poll();				// 기준이 되는 간선(가중치가 낮은 간선)을 pq에서 제거합니다.
+			
+			if(visited[now.next]) continue;		// 만약 해당 간선의 정점이 방문을 한 상태라면 skip합니다.
+			
+			visited[now.next] = true;			// 방문을 하지 않았다면 방문 표시를 하고, 가중치를 더합니다.
+			ans += now.weight;
+			
+			for(Edge e : edges[now.next]) {		// 해당 간선의 정점과 연결된 간선들 중에서
+				if(visited[e.next]) continue;	// 그 간선의 정점이 방문을 하지 않았다면
+				pq.add(e);						// pq에 추가합니다.
+			}	
+		}
+	}
 }
