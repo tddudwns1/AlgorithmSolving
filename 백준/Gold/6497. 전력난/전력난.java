@@ -1,18 +1,19 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
     static class Node implements Comparable<Node> {
-        int destination;
+        int from;
+        int to;
         int cost;
 
-        public Node(int destination, int cost) {
-            this.destination = destination;
+        public Node(int from, int to, int cost) {
+            this.from = from;
+            this.to = to;
             this.cost = cost;
         }
 
@@ -34,11 +35,7 @@ public class Main {
             if (m == 0 && n == 0)
                 break;
 
-            Queue<Node>[] infos = new Queue[m];
-            for (int i = 0; i < m; i++) {
-                infos[i] = new ArrayDeque<>();
-            }
-
+            Queue<Node> pq = new PriorityQueue<>();
             int total = 0;
             for (int i = 0; i < n; i++) {
                 st = new StringTokenizer(br.readLine());
@@ -46,12 +43,11 @@ public class Main {
                 int y = Integer.parseInt(st.nextToken());
                 int z = Integer.parseInt(st.nextToken());
 
-                infos[x].add(new Node(y, z));
-                infos[y].add(new Node(x, z));
+                pq.add(new Node(x, y, z));
                 total += z;
             }
 
-            int cost = prim(m, infos);
+            int cost = prim(m, pq);
 
             sb.append(total - cost).append("\n");
         }
@@ -59,32 +55,41 @@ public class Main {
         System.out.println(sb);
     }
 
-    private static int prim(int m, Queue<Node>[] infos) {
-        boolean[] visited = new boolean[m];
+    private static int prim(int m, Queue<Node> pq) {
+        int[] parents = new int[m];
+        for (int i = 0; i < m; i++) {
+            parents[i] = i;
+        }
         int cost = 0;
         int count = m;
 
-        Queue<Node> pq = new PriorityQueue<>();
-
-        pq.add(new Node(0, 0));
-
-        while (count > 0) {
+        while (count > 1) {
             Node now = pq.poll();
 
-            if(visited[now.destination])
+            if (!union(now.from, now.to, parents))
                 continue;
-            visited[now.destination] = true;
+
             cost += now.cost;
             count--;
-
-            while(!infos[now.destination].isEmpty()) {
-                Node next = infos[now.destination].poll();
-                if (visited[next.destination])
-                    continue;
-                pq.add(next);
-            }
         }
 
         return cost;
+    }
+
+    private static int find(int n, int[] parents) {
+        if (parents[n] == n)
+            return n;
+
+        return parents[n] = find(parents[n], parents);
+    }
+
+    private static boolean union(int a, int b, int[] parents) {
+        int pA = find(a, parents);
+        int pB = find(b, parents);
+
+        if (pA == pB)
+            return false;
+        parents[pB] = pA;
+        return true;
     }
 }
