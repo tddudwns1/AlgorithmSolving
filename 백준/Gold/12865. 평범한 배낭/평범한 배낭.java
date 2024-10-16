@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.StringTokenizer;
@@ -29,7 +28,7 @@ public class Main {
         int n = Integer.parseInt(st.nextToken());
         int k = Integer.parseInt(st.nextToken());
 
-        Queue<Product> pq = new ArrayDeque<>();
+        Queue<Product> pq = new PriorityQueue<>();
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
 
@@ -44,8 +43,7 @@ public class Main {
             Product now = pq.poll();
 
             for (int i = k; i >= now.w; i--) {
-                if (cost[i] < cost[i - now.w] + now.v)
-                    cost[i] = cost[i - now.w] + now.v;
+                cost[i] = Math.max(cost[i], cost[i - now.w] + now.v);
             }
         }
 
