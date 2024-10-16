@@ -16,37 +16,25 @@ public class Main {
         if (limit % 3 != 0)
             return "NP";
 
-        int pCount = 2;
-        int index = 0;
-
-        String PPAP = "PPAP";
-        String NP = "NP";
-        char p = 'P';
-        char a = 'A';
-
         if (str.equals("P"))
-            return PPAP;
-        if (str.charAt(index++) != p)
-            return NP;
-        if (str.charAt(index++) != p)
-            return NP;
+            return "PPAP";
 
-        while (index < limit) {
-            char now = str.charAt(index++);
-            if (now == a) {
+        int pCount = 0;
 
-                if (str.charAt(index++) == a)
-                    return NP;
+        for (int i = 0; i < limit; i++) {
+            if (str.charAt(i) == 'A') {
+                if (str.charAt(++i) == 'A')
+                    return "NP";
                 if (--pCount < 1)
-                    return NP;
+                    return "NP";
             } else {
                 pCount++;
             }
         }
 
         if (pCount == 1)
-            return PPAP;
+            return "PPAP";
         else
-            return NP;
+            return "NP";
     }
 }
