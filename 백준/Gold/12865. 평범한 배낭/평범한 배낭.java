@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayDeque;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.StringTokenizer;
@@ -28,7 +29,7 @@ public class Main {
         int n = Integer.parseInt(st.nextToken());
         int k = Integer.parseInt(st.nextToken());
 
-        Queue<Product> pq = new PriorityQueue<>();
+        Queue<Product> pq = new ArrayDeque<>();
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
 
