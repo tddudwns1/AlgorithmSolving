@@ -16,9 +16,6 @@ public class Main {
         if (limit % 3 != 0)
             return "NP";
 
-        int count = limit / 3 - 1;
-        StringBuilder sb = new StringBuilder(str);
-
         int pCount = 2;
         int index = 0;
 
@@ -42,13 +39,14 @@ public class Main {
                     return NP;
                 if (--pCount < 1)
                     return NP;
-                if (--count < 0)
-                    return PPAP;
             } else {
                 pCount++;
             }
         }
 
-        return NP;
+        if (pCount == 1)
+            return PPAP;
+        else
+            return NP;
     }
 }
