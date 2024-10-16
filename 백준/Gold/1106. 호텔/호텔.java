@@ -23,8 +23,10 @@ public class Main {
             int w = Integer.parseInt(st.nextToken());
 
             for (int j = 0; j < c - w; j++) {
-                if (costs[j] != Integer.MAX_VALUE)
-                    costs[j + w] = Math.min(costs[j + w], costs[j] + v);
+                if (costs[j] != Integer.MAX_VALUE) {
+                    int newCost = j + w;
+                    costs[newCost] = Math.min(costs[newCost], costs[j] + v);
+                }
             }
         }
 
