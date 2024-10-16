@@ -21,16 +21,17 @@ public class Main {
         int turn = t.length() - s.length();
 
         q.add(t);
-        while (true) {
-            if (--turn < 0)
-                break;
-            if (q.isEmpty())
-                break;
+        portal:
+        while (turn-- > 0) {
+            int size = q.size();
+            while(size-- > 0){
+                if (q.isEmpty())
+                    break portal;
+                String now = q.poll();
 
-            String now = q.poll();
-
-            commandA(q, now);
-            commandB(q, now);
+                commandA(q, now);
+                commandB(q, now);
+            }
         }
 
         for(String now : q) {
