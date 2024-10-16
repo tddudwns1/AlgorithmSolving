@@ -1,16 +1,26 @@
-SELECT
-    c.CAR_ID,
-    CASE 
-        WHEN r.CAR_ID IS NOT NULL AND r.START_DATE <= '2022-10-16' AND r.END_DATE >= '2022-10-16' 
-        THEN '대여중' 
-        ELSE '대여 가능' 
-    END AS AVAILABILITY
-FROM
-    (SELECT DISTINCT CAR_ID FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY) c
-LEFT JOIN
-    CAR_RENTAL_COMPANY_RENTAL_HISTORY r
-    ON c.CAR_ID = r.CAR_ID 
-    AND r.START_DATE <= '2022-10-16' 
-    AND r.END_DATE >= '2022-10-16'
-ORDER BY
-    c.CAR_ID DESC;
+select
+    CAR_ID,
+    case
+        when 
+            exists (
+                select
+                    1
+                from
+                    CAR_RENTAL_COMPANY_RENTAL_HISTORY h
+                where
+                    h.CAR_ID = c.CAR_ID
+                    and '2022-10-16' between h.START_DATE and h.END_DATE
+            )
+        then "대여중"
+        else "대여 가능"
+    end
+    as AVAILABILITY
+from
+    (
+        select distinct
+            CAR_ID
+        from
+            CAR_RENTAL_COMPANY_RENTAL_HISTORY
+    ) c
+order by
+    CAR_ID desc
