@@ -11,9 +11,9 @@ public class Main {
     }
 
     private static String process(String str) {
-        int limit = str.length();
+        int limit = str.length() - 1;
 
-        if (limit % 3 != 1)
+        if (limit % 3 != 0)
             return "NP";
 
         int count = limit / 3 - 1;
@@ -34,7 +34,7 @@ public class Main {
         if (str.charAt(index++) != p)
             return NP;
 
-        while (index < limit - 1) {
+        while (index < limit) {
             char now = str.charAt(index++);
             if (now == a) {
 
