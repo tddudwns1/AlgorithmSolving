@@ -4,74 +4,76 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
-    static class Info implements Comparable<Info> {
-        int destination;
+    static class Node implements Comparable<Node> {
+        int position;
         int cost;
 
-        public Info(int destination, int cost) {
-            this.destination = destination;
+        public Node(int position, int cost) {
+            this.position = position;
             this.cost = cost;
         }
 
         @Override
-        public int compareTo(Info o) {
-            return cost - o.cost;
+        public int compareTo(Node o) {
+            return this.cost - o.cost;
+        }
+
+        @Override
+        public String toString() {
+            return "Node{" +
+                    "position=" + position +
+                    ", cost=" + cost +
+                    '}';
         }
     }
+
+    static Map<Integer, List<Node>> map;
+    static int n, d;
+    static int[] dp;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int n = Integer.parseInt(st.nextToken()); // 길 수
-        int d = Integer.parseInt(st.nextToken()); // 도착지
+        n = Integer.parseInt(st.nextToken());
+        d = Integer.parseInt(st.nextToken());
+        map = new HashMap<>();
 
-        Map<Integer, List<Info>> map = new HashMap<>();
-        TreeSet<Integer> spots = new TreeSet<>();
-        spots.add(0);
-        spots.add(d);
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
+            int s = Integer.parseInt(st.nextToken());
+            int e = Integer.parseInt(st.nextToken());
+            int cost = Integer.parseInt(st.nextToken());
 
-            int s = Integer.parseInt(st.nextToken()); // 시작
-            int e = Integer.parseInt(st.nextToken()); // 끝
-            int l = Integer.parseInt(st.nextToken()); // 길이
-
-            if (s >= d || e > d)
+            if (e > d)
                 continue;
 
-            spots.add(s);
-            spots.add(e);
-
-            List<Info> pq = map.getOrDefault(s, new ArrayList<>());
-            pq.add(new Info(e, l));
+            List<Node> pq = map.getOrDefault(s, new ArrayList<>());
+            pq.add(new Node(e, cost));
             map.put(s, pq);
+//            map.computeIfAbsent(s, integer -> new ArrayList<>()).add(new Node(e, cost));
         }
 
-        int prev = spots.pollFirst();
-        while (!spots.isEmpty()) {
-            int next = spots.pollFirst();
+        dp = new int[d + 1];
+        for (int i = 0; i <= d; i++) dp[i] = i;
 
-            List<Info> pq = map.getOrDefault(prev, new ArrayList<>());
-            pq.add(new Info(next, next - prev));
-            map.put(prev, pq);
-            prev = next;
-        }
+        dijkstra();
 
-        System.out.println(process(d, map));
+        System.out.println(dp[d]);
     }
 
-    private static int process(int d, Map<Integer, List<Info>> map) {
-        Queue<Info> pq = new PriorityQueue<>();
-        pq.add(new Info(0, 0));
+    public static void dijkstra() {
+        for (int cur = 0; cur < d; cur++) {
+            if (dp[cur + 1] > dp[cur] + 1)
+                dp[cur + 1] = dp[cur] + 1;
 
-        while (true) {
-            Info now = pq.poll();
-
-            if (now.destination == d)
-                return now.cost;
-            for (Info next : map.get(now.destination)) {
-                pq.add(new Info(next.destination, next.cost + now.cost));
+            if (map.containsKey(cur)) {
+                for (Node next : map.get(cur)) {
+                    int newCost = dp[cur] + next.cost;
+                    if (dp[next.position] <= newCost)
+                        continue;
+                    dp[next.position] = newCost;
+                }
             }
         }
     }
