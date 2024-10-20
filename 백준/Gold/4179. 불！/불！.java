@@ -79,10 +79,6 @@ public class Main {
     }
 
     private static void spread(char[][] maze, Queue<Point> fires) {
-        getSpreadSpace(maze, fires);
-    }
-
-    private static void getSpreadSpace(char[][] maze, Queue<Point> fires) {
         int size = fires.size();
         while (size-- > 0) {
             Point now = fires.poll();
@@ -94,7 +90,7 @@ public class Main {
                 if (maze[dy][dx] == '\0')
                     continue;
 
-                if (maze[dy][dx] == '#' || maze[dy][dx] == 'F')
+                if (maze[dy][dx] != '.')
                     continue;
 
                 fires.add(new Point(dy, dx));
