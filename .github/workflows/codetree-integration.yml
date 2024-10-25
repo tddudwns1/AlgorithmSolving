@@ -1,0 +1,42 @@
+name: Sync codetree to AlgorithmSolving  # 워크플로우 이름
+
+on:
+  push:
+    branches:
+      - main  # 자식 레포지토리(codetree)의 main 브랜치에 변경사항이 푸시될 때 실행
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest  # 워크플로우가 실행될 환경 설정
+
+    steps:
+      - name: Checkout AlgorithmSolving
+        uses: actions/checkout@v2  # AlgorithmSolving 리포지토리를 체크아웃
+        with:
+          fetch-depth: 0  # 모든 커밋 이력을 가져와서 서브트리 병합에 필요한 전체 기록을 확보
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"  # GitHub Actions 봇으로 사용자명 설정
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"  # GitHub Actions 봇으로 이메일 설정
+
+      - name: Add codetree as a remote
+        run: |
+          # 자식 레포지토리(codetree)를 리모트로 추가하여 접근 설정
+          # PERSONAL_ACCESS_TOKENS은 AlgorithmSolving의 Secrets에서 가져온 자식 레포지토리의 Personal Access Token
+          git remote add codetree https://$PERSONAL_ACCESS_TOKENS@github.com/tddudwns1/codetree.git
+          git fetch codetree main  # codetree의 main 브랜치 변경사항 가져오기
+
+      - name: Pull codetree changes into AlgorithmSolving subtree
+        run: |
+          # codetree의 main 브랜치를 AlgorithmSolving의 codetree 디렉토리에 병합
+          # --prefix=codetree: AlgorithmSolving 내에서 codetree 디렉토리로 병합
+          # --squash: 여러 커밋을 하나의 커밋으로 병합하여 깔끔하게 유지
+          git subtree pull --prefix=codetree codetree main --squash
+        env:
+          PERSONAL_ACCESS_TOKENS: ${{ secrets.PERSONAL_ACCESS_TOKENS }}  # AlgorithmSolving의 Secrets에 저장된 토큰 사용
+
+      - name: Push changes to AlgorithmSolving
+        run: |
+          # 병합한 변경사항을 AlgorithmSolving의 원격 main 브랜치에 푸시
+          git push origin main
