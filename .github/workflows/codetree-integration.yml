@@ -30,9 +30,9 @@ jobs:
       - name: Pull codetree changes into AlgorithmSolving subtree
         run: |
           # codetree의 main 브랜치를 AlgorithmSolving의 codetree 디렉토리에 병합
-          # --prefix=codetree: AlgorithmSolving 내에서 codetree 디렉토리로 병합
+          # --prefix=코드트리: AlgorithmSolving 내에서 코드트리 디렉토리로 병합
           # --squash: 여러 커밋을 하나의 커밋으로 병합하여 깔끔하게 유지
-          git subtree pull --prefix=codetree codetree main --squash
+          git subtree pull --prefix=코드트리 codetree main --squash
         env:
           PERSONAL_ACCESS_TOKENS: ${{ secrets.PERSONAL_ACCESS_TOKENS }}  # AlgorithmSolving의 Secrets에 저장된 토큰 사용
 
