@@ -1,0 +1,18 @@
+# 자식 레포지토리의 .github/workflows/dispatch.yml
+name: Trigger AlgorithmSolving Workflow
+
+on:
+  push:
+    branches:
+      - main  # 자식 레포지토리의 main 브랜치에 푸시될 때 실행
+
+jobs:
+  trigger_parent_workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger AlgorithmSolving Workflow
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.PERSONAL_ACCESS_TOKENS }}  # 부모 레포지토리에 대한 Personal Access Token
+          repository: tddudwns1/AlgorithmSolving  # 부모 레포지토리 이름
+          event-type: update-from-codetree
