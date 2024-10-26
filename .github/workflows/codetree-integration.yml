@@ -14,6 +14,7 @@ jobs:
         uses: actions/checkout@v2  # AlgorithmSolving 리포지토리를 체크아웃
         with:
           fetch-depth: 0  # 모든 커밋 이력을 가져와서 서브트리 병합에 필요한 전체 기록을 확보
+          token: ${{ secrets.PERSONAL_ACCESS_TOKENS }}
 
       - name: Configure Git
         run: |
@@ -29,7 +30,7 @@ jobs:
       
       - name: Add codetree as a remote
         run: |
-          git remote add codetree https://${{ secrets.PERSONAL_ACCESS_TOKENS }}@github.com/tddudwns1/codetree.git
+          git remote add codetree https://github.com/tddudwns1/codetree.git
 
       - name: List Remote Branches
         run: git ls-remote codetree
