@@ -24,7 +24,7 @@ jobs:
       - name: Add codetree as a remote
         run: |
           # 자식 레포지토리(codetree)를 리모트로 추가하여 접근 설정
-          git remote add codetree git remote add codetree https://github.com/tddudwns1/codetree.git
+          git remote add codetree https://github.com/tddudwns1/codetree.git
           git fetch codetree main  # codetree의 main 브랜치 변경사항 가져오기
       
       - name: Pull codetree changes into AlgorithmSolving subtree
