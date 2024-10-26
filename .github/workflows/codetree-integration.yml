@@ -21,26 +21,12 @@ jobs:
           git config --global user.name "github-actions[bot]"  # GitHub Actions 봇으로 사용자명 설정
           git config --global user.email "github-actions[bot]@users.noreply.github.com"  # GitHub Actions 봇으로 이메일 설정
 
-      # - name: Add codetree as a remote
-      #   run: |
-      #     # 자식 레포지토리(codetree)를 리모트로 추가하여 접근 설정
-      #     # git remote add codetree https://${{ secrets.PERSONAL_ACCESS_TOKENS }}@github.com/tddudwns1/codetree.git
-      #     git remote add codetree https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKENS }}@github.com/tddudwns1/codetree.git
-      #     git fetch codetree main  # codetree의 main 브랜치 변경사항 가져오기
-      
       - name: Add codetree as a remote
         run: |
-          git remote add codetree https://github.com/tddudwns1/codetree.git
-
-      - name: List Remote Branches
-        run: git ls-remote codetree
-
-
-      - name: Fetch codetree
-        run: |
-          git fetch codetree main
-
-
+          # 자식 레포지토리(codetree)를 리모트로 추가하여 접근 설정
+          git remote add codetree git remote add codetree https://github.com/tddudwns1/codetree.git
+          git fetch codetree main  # codetree의 main 브랜치 변경사항 가져오기
+      
       - name: Pull codetree changes into AlgorithmSolving subtree
         run: |
           # codetree의 main 브랜치를 AlgorithmSolving의 codetree 디렉토리에 병합
