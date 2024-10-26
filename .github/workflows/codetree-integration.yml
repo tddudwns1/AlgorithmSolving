@@ -33,7 +33,7 @@ jobs:
 
       - name: Fetch codetree
         run: |
-          git fetch codetree main
+          git fetch codetree
 
 
       - name: Pull codetree changes into AlgorithmSolving subtree
