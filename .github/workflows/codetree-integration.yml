@@ -20,11 +20,16 @@ jobs:
           git config --global user.name "github-actions[bot]"  # GitHub Actions 봇으로 사용자명 설정
           git config --global user.email "github-actions[bot]@users.noreply.github.com"  # GitHub Actions 봇으로 이메일 설정
 
+      # 인증 테스트 단계
+      - name: Test access to codetree with curl
+        run: |
+          curl -H "Authorization: token ${{ secrets.PERSONAL_ACCESS_TOKENS }}" https://api.github.com/repos/tddudwns1/codetree
+
       - name: Add codetree as a remote
         run: |
           # 자식 레포지토리(codetree)를 리모트로 추가하여 접근 설정
           # git remote add codetree https://${{ secrets.PERSONAL_ACCESS_TOKENS }}@github.com/tddudwns1/codetree.git
-          git remote add codetree https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKENdS }}@github.com/tddudwns1/codetree.git
+          git remote add codetree https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKENS }}@github.com/tddudwns1/codetree.git
           git fetch codetree main  # codetree의 main 브랜치 변경사항 가져오기
 
       - name: Pull codetree changes into AlgorithmSolving subtree
