@@ -29,7 +29,7 @@ jobs:
       
       - name: Add codetree as a remote
         run: |
-          git remote add codetree https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKENS }}@github.com/tddudwns1/codetree.git
+          git remote add codetree https://${{ secrets.PERSONAL_ACCESS_TOKENS }}@github.com/tddudwns1/codetree.git
 
       - name: List Remote Branches
         run: git ls-remote codetree
