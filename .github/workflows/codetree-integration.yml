@@ -31,9 +31,13 @@ jobs:
         run: |
           git remote add codetree https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKENS }}@github.com/tddudwns1/codetree.git
 
+      - name: Verify Remote URL
+        run: git remote -v
+
+
       - name: Fetch codetree
         run: |
-          git fetch codetree
+          git fetch codetree main
 
 
       - name: Pull codetree changes into AlgorithmSolving subtree
