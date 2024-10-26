@@ -23,20 +23,17 @@ jobs:
       - name: Add codetree as a remote
         run: |
           # 자식 레포지토리(codetree)를 리모트로 추가하여 접근 설정
-          # git remote add codetree https://tddudwns1:$PERSONAL_ACCESS_TOKENS@github.com/tddudwns1/codetree.git
-          git remote add codetree https://github.com/tddudwns1/codetree.git
+          git remote add codetree https://tddudwns1:${{ secrets.PERSONAL_ACCESS_TOKENS }}@github.com/tddudwns1/codetree.git
           git fetch codetree main  # codetree의 main 브랜치 변경사항 가져오기
-        env:
-          PERSONAL_ACCESS_TOKENS: ${{ secrets.PERSONAL_ACCESS_TOKENS }}  # AlgorithmSolving의 Secrets에 저장된 토큰 사용
 
       - name: Pull codetree changes into AlgorithmSolving subtree
         run: |
           # codetree의 main 브랜치를 AlgorithmSolving의 codetree 디렉토리에 병합
-          # --prefix=코드트리: AlgorithmSolving 내에서 코드트리 디렉토리로 병합
-          # --squash: 여러 커밋을 하나의 커밋으로 병합하여 깔끔하게 유지
           git subtree pull --prefix=코드트리 codetree main --squash
 
       - name: Push changes to AlgorithmSolving
         run: |
           # 병합한 변경사항을 AlgorithmSolving의 원격 main 브랜치에 푸시
           git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKENS }}  # AlgorithmSolving의 Secrets에 저장된 토큰 사용
