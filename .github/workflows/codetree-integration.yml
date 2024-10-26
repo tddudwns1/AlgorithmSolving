@@ -1,9 +1,8 @@
 name: Sync codetree to AlgorithmSolving  # 워크플로우 이름
 
 on:
-  push:
-    branches:
-      - main  # 자식 레포지토리(codetree)의 main 브랜치에 변경사항이 푸시될 때 실행
+  repository_dispatch:
+    types: [update-from-codetree]  # 자식 레포지토리에서 보낸 이벤트 유형
 
 jobs:
   sync:
