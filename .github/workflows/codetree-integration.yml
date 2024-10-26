@@ -23,8 +23,7 @@ jobs:
       - name: Add codetree as a remote
         run: |
           # 자식 레포지토리(codetree)를 리모트로 추가하여 접근 설정
-          # git remote add codetree https://$PERSONAL_ACCESS_TOKENS@github.com/tddudwns1/codetree.git
-          git remote add codetree https://tddudwns1@github.com/codetree.git/
+          git remote add codetree https://$PERSONAL_ACCESS_TOKENS@github.com/tddudwns1/codetree.git
           git fetch codetree main  # codetree의 main 브랜치 변경사항 가져오기
         env:
           PERSONAL_ACCESS_TOKENS: ${{ secrets.PERSONAL_ACCESS_TOKENS }}  # AlgorithmSolving의 Secrets에 저장된 토큰 사용
