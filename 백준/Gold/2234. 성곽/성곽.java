@@ -106,40 +106,35 @@ public class Main {
     }
 
     private static void checkCell(Cell[][] castle, int y, int x, int roomNumber, Queue<CandidateBreakWall> candidate, int[][] move) {
-        Queue<Point> confirm = new ArrayDeque<>();
-        Queue<Point> memorize = new ArrayDeque<>();
-
+        Queue<Point> bfsQueue = new ArrayDeque<>();
         int countOfCells = 0;
 
-        confirm.add(new Point(y, x));
-        castle[y][x].room = new Room(roomNumber);
+        bfsQueue.add(new Point(y, x));
+        Room room = new Room(roomNumber);
+        castle[y][x].room = room;
 
-        while (!confirm.isEmpty()) {
-            Point now = confirm.poll();
-            memorize.add(now);
+        while (!bfsQueue.isEmpty()) {
+            Point now = bfsQueue.poll();
             countOfCells++;
 
             for (int i = 0; i < 4; i++) {
                 int dy = now.y + move[i][0];
                 int dx = now.x + move[i][1];
 
-                if ((castle[now.y][now.x].walls & 1 << i) > 0) {
-                    if (castle[dy][dx] != null)
+                if ((castle[now.y][now.x].walls & (1 << i)) != 0) {
+                    if (castle[dy][dx] != null && castle[dy][dx].room != room)
                         candidate.add(new CandidateBreakWall(castle[now.y][now.x], castle[dy][dx]));
                     continue;
                 }
 
-                if (castle[dy][dx].room != null)
-                    continue;
-
-                confirm.add(new Point(dy, dx));
-                castle[dy][dx].room = new Room(roomNumber);
+                if (castle[dy][dx].room == null) {
+                    bfsQueue.add(new Point(dy, dx));
+                    castle[dy][dx].room = room;
+                }
             }
         }
 
-        while (!memorize.isEmpty()) {
-            Point now = memorize.poll();
-            castle[now.y][now.x].room.countOfCells = countOfCells;
-        }
+        room.countOfCells = countOfCells;
     }
+
 }
