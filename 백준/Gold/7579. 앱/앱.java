@@ -11,8 +11,10 @@ public class Main {
 
         int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
+        
+        int maxLimit = m + 1000_0000;
 
-        int[] weights = new int[2000_0001];
+        int[] weights = new int[maxLimit + 1];
         Arrays.fill(weights, 10_000_001);
         weights[0] = 0;
 
@@ -23,7 +25,7 @@ public class Main {
             int memory = Integer.parseInt(st1.nextToken());
             int weight = Integer.parseInt(st2.nextToken());
 
-            for (int nowMemory = 2000_0000; nowMemory >= memory; nowMemory--) {
+            for (int nowMemory = maxLimit; nowMemory >= memory; nowMemory--) {
                 int newWeight = weights[nowMemory - memory] + weight;
                 if (weights[nowMemory] <= newWeight)
                     continue;
@@ -34,7 +36,7 @@ public class Main {
 
         int answer = Integer.MAX_VALUE;
 
-        for (int i = m; i <= 2000_0000; i++) {
+        for (int i = m; i <= maxLimit; i++) {
             answer = Math.min(answer, weights[i]);
         }
 
