@@ -11,12 +11,11 @@ public class Main {
 
         int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
-        
-        int maxLimit = m + 1000_0000;
 
-        int[] weights = new int[maxLimit + 1];
-        Arrays.fill(weights, 10_000_001);
-        weights[0] = 0;
+        int maxLimit = 100 * n;
+
+        int[] memories = new int[maxLimit + 1];
+        memories[0] = 0;
 
         StringTokenizer st1 = new StringTokenizer(br.readLine());
         StringTokenizer st2 = new StringTokenizer(br.readLine());
@@ -25,19 +24,25 @@ public class Main {
             int memory = Integer.parseInt(st1.nextToken());
             int weight = Integer.parseInt(st2.nextToken());
 
-            for (int nowMemory = maxLimit; nowMemory >= memory; nowMemory--) {
-                int newWeight = weights[nowMemory - memory] + weight;
-                if (weights[nowMemory] <= newWeight)
+            for (int nowWeight = maxLimit; nowWeight >= weight; nowWeight--) {
+                if (memories[nowWeight - weight] == 10001)
                     continue;
 
-                weights[nowMemory] = newWeight;
+                int newMemory = memories[nowWeight - weight] + memory;
+                if (memories[nowWeight] >= newMemory)
+                    continue;
+
+                memories[nowWeight] = newMemory;
             }
         }
 
-        int answer = Integer.MAX_VALUE;
+        int answer = 0;
 
-        for (int i = m; i <= maxLimit; i++) {
-            answer = Math.min(answer, weights[i]);
+        for (int i = 0; i <= maxLimit; i++) {
+            if (memories[i] < m || memories[i] == 10001)
+                continue;
+            answer = i;
+            break;
         }
 
         System.out.println(answer);
