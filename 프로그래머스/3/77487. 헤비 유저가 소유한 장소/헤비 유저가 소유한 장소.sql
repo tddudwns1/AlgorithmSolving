@@ -1,19 +1,20 @@
-SELECT
-    ID,
-    NAME,
+select
+    o.ID,
+    o.NAME,
     o.HOST_ID
 from
     PLACES o
-    join (
+    join
+    (
         select
-            HOST_ID
+            *
         from
             PLACES
         group by
             HOST_ID
         having
-            count(*) > 1
-    ) s
-        on o.HOST_ID = s.HOST_ID
+            count(*) >= 2
+    ) p
+        on o.HOST_ID = p.HOST_ID
 order by
     ID
