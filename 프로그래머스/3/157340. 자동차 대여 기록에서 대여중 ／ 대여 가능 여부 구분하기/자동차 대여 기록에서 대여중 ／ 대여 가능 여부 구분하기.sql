@@ -1,26 +1,25 @@
 select
-    CAR_ID,
+    o.CAR_ID,
     case
-        when 
-            exists (
-                select
-                    1
-                from
-                    CAR_RENTAL_COMPANY_RENTAL_HISTORY h
-                where
-                    h.CAR_ID = c.CAR_ID
-                    and '2022-10-16' between h.START_DATE and h.END_DATE
-            )
-        then "대여중"
-        else "대여 가능"
-    end
-    as AVAILABILITY
+        when b.CAR_ID is null then "대여 가능"
+        else "대여중"
+    end as AVAILABILITY
 from
     (
-        select distinct
+        select 
+            distinct(CAR_ID)
+        from
+            CAR_RENTAL_COMPANY_RENTAL_HISTORY 
+    ) o
+    left join 
+    (
+        select
             CAR_ID
         from
             CAR_RENTAL_COMPANY_RENTAL_HISTORY
-    ) c
+        where
+            "2022-10-16" between START_DATE and END_DATE
+    ) b
+        on o.CAR_ID = b.CAR_ID
 order by
     CAR_ID desc
