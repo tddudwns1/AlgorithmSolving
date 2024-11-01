@@ -3,10 +3,38 @@ select
     max(LENGTH) as MAX_LENGTH,
     FISH_TYPE
 from
-    FISH_INFO 
+    FISH_INFO
 group by
     FISH_TYPE
 having
-    avg(if(LENGTH < 10, 10, LENGTH)) >= 33
+    avg(coalesce(LENGTH, 10)) >= 33
 order by
     FISH_TYPE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# select
+#     count(*) as FISH_COUNT,
+#     max(LENGTH) as MAX_LENGTH,
+#     FISH_TYPE
+# from
+#     FISH_INFO 
+# group by
+#     FISH_TYPE
+# having
+#     avg(COALESCE(LENGTH, 10)) >= 33
+# order by
+#     FISH_TYPE
