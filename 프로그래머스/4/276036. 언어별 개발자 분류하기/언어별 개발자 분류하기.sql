@@ -1,0 +1,22 @@
+SELECT
+    CASE
+        WHEN SUM(CASE WHEN s.CATEGORY = 'Front End' THEN 1 ELSE 0 END) > 0
+             AND SUM(CASE WHEN s.NAME = 'Python' THEN 1 ELSE 0 END) > 0 THEN 'A'
+        WHEN SUM(CASE WHEN s.NAME = 'C#' THEN 1 ELSE 0 END) > 0 THEN 'B'
+        WHEN SUM(CASE WHEN s.CATEGORY = 'Front End' THEN 1 ELSE 0 END) > 0 THEN 'C'
+        ELSE NULL
+    END AS GRADE,
+    d.ID,
+    d.EMAIL
+FROM
+    DEVELOPERS d
+JOIN
+    SKILLCODES s
+ON
+    d.SKILL_CODE & s.CODE > 0
+GROUP BY
+    d.ID, d.EMAIL
+HAVING
+    GRADE IS NOT NULL
+ORDER BY
+    GRADE, d.ID;
