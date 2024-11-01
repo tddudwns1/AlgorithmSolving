@@ -18,20 +18,25 @@ public class Main {
             memo[0][limit][i] = 1000000;
         }
 
-        for (int y = 1; y <= n; y++) {
+        for (int y = 0; y < n; y++) {
             st = new StringTokenizer(br.readLine());
 
+            int next = y + 1;
+
             for (int i = 0; i < 3; i++){
-                memo[y][0][i] = 1000000;
-                memo[y][limit][i] = 1000000;
+                memo[next][0][i] = 1000000;
+                memo[next][limit][i] = 1000000;
             }
 
             for (int x = 1; x <= m; x++) {
                 int now = Integer.parseInt(st.nextToken());
+                
+                int left = x - 1;
+                int right = x + 1;
 
-                memo[y][x][0] = Math.min(memo[y - 1][x - 1][1], memo[y - 1][x - 1][2]) + now;
-                memo[y][x][1] = Math.min(memo[y - 1][x][0], memo[y - 1][x][2]) + now;
-                memo[y][x][2] = Math.min(memo[y - 1][x + 1][0], memo[y - 1][x + 1][1]) + now;
+                memo[next][x][0] = Math.min(memo[y][left][1], memo[y][left][2]) + now;
+                memo[next][x][1] = Math.min(memo[y][x][0], memo[y][x][2]) + now;
+                memo[next][x][2] = Math.min(memo[y][right][0], memo[y][right][1]) + now;
             }
         }
 
