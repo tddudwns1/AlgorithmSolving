@@ -1,6 +1,5 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -18,20 +17,23 @@ public class Main {
 
         int answer = 0;
         int shortest = Integer.MAX_VALUE;
+        int len = 0;
         int sum = 0;
 
         int left = 0;
         int right = 0;
-        while (true) {
-            if (sum < s) {
-                if (right == n)
+        while(true){
+            if(sum < s){
+                if(right == n)
                     break;
                 sum += sequence[right++];
-            } else {
-                answer = shortest = Integer.min(shortest, right - left);
-                if (answer == 1)
+                len++;
+            }else{
+                answer = shortest = Integer.min(shortest, len);
+                if(answer == 1)
                     break;
                 sum -= sequence[left++];
+                len--;
             }
         }
 
