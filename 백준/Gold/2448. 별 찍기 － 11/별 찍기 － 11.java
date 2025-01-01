@@ -17,9 +17,7 @@ public class Main {
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < 2 * n - 1; j++) {
-                sb.append(mark[i][j]);
-            }
+            sb.append(mark[i]);
             sb.append("\n");
         }
 
