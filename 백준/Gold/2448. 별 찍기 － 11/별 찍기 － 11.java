@@ -1,11 +1,10 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         int n = Integer.parseInt(br.readLine());
 
@@ -17,11 +16,12 @@ public class Main {
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
-            sb.append(mark[i]);
-            sb.append("\n");
+            bw.write(mark[i]);
+            bw.write("\n");
         }
 
-        System.out.println(sb);
+        bw.flush();
+        bw.close();
     }
 
     private static void process(int y, int x, int len, char[][] mark) {
