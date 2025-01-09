@@ -130,12 +130,12 @@ public class Main {
         char c = map[y][x];
         Point now = new Point(y, x);
 
+        visited[y][x] = true;
+
         if (Character.isUpperCase(c) && !canOpenDoor(c)) {
             wait.add(now);
             return;
         }
-
-        visited[y][x] = true;
 
         if (c == '*') {
             return;
