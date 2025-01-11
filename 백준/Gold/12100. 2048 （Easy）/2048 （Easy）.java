@@ -31,11 +31,11 @@ public class Main {
     private static void process(int count, int n, int[][] board) {
         int max = getMax(n, board);
 
-//        if (answer / max > (5 - count++)) {
-//            return;
-//        }
+        if (answer / max > (6 - count++)) {
+            return;
+        }
 
-        if (++count > 5) {
+        if (count > 5) {
             answer = Math.max(answer, max);
             return;
         }
