@@ -17,8 +17,7 @@ public class Main {
 
         for (i = 0; i < p; ++i) {
             int n = Integer.parseInt(br.readLine()); // 사용 가능한 gate 번호
-            find(n, usuallyGate);
-            if (usuallyGate[0] == -1) {
+            if (find(n, usuallyGate) == -1) {
                 break;
             }
         }
